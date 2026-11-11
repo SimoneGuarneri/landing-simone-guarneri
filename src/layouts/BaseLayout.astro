@@ -1,0 +1,51 @@
+---
+import '@fontsource-variable/bricolage-grotesque/opsz.css';
+import '@fontsource/geist/300.css';
+import '@fontsource/geist/400.css';
+import '@fontsource/geist/500.css';
+import '@fontsource/geist/600.css';
+import '@fontsource/geist-mono/400.css';
+import '../styles/global.css';
+
+export type Lang = 'it' | 'en';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description?: string;
+}
+
+const { lang, title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <meta name="color-scheme" content="light dark" />
+    <!-- Theme before first paint: stored choice ('sg-theme') wins, else OS preference. -->
+    <script is:inline>
+      (function () {
+        var theme = null;
+        try {
+          var stored = localStorage.getItem('sg-theme');
+          if (stored === 'light' || stored === 'dark') theme = stored;
+        } catch (e) {}
+        if (!theme) {
+          theme =
+            window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+        }
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
+    <slot name="head" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
