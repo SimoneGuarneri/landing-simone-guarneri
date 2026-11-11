@@ -1,0 +1,30 @@
+{
+  "portrait": {
+    "file": null,
+    "alt": {
+      "it": "Ritratto di Simone Guarneri",
+      "en": "Portrait of Simone Guarneri"
+    }
+  },
+  "dorotea": {
+    "file": null,
+    "alt": {
+      "it": "Una casa di Dorotea Housing",
+      "en": "A Dorotea Housing home"
+    }
+  },
+  "quattro": {
+    "file": null,
+    "alt": {
+      "it": "Una casa della rete Quattro Houses",
+      "en": "A home in the Quattro Houses network"
+    }
+  },
+  "og": {
+    "file": "og.png",
+    "alt": {
+      "it": "Simone Guarneri. Gestisco affitti brevi in Italia e costruisco il software che li fa funzionare.",
+      "en": "Simone Guarneri. I run short-term rentals in Italy and build the software that runs them."
+    }
+  }
+}

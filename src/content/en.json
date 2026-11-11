@@ -1,0 +1,142 @@
+{
+  "meta": {
+    "title": "Simone Guarneri · Short-term rentals and software",
+    "description": "I manage short-term rentals in Campania, Italy, and build the software and automations that run them."
+  },
+  "skipLink": "Skip to content",
+  "logoLabel": "Simone Guarneri, back to top",
+  "theme": {
+    "toLight": "Light theme",
+    "toDark": "Dark theme"
+  },
+  "lang": {
+    "groupLabel": "Language",
+    "it": "IT",
+    "en": "EN",
+    "itLabel": "Italiano",
+    "enLabel": "English"
+  },
+  "cta": "Get in touch",
+  "eyebrow": "Entrepreneur and computer scientist · Campania, Italy",
+  "heroA": "I manage short-term rentals in Italy",
+  "heroB": "and build the software and automations that run them.",
+  "heroMeta": "{age}. Self-taught engineer: six years in hospitality, years in IT. I speak Italian and English. Based in Campania, open to relocating.",
+  "marquee": [
+    "Amalfi Coast",
+    "Pricing",
+    "Milano",
+    "Automation",
+    "Salerno",
+    "Operations",
+    "Vietri sul Mare",
+    "Listings",
+    "Baronissi",
+    "Channel managers"
+  ],
+  "whatTitle": "What I do",
+  "what": [
+    {
+      "title": "Property management",
+      "body": "Full management, or only the part you need: pricing, listing setup and copy, or advice on a new property. Owners get clear monthly reports."
+    },
+    {
+      "title": "Technology and automation",
+      "body": "I build software and automations for my homes and for other hosts, connected to the channel managers they already use. Less manual work, fewer errors."
+    },
+    {
+      "title": "Growth and strategy",
+      "body": "I assess new properties and markets with real numbers: rates, occupancy, costs. If a deal does not work on paper, I say so."
+    }
+  ],
+  "workTitle": "Selected work",
+  "workIntro": "Two short-term rental brands, run end to end.",
+  "scroll": "Keep scrolling",
+  "visit": "Visit",
+  "dorotea": "Nine homes on the Amalfi Coast, in Salerno and in Milan. Running since 2023.",
+  "quattro": "A network of more than 50 homes around Vietri sul Mare and Baronissi. I manage three of them.",
+  "figures": {
+    "locations": "locations",
+    "properties": "homes",
+    "network": "homes in the network",
+    "managed": "managed by me",
+    "kRev": "gross revenue",
+    "kGrowth": "year on year",
+    "kOcc": "occupancy",
+    "kRevpar": "managed revenue"
+  },
+  "buildTitle": "Building",
+  "buildIntro": "Software I write alongside the rentals. Used every day in my own homes first.",
+  "build": [
+    {
+      "tag": "In development",
+      "title": "Casabase",
+      "body": "A layer on top of channel managers that optimizes and extends them. In daily internal use at Dorotea Housing."
+    },
+    {
+      "tag": "In development",
+      "title": "CasaData",
+      "body": "A data aggregator for short-term rental research. Market data from several sources in one place, so research is faster and leaner."
+    },
+    {
+      "tag": "Internal",
+      "title": "AI tools",
+      "body": "Claude Code skills and AI tools for short-term rentals: market research, listing writing and pricing analysis."
+    }
+  ],
+  "howTitle": "How I work",
+  "how": [
+    {
+      "title": "Numbers first.",
+      "body": "Every decision starts from data. Opinions come after."
+    },
+    {
+      "title": "Build what is missing.",
+      "body": "If a tool does not exist or does not fit, I write it."
+    },
+    {
+      "title": "Say it plainly.",
+      "body": "Owners hear the good news and the bad news, early."
+    },
+    {
+      "title": "Grow when ready.",
+      "body": "A new property comes on only when the operation can carry it."
+    }
+  ],
+  "contactTitle": "Let’s talk.",
+  "contactBody": "Own a property, have a project, or want to work together? Write to me directly. I read every message.",
+  "contactEmail": "Email",
+  "contactWhatsapp": "WhatsApp",
+  "form": {
+    "roleLegend": "I am a",
+    "roles": ["Property owner", "Partner or investor", "Something else"],
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone or WhatsApp",
+    "optional": "optional",
+    "message": "Message",
+    "honeypot": "Leave this field empty",
+    "send": "Send",
+    "errors": {
+      "required": "This field is required.",
+      "email": "Enter a valid email address."
+    },
+    "status": {
+      "sending": "Sending…",
+      "success": "Message sent. I will get back to you soon.",
+      "error": "Your message did not go through. Try again, or write to me by email.",
+      "retry": "Try again"
+    },
+    "privacyNote": "I use your details only to reply to you.",
+    "privacyLink": "Privacy policy"
+  },
+  "privacy": {
+    "title": "Privacy policy",
+    "description": "How I handle the data of people who visit this site or write to me through the contact form.",
+    "back": "Back to home"
+  },
+  "footer": {
+    "place": "Campania, Italy",
+    "vat": "VAT no.",
+    "privacy": "Privacy"
+  }
+}

@@ -1,0 +1,7 @@
+---
+// Stub owned by ticket #7 (contact form). Replaced by the real form.
+import type { Locale } from '../lib/i18n';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+---
+<form data-contact-form data-locale={locale}></form>

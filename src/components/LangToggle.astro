@@ -1,0 +1,85 @@
+---
+/**
+ * IT / EN pill. Each option is a plain link to the same page in that language
+ * (ADR-0002: no redirect, crawlers see both). The current language is marked
+ * with aria-current and the design's yellow fill.
+ */
+import { locales, localizedPath, t, type Locale } from '../lib/i18n';
+
+interface Props {
+  locale: Locale;
+  /** Locale-neutral page path, e.g. `/` or `/privacy/`. */
+  path?: string;
+}
+
+const { locale, path = '/' } = Astro.props;
+
+const options = locales.map((l) => ({
+  locale: l,
+  href: localizedPath(l, path),
+  short: t(locale, `lang.${l}`),
+  // Each language names itself, so a screen reader announces it in that language.
+  label: t(l, `lang.${l}Label`),
+  current: l === locale,
+}));
+---
+
+<nav class="lang-toggle" aria-label={t(locale, 'lang.groupLabel')}>
+  {
+    options.map((o) => (
+      <a
+        href={o.href}
+        hreflang={o.locale}
+        lang={o.locale}
+        aria-label={o.label}
+        aria-current={o.current ? 'page' : undefined}
+      >
+        {o.short}
+      </a>
+    ))
+  }
+</nav>
+
+<style>
+  .lang-toggle {
+    flex: none;
+    display: flex;
+    background: var(--chip);
+    border-radius: 999px;
+    padding: 3px;
+  }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    padding: 6px 11px;
+    font: 500 12px/1 var(--font-sans);
+    color: var(--ink);
+    background: transparent;
+    text-decoration: none;
+    transition: background .25s;
+  }
+
+  a:hover {
+    color: var(--ink);
+  }
+
+  a[aria-current='page'] {
+    background: #FFD43B;
+    color: #141414;
+  }
+
+  a:focus-visible {
+    outline: 2px solid var(--accent-ink);
+    outline-offset: 2px;
+  }
+
+  @media (pointer: coarse) {
+    a {
+      min-height: 44px;
+      min-width: 44px;
+    }
+  }
+</style>

@@ -1,0 +1,24 @@
+{
+  "dorotea": {
+    "headline": {
+      "homes": { "value": "9", "publish": true },
+      "locations": { "value": "3", "publish": true }
+    },
+    "kpis": {
+      "revenue": { "value": "€410k", "publish": false },
+      "growth": { "value": "+38%", "publish": false },
+      "occupancy": { "value": "81%", "publish": false }
+    }
+  },
+  "quattro": {
+    "headline": {
+      "network": { "value": "50+", "publish": true },
+      "managed": { "value": "3", "publish": true }
+    },
+    "kpis": {
+      "revenue": { "value": "€95k", "publish": false },
+      "growth": { "value": "+24%", "publish": false },
+      "occupancy": { "value": "77%", "publish": false }
+    }
+  }
+}

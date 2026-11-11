@@ -6,16 +6,25 @@ import '@fontsource/geist/500.css';
 import '@fontsource/geist/600.css';
 import '@fontsource/geist-mono/400.css';
 import '../styles/global.css';
+import { defaultLocale, locales, localizedPath, t, type Locale } from '../lib/i18n';
+// Importing the content entry validates every src/content/*.json at build time.
+import '../lib/content/astro';
 
-export type Lang = 'it' | 'en';
+/** @deprecated Use `Locale` from `src/lib/i18n`. */
+export type Lang = Locale;
 
 interface Props {
-  lang: Lang;
+  lang: Locale;
   title: string;
   description?: string;
+  /** Locale-neutral page path (`/`, `/privacy/`), used for hreflang alternates. */
+  path?: string;
 }
 
-const { lang, title, description } = Astro.props;
+const { lang, title, description, path = '/' } = Astro.props;
+
+const absolute = (l: Locale) => new URL(localizedPath(l, path), Astro.site).href;
+const alternates = locales.map((l) => ({ hreflang: l, href: absolute(l) }));
 ---
 
 <!doctype html>
@@ -26,6 +35,9 @@ const { lang, title, description } = Astro.props;
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
     <meta name="color-scheme" content="light dark" />
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL.replace(/\/?$/, '/')}favicon.svg`} />
+    {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+    <link rel="alternate" hreflang="x-default" href={absolute(defaultLocale)} />
     <!-- Theme before first paint: stored choice ('sg-theme') wins, else OS preference. -->
     <script is:inline>
       (function () {
@@ -46,6 +58,27 @@ const { lang, title, description } = Astro.props;
     <slot name="head" />
   </head>
   <body>
+    <a class="skip-link" href="#main">{t(lang, 'skipLink')}</a>
     <slot />
   </body>
 </html>
+
+<style>
+  .skip-link {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 100;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: #FFD43B;
+    color: #141414;
+    font-weight: 500;
+    text-decoration: none;
+    transform: translateY(-150%);
+  }
+
+  .skip-link:focus {
+    transform: none;
+  }
+</style>

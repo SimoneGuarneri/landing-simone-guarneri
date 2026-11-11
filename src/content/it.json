@@ -1,0 +1,142 @@
+{
+  "meta": {
+    "title": "Simone Guarneri · Affitti brevi e software",
+    "description": "Gestisco affitti brevi in Campania e costruisco il software e le automazioni che li fanno funzionare."
+  },
+  "skipLink": "Vai al contenuto",
+  "logoLabel": "Simone Guarneri, inizio pagina",
+  "theme": {
+    "toLight": "Tema chiaro",
+    "toDark": "Tema scuro"
+  },
+  "lang": {
+    "groupLabel": "Lingua",
+    "it": "IT",
+    "en": "EN",
+    "itLabel": "Italiano",
+    "enLabel": "English"
+  },
+  "cta": "Contattami",
+  "eyebrow": "Imprenditore e informatico · Campania",
+  "heroA": "Gestisco affitti brevi in Italia",
+  "heroB": "e costruisco il software e le automazioni che li fanno funzionare.",
+  "heroMeta": "{age} anni. Ingegnere autodidatta: sei anni nell’ospitalità, anni nell’IT. Parlo italiano e inglese. Vivo in Campania, aperto a trasferirmi.",
+  "marquee": [
+    "Costiera Amalfitana",
+    "Prezzi",
+    "Milano",
+    "Automazione",
+    "Salerno",
+    "Operatività",
+    "Vietri sul Mare",
+    "Annunci",
+    "Baronissi",
+    "Channel manager"
+  ],
+  "whatTitle": "Cosa faccio",
+  "what": [
+    {
+      "title": "Gestione immobili",
+      "body": "Gestione completa, o solo la parte che ti serve: prezzi, creazione e testi degli annunci, consulenza su un nuovo immobile. Report chiari ogni mese."
+    },
+    {
+      "title": "Tecnologia e automazione",
+      "body": "Costruisco software e automazioni per le mie case e per altri host, collegati ai channel manager che già usano. Meno lavoro manuale, meno errori."
+    },
+    {
+      "title": "Crescita e strategia",
+      "body": "Valuto immobili e mercati con numeri reali: tariffe, occupazione, costi. Se un’operazione non regge sulla carta, lo dico."
+    }
+  ],
+  "workTitle": "Progetti",
+  "workIntro": "Due brand di affitti brevi, gestiti dall’inizio alla fine.",
+  "scroll": "Continua a scorrere",
+  "visit": "Visita",
+  "dorotea": "Nove case tra Costiera Amalfitana, Salerno e Milano. Dal 2023.",
+  "quattro": "Una rete di oltre 50 case tra Vietri sul Mare e Baronissi. Ne gestisco tre.",
+  "figures": {
+    "locations": "località",
+    "properties": "case",
+    "network": "case nella rete",
+    "managed": "gestite da me",
+    "kRev": "ricavo lordo",
+    "kGrowth": "rispetto al 2024",
+    "kOcc": "occupazione",
+    "kRevpar": "ricavo gestito"
+  },
+  "buildTitle": "Progetti software",
+  "buildIntro": "Software che scrivo accanto agli affitti. Prima lo uso ogni giorno nelle mie case.",
+  "build": [
+    {
+      "tag": "In sviluppo",
+      "title": "Casabase",
+      "body": "Un livello sopra i channel manager che li ottimizza e li estende. In uso interno ogni giorno da Dorotea Housing."
+    },
+    {
+      "tag": "In sviluppo",
+      "title": "CasaData",
+      "body": "Un aggregatore di dati per le ricerche sugli affitti brevi. Dati di mercato da più fonti in un solo posto, per ricerche più rapide e snelle."
+    },
+    {
+      "tag": "Interni",
+      "title": "Strumenti AI",
+      "body": "Skill per Claude Code e strumenti AI per gli affitti brevi: ricerche di mercato, testi degli annunci e analisi dei prezzi."
+    }
+  ],
+  "howTitle": "Come lavoro",
+  "how": [
+    {
+      "title": "Prima i numeri.",
+      "body": "Ogni decisione parte dai dati. Le opinioni vengono dopo."
+    },
+    {
+      "title": "Costruire ciò che manca.",
+      "body": "Se uno strumento non esiste o non va bene, lo scrivo."
+    },
+    {
+      "title": "Parlare chiaro.",
+      "body": "I proprietari sanno subito le notizie buone e quelle meno buone."
+    },
+    {
+      "title": "Crescere quando si è pronti.",
+      "body": "Un nuovo immobile entra solo quando l’organizzazione può sostenerlo."
+    }
+  ],
+  "contactTitle": "Parliamone.",
+  "contactBody": "Hai un immobile, un progetto o vuoi collaborare? Scrivimi direttamente. Leggo ogni messaggio.",
+  "contactEmail": "Email",
+  "contactWhatsapp": "WhatsApp",
+  "form": {
+    "roleLegend": "Chi sei",
+    "roles": ["Proprietario", "Partner o investitore", "Altro"],
+    "name": "Nome",
+    "email": "Email",
+    "phone": "Telefono o WhatsApp",
+    "optional": "facoltativo",
+    "message": "Messaggio",
+    "honeypot": "Non compilare questo campo",
+    "send": "Invia",
+    "errors": {
+      "required": "Questo campo è obbligatorio.",
+      "email": "Inserisci un indirizzo email valido."
+    },
+    "status": {
+      "sending": "Invio in corso…",
+      "success": "Messaggio inviato. Ti rispondo appena posso.",
+      "error": "Il messaggio non è partito. Riprova, oppure scrivimi via email.",
+      "retry": "Riprova"
+    },
+    "privacyNote": "Uso i tuoi dati solo per risponderti.",
+    "privacyLink": "Informativa privacy"
+  },
+  "privacy": {
+    "title": "Informativa privacy",
+    "description": "Come tratto i dati di chi visita questo sito o mi scrive dal modulo di contatto.",
+    "back": "Torna alla home"
+  },
+  "footer": {
+    "place": "Campania, Italia",
+    "vat": "P.IVA",
+    "privacy": "Privacy"
+  }
+}
