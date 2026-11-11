@@ -1,0 +1,33 @@
+# Simone Guarneri — Landing
+
+Personal landing page for Simone Guarneri: short-term rental operator and software builder in Campania. It presents his work and turns visitors into conversations.
+
+## Brands and products
+
+**Dorotea Housing**:
+Simone's own short-term rental brand: homes on the Amalfi Coast, in Salerno and in Milan.
+_Avoid_: Dorotea, Dorotea Homes
+
+**Quattro Houses**:
+A network of 50+ short-term rental homes around Vietri sul Mare and Baronissi, of which Simone manages a few.
+_Avoid_: Quattro, Quattro Case
+
+**Casabase**:
+Simone's in-development software layer on top of channel managers that optimizes and extends them.
+
+**CasaData**:
+Simone's in-development data aggregator for short-term rental market research.
+
+## People and things
+
+**Owner**:
+A property owner who might hand a home to Simone for management. The primary audience of the page.
+_Avoid_: Landlord, client, host
+
+**Home**:
+A single short-term rental unit, as counted in brand figures.
+_Avoid_: Property, listing, apartment (in page copy)
+
+**Brand figures**:
+The headline numbers shown for a brand (homes, locations, revenue, growth, occupancy). Each figure is either published or withheld; invented "sample" numbers are never published.
+_Avoid_: Stats, sample figures
