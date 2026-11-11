@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<script src="./image-slot.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FFFFFF;--ink:#141414;--muted:#5B5B5B;--body:#3A3A3A;--surface:#F5F5F3;--chip:#F2F2F0;--hdr:rgba(255,255,255,.82);--accent-ink:#7A3CF0;--hl:#FFD43B;--t1:#EFE8FF;--t1b:#E2D6FF;--t2:#FFF3C4;--t2b:#FFE88A;--blend:multiply;--waves-op:.42}
+:root[data-theme=dark]{--bg:#0F0F10;--ink:#F4F4F2;--muted:#A3A3A3;--body:#C9C9C9;--surface:#1B1B1D;--chip:#232325;--hdr:rgba(15,15,16,.78);--accent-ink:#B595FF;--hl:#7A3CF0;--t1:#1E1830;--t1b:#2B2147;--t2:#252113;--t2b:#3A3218;--blend:screen;--waves-op:.38}
+body{margin:0;background:var(--bg);color:var(--ink);transition:background .4s,color .4s;font-family:Geist,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration-color:var(--accent-ink);text-underline-offset:4px}
+a:hover{color:var(--accent-ink)}
+::selection{background:#FFD43B;color:#141414}
+input,textarea{font:inherit}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column">
+
+<div data-progress="" style="position:fixed;top:0;left:0;height:3px;width:0;background:#7A3CF0;z-index:30"></div>
+
+<header style="position:sticky;top:0;z-index:20;background:var(--hdr);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)">
+  <div style="max-width:1280px;margin:0 auto;padding:14px clamp(20px,5vw,48px);display:flex;align-items:center;justify-content:space-between;gap:16px">
+    <a href="#top" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:20px;text-decoration:none;letter-spacing:-.03em;color:var(--ink)">sg<span style="color:var(--accent-ink)">.</span></a>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button onClick="{{ toggleTheme }}" aria-label="{{ themeLabel }}" title="{{ themeLabel }}" style="width:36px;height:36px;flex:none;border-radius:50%;border:0;cursor:pointer;background:var(--chip);display:grid;place-items:center;transition:transform .5s cubic-bezier(.3,1.6,.5,1)" style-hover="transform:rotate(180deg)"><span style="width:15px;height:15px;border-radius:50%;border:1.5px solid var(--ink);background:linear-gradient(90deg,var(--ink) 50%,transparent 50%)"></span></button>
+      <div style="flex:none;display:flex;background:var(--chip);border-radius:999px;padding:3px">
+        <button onClick="{{ setEn }}" style="border:0;cursor:pointer;border-radius:999px;padding:6px 11px;font:500 12px Geist,sans-serif;background:{{ enBg }};color:{{ enFg }};transition:background .25s">EN</button>
+        <button onClick="{{ setIt }}" style="border:0;cursor:pointer;border-radius:999px;padding:6px 11px;font:500 12px Geist,sans-serif;background:{{ itBg }};color:{{ itFg }};transition:background .25s">IT</button>
+      </div>
+      <a href="#contact" style="flex:none;white-space:nowrap;text-decoration:none;font-size:14px;font-weight:500;padding:10px 18px;border-radius:999px;background:var(--ink);color:var(--bg);transition:background .2s,color .2s" style-hover="background:#FFD43B;color:#141414">{{ t.cta }}</a>
+    </div>
+  </div>
+</header>
+
+<section id="top" data-hero="" data-screen-label="Hero" style="position:relative;overflow:hidden;padding:clamp(56px,10vw,120px) clamp(20px,5vw,48px) clamp(56px,8vw,96px)">
+  <canvas data-waves="" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;filter:blur(30px);opacity:var(--waves-op);pointer-events:none;transition:opacity .4s"></canvas>
+  <div data-blob="" aria-hidden="true" style="position:absolute;top:0;left:0;width:280px;height:280px;margin:-140px 0 0 -140px;border-radius:50%;background:#FFD43B;mix-blend-mode:var(--blend);pointer-events:none;opacity:0;transition:opacity .4s"></div>
+  <div style="position:relative;max-width:1280px;margin:0 auto">
+    <p data-reveal="" style="margin:0 0 24px;display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:14px;color:var(--muted)">
+      <span style="width:8px;height:8px;border-radius:50%;background:#7A3CF0"></span>{{ t.eyebrow }}
+    </p>
+    <h1 data-parallax="" style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(64px,15.5vw,228px);line-height:.86;letter-spacing:-.045em">
+      <span style="display:block;overflow:hidden;padding-bottom:.04em"><span data-letter="">S</span><span data-letter="">i</span><span data-letter="">m</span><span data-letter="">o</span><span data-letter="">n</span><span data-letter="">e</span><span data-letter="" style="width:.62em;height:.62em;margin-left:.14em;vertical-align:.06em"><image-slot id="portrait" shape="circle" placeholder="Your photo" style="width:100%;height:100%"></image-slot></span></span>
+      <span style="display:block;overflow:hidden;padding-bottom:.06em"><span data-letter="">G</span><span data-letter="">u</span><span data-letter="">a</span><span data-letter="">r</span><span data-letter="">n</span><span data-letter="">e</span><span data-letter="">r</span><span data-letter="">i</span><span data-letter="" style="color:var(--accent-ink)">.</span></span>
+    </h1>
+    <div data-reveal="" style="margin-top:clamp(32px,5vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:32px 64px;align-items:end">
+      <p style="margin:0;font-size:clamp(20px,2.4vw,28px);line-height:1.4;font-weight:400;letter-spacing:-.01em;max-width:30ch;text-wrap:pretty">{{ t.heroA }} <span data-swipe="" style="background-image:linear-gradient(var(--hl),var(--hl));background-repeat:no-repeat;background-position:0 88%;background-size:0% 42%;transition:background-size 1.1s cubic-bezier(.7,0,.2,1) .9s">{{ t.heroB }}</span></p>
+      <div style="display:flex;flex-direction:column;gap:22px">
+        <p style="margin:0;font-size:15px;line-height:1.65;color:var(--muted);max-width:44ch">{{ t.heroMeta }}</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px">
+          <a href="#contact" style="text-decoration:none;font-size:15px;font-weight:500;padding:15px 26px;border-radius:999px;background:#7A3CF0;color:#FFFFFF;transition:transform .25s cubic-bezier(.3,1.6,.5,1),background .2s" style-hover="transform:translateY(-3px) rotate(-2deg);background:var(--ink);color:var(--bg)">{{ t.cta }} →</a>
+          <a href="{{ doroteaUrl }}" target="_blank" rel="noopener" style="text-decoration:none;font-size:15px;padding:15px 26px;border-radius:999px;border:1.5px solid var(--ink);transition:transform .25s cubic-bezier(.3,1.6,.5,1),background .2s" style-hover="transform:translateY(-3px) rotate(2deg);background:#FFD43B;color:#141414">Dorotea Housing ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div aria-hidden="true" style="background:var(--ink);color:var(--bg);overflow:hidden;padding:22px 0;transform:rotate(-1.5deg);margin:0 -20px;position:relative;z-index:2">
+  <div data-marquee="" style="display:flex;width:max-content;will-change:transform">
+    <sc-for list="{{ marquee }}" as="m" hint-placeholder-count="12">
+      <span style="display:flex;align-items:center;gap:28px;padding-right:28px;font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:clamp(22px,3vw,36px);letter-spacing:-.02em;white-space:nowrap">{{ m.text }}<span style="width:14px;height:14px;border-radius:50%;background:{{ m.dot }}"></span></span>
+    </sc-for>
+  </div>
+</div>
+
+<main style="flex:1">
+  <section id="what" data-screen-label="What I do" style="padding:clamp(96px,13vw,168px) clamp(20px,5vw,48px) clamp(72px,10vw,128px)">
+    <div style="max-width:1280px;margin:0 auto">
+      <h2 data-reveal="" style="margin:0 0 clamp(40px,6vw,72px);font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(44px,7vw,96px);line-height:.95;letter-spacing:-.04em">{{ t.whatTitle }}</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px">
+        <sc-for list="{{ what }}" as="w" hint-placeholder-count="3">
+          <div data-reveal="" style="background:var(--surface);border-radius:24px;padding:32px 28px 36px;display:flex;flex-direction:column;gap:56px;transition:transform .35s cubic-bezier(.3,1.5,.5,1),background .3s" style-hover="transform:translateY(-6px) rotate(-1deg);background:#FFD43B">
+            <span style="font-family:'Geist Mono',monospace;font-size:13px;color:var(--accent-ink)">{{ w.n }}</span>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <h3 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:28px;line-height:1.05;letter-spacing:-.025em">{{ w.title }}</h3>
+              <p style="margin:0;font-size:15px;line-height:1.65;color:var(--body);text-wrap:pretty">{{ w.body }}</p>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section id="work" data-hpin="" data-screen-label="Selected work" style="position:relative;height:300vh">
+    <div style="position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center">
+      <div data-track="" style="display:flex;gap:20px;padding:0 clamp(20px,5vw,48px);will-change:transform;align-items:stretch">
+        <div style="flex:none;width:min(78vw,420px);display:flex;flex-direction:column;justify-content:center;gap:20px">
+          <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(44px,7vw,96px);line-height:.95;letter-spacing:-.04em">{{ t.workTitle }}</h2>
+          <p style="margin:0;font-size:16px;line-height:1.6;color:var(--muted);max-width:30ch">{{ t.workIntro }}</p>
+          <span style="font-family:'Geist Mono',monospace;font-size:13px;color:var(--accent-ink)">{{ t.scroll }} →</span>
+        </div>
+        <article style="flex:none;width:min(84vw,600px);background:var(--t1);border-radius:28px;padding:16px;box-sizing:border-box;display:flex;flex-direction:column;gap:22px">
+          <div style="height:clamp(110px,calc(100vh - 540px),360px);flex:none;border-radius:18px;background-color:var(--t1b);background-image:repeating-linear-gradient(135deg,rgba(122,60,240,.12) 0 1px,transparent 1px 12px);display:flex;align-items:flex-end;padding:14px;box-sizing:border-box">
+            <span style="font-family:'Geist Mono',monospace;font-size:11px;color:#4A2A90;background:#FFFFFF;padding:4px 9px;border-radius:999px">{{ t.photo }} Dorotea Housing</span>
+          </div>
+          <div style="padding:0 12px 14px;display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
+              <h3 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(30px,3.6vw,44px);letter-spacing:-.035em">Dorotea Housing</h3>
+              <a href="{{ doroteaUrl }}" target="_blank" rel="noopener" style="font-size:14px;font-weight:500;text-decoration:none;padding:8px 14px;border-radius:999px;background:var(--ink);color:var(--bg)" style-hover="background:#7A3CF0;color:#FFFFFF">{{ t.visit }} ↗</a>
+            </div>
+            <p style="margin:0;font-size:15px;line-height:1.6;color:var(--body);max-width:46ch">{{ t.dorotea }}</p>
+            <div style="display:flex;gap:40px;padding-top:8px">
+              <div style="display:flex;flex-direction:column"><span data-count="{{ doroteaProps }}" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:48px;line-height:1;letter-spacing:-.04em;color:var(--accent-ink)">{{ doroteaProps }}</span><span style="font-size:13px;color:var(--muted)">{{ t.properties }}</span></div>
+              <div style="display:flex;flex-direction:column"><span data-count="3" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:48px;line-height:1;letter-spacing:-.04em;color:var(--accent-ink)">3</span><span style="font-size:13px;color:var(--muted)">{{ t.locations }}</span></div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;border-top:1px solid var(--ink);padding-top:16px;margin-top:4px">
+              <sc-for list="{{ doroteaKpis }}" as="k" hint-placeholder-count="3">
+                <div style="display:flex;flex-direction:column;gap:4px;min-width:0">
+                  <span data-count="{{ k.value }}" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(24px,2.6vw,32px);line-height:1;letter-spacing:-.03em;color:var(--accent-ink);white-space:nowrap">{{ k.value }}</span>
+                  <span style="font-size:12px;line-height:1.35;color:var(--muted)">{{ k.label }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <span style="font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted)">{{ t.sample }}</span>
+          </div>
+        </article>
+        <article style="flex:none;width:min(84vw,600px);background:var(--t2);border-radius:28px;padding:16px;box-sizing:border-box;display:flex;flex-direction:column;gap:22px">
+          <div style="height:clamp(110px,calc(100vh - 540px),360px);flex:none;border-radius:18px;background-color:var(--t2b);background-image:repeating-linear-gradient(135deg,rgba(20,20,20,.08) 0 1px,transparent 1px 12px);display:flex;align-items:flex-end;padding:14px;box-sizing:border-box">
+            <span style="font-family:'Geist Mono',monospace;font-size:11px;color:#3a3a3a;background:#FFFFFF;padding:4px 9px;border-radius:999px">{{ t.photo }} Quattro Houses</span>
+          </div>
+          <div style="padding:0 12px 14px;display:flex;flex-direction:column;gap:14px">
+            <h3 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(30px,3.6vw,44px);letter-spacing:-.035em">Quattro Houses</h3>
+            <p style="margin:0;font-size:15px;line-height:1.6;color:var(--body);max-width:46ch">{{ t.quattro }}</p>
+            <div style="display:flex;gap:40px;padding-top:8px">
+              <div style="display:flex;flex-direction:column"><span data-count="50+" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:48px;line-height:1;letter-spacing:-.04em">50+</span><span style="font-size:13px;color:var(--muted)">{{ t.network }}</span></div>
+              <div style="display:flex;flex-direction:column"><span data-count="{{ quattroProps }}" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:48px;line-height:1;letter-spacing:-.04em">{{ quattroProps }}</span><span style="font-size:13px;color:var(--muted)">{{ t.managed }}</span></div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;border-top:1px solid var(--ink);padding-top:16px;margin-top:4px">
+              <sc-for list="{{ quattroKpis }}" as="k" hint-placeholder-count="3">
+                <div style="display:flex;flex-direction:column;gap:4px;min-width:0">
+                  <span data-count="{{ k.value }}" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(24px,2.6vw,32px);line-height:1;letter-spacing:-.03em;color:var(--ink);white-space:nowrap">{{ k.value }}</span>
+                  <span style="font-size:12px;line-height:1.35;color:var(--muted)">{{ k.label }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <span style="font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted)">{{ t.sample }}</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="building" data-screen-label="Building" style="padding:clamp(96px,13vw,168px) clamp(20px,5vw,48px) 0">
+    <div style="max-width:1280px;margin:0 auto">
+      <div data-reveal="" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:16px 48px;margin-bottom:clamp(40px,6vw,72px)">
+        <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(44px,7vw,96px);line-height:.95;letter-spacing:-.04em">{{ t.buildTitle }}</h2>
+        <p style="margin:0;font-size:16px;line-height:1.6;color:var(--muted);max-width:40ch">{{ t.buildIntro }}</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px">
+        <sc-for list="{{ t.build }}" as="b" hint-placeholder-count="3">
+          <div data-reveal="" style="background:var(--ink);color:var(--bg);border-radius:28px;padding:clamp(28px,3.4vw,40px);display:flex;flex-direction:column;gap:18px;min-height:260px;box-sizing:border-box;transition:transform .35s cubic-bezier(.3,1.5,.5,1)" style-hover="transform:translateY(-6px) rotate(1deg)">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+              <span style="font-family:'Geist Mono',monospace;font-size:12px;padding:5px 11px;border-radius:999px;background:#FFD43B;color:#141414">{{ b.tag }}</span>
+            </div>
+            <h3 style="margin:auto 0 0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(34px,4vw,52px);line-height:1;letter-spacing:-.04em">{{ b.title }}</h3>
+            <p style="margin:0;font-size:16px;line-height:1.6;opacity:.78;max-width:44ch;text-wrap:pretty">{{ b.body }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section id="how" data-screen-label="How I work" style="padding:clamp(96px,13vw,168px) clamp(20px,5vw,48px)">
+    <div style="max-width:1280px;margin:0 auto">
+      <p data-reveal="" style="margin:0 0 40px;font-family:'Geist Mono',monospace;font-size:13px;color:var(--accent-ink)">{{ t.howTitle }}</p>
+      <ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column">
+        <sc-for list="{{ how }}" as="h" hint-placeholder-count="4">
+          <li data-hl="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:12px 48px;align-items:baseline;padding:clamp(24px,3.5vw,40px) 0;border-top:1.5px solid var(--ink);opacity:.18;transition:opacity .2s linear">
+            <h3 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(36px,6vw,80px);line-height:.95;letter-spacing:-.04em">{{ h.title }}</h3>
+            <p style="margin:0;font-size:clamp(16px,1.6vw,19px);line-height:1.55;color:var(--body);max-width:36ch">{{ h.body }}</p>
+          </li>
+        </sc-for>
+      </ol>
+    </div>
+  </section>
+</main>
+
+<section id="contact" data-screen-label="Contact" style="background:#7A3CF0;color:#FFFFFF;border-radius:clamp(28px,4vw,48px) clamp(28px,4vw,48px) 0 0;padding:clamp(80px,11vw,140px) clamp(20px,5vw,48px) 40px">
+  <div style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:56px 80px">
+    <div data-reveal="" style="display:flex;flex-direction:column;gap:28px">
+      <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(56px,9vw,128px);line-height:.88;letter-spacing:-.05em">{{ t.contactTitle }}</h2>
+      <p style="margin:0;font-size:18px;line-height:1.6;max-width:38ch">{{ t.contactBody }}</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px">
+        <a href="{{ mailto }}" style="text-decoration:none;font-size:15px;font-weight:500;padding:14px 22px;border-radius:999px;background:#FFFFFF;color:#141414;transition:transform .25s cubic-bezier(.3,1.6,.5,1)" style-hover="transform:translateY(-3px) rotate(-2deg);color:#141414">✉ {{ email }}</a>
+        <a href="{{ waLink }}" target="_blank" rel="noopener" style="text-decoration:none;font-size:15px;font-weight:500;padding:14px 22px;border-radius:999px;background:#FFD43B;color:#141414;transition:transform .25s cubic-bezier(.3,1.6,.5,1)" style-hover="transform:translateY(-3px) rotate(2deg);color:#141414">WhatsApp →</a>
+      </div>
+    </div>
+    <form data-reveal="" onSubmit="{{ onSubmit }}" style="display:flex;flex-direction:column;gap:22px;align-self:end;background:var(--bg);color:var(--ink);border-radius:28px;padding:clamp(24px,3vw,36px)">
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <sc-for list="{{ roles }}" as="r" hint-placeholder-count="3">
+          <button type="button" onClick="{{ r.pick }}" style="cursor:pointer;font:500 13px Geist,sans-serif;padding:9px 16px;border-radius:999px;border:1.5px solid var(--ink);background:{{ r.bg }};color:{{ r.fg }};transition:background .2s,transform .25s cubic-bezier(.3,1.6,.5,1)" style-hover="transform:scale(1.05)">{{ r.label }}</button>
+        </sc-for>
+      </div>
+      <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--muted)">{{ t.fName }}
+        <input name="name" required="" style="background:var(--surface);border:1.5px solid transparent;border-radius:14px;color:var(--ink);padding:13px 14px;font-size:16px;outline:none" style-focus="border-color:var(--accent-ink);background:var(--bg)">
+      </label>
+      <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--muted)">{{ t.fMsg }}
+        <textarea name="message" rows="4" required="" style="background:var(--surface);border:1.5px solid transparent;border-radius:14px;color:var(--ink);padding:13px 14px;font-size:16px;outline:none;resize:vertical" style-focus="border-color:var(--accent-ink);background:var(--bg)"></textarea>
+      </label>
+      <button type="submit" style="align-self:flex-start;cursor:pointer;border:0;font:500 15px Geist,sans-serif;padding:15px 28px;border-radius:999px;background:var(--ink);color:var(--bg);transition:transform .25s cubic-bezier(.3,1.6,.5,1),background .2s" style-hover="transform:translateY(-3px) rotate(-2deg);background:#7A3CF0;color:#FFFFFF">{{ t.send }} →</button>
+    </form>
+  </div>
+  <footer style="max-width:1280px;margin:clamp(72px,10vw,120px) auto 0;padding-top:22px;border-top:1px solid rgba(255,255,255,.3);display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:13px">
+    <span>© 2026 Simone Guarneri · P.IVA {{ piva }}</span>
+    <span>{{ t.footer }}</span>
+  </footer>
+</section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;defaultTheme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;'light'|'dark'&quot;,&quot;section&quot;:&quot;Style&quot;},&quot;defaultLang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;en&quot;,&quot;it&quot;],&quot;default&quot;:&quot;en&quot;,&quot;tsType&quot;:&quot;'en'|'it'&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;doroteaProperties&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;9&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Numbers&quot;},&quot;quattroProperties&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;3&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Numbers&quot;},&quot;email&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;hello@simoneguarneri.com&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contact&quot;},&quot;whatsapp&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;+39 000 000 0000&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contact&quot;},&quot;doroteaUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://doroteahousing.com&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contact&quot;},&quot;piva&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;00000000000&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contact&quot;}}">
+class Component extends DCLogic {
+  state = { lang: null, role: 0, theme: null };
+  storedTheme = (() => { try { return localStorage.getItem('sg-theme'); } catch (e) { return null; } })();
+  theme() { return this.state.theme || this.storedTheme || this.props.defaultTheme || 'light'; }
+  applyTheme() { document.documentElement.dataset.theme = this.theme(); }
+  componentDidUpdate() { this.applyTheme(); }
+  copy = {
+    en: {
+      cta: 'Get in touch', eyebrow: 'Entrepreneur and computer scientist · Campania, Italy',
+      heroA: 'I manage short-term rentals in Italy', heroB: 'and build the software and automations that run them.',
+      heroMeta: '24. Self-taught engineer: six years in hospitality, years in IT. I speak Italian and English. Based in Campania, open to relocating.',
+      marquee: ['Amalfi Coast', 'Pricing', 'Milano', 'Automation', 'Salerno', 'Operations', 'Vietri sul Mare', 'Listings', 'Baronissi', 'Channel managers'],
+      whatTitle: 'What I do',
+      what: [
+        { title: 'Property management', body: 'Full management, or only the part you need: pricing, listing setup and copy, or advice on a new property. Owners get clear monthly reports.' },
+        { title: 'Technology and automation', body: 'I build software and automations for my homes and for other hosts, connected to the channel managers they already use. Less manual work, fewer errors.' },
+        { title: 'Growth and strategy', body: 'I assess new properties and markets with real numbers: rates, occupancy, costs. If a deal does not work on paper, I say so.' }
+      ],
+      workTitle: 'Selected work', workIntro: 'Two short-term rental brands, run end to end.', scroll: 'Keep scrolling', visit: 'Visit',
+      dorotea: 'Nine homes on the Amalfi Coast, in Salerno and in Milan. Running since 2023.',
+      quattro: 'A network of more than 50 homes around Vietri sul Mare and Baronissi. I manage three of them.',
+      locations: 'locations', properties: 'homes', network: 'homes in the network', managed: 'managed by me', sample: 'Sample figures, 2025', kRev: 'gross revenue', kGrowth: 'year on year', kOcc: 'occupancy', kRevpar: 'managed revenue', photo: 'photo:',
+      buildTitle: 'Building', buildIntro: 'Software I write alongside the rentals. Used every day in my own homes first.',
+      build: [
+        { tag: 'In development', title: 'Casabase', body: 'A layer on top of channel managers that optimizes and extends them. In daily internal use at Dorotea Housing.' },
+        { tag: 'In development', title: 'CasaData', body: 'A data aggregator for short-term rental research. Market data from several sources in one place, so research is faster and leaner.' },
+        { tag: 'Internal', title: 'AI tools', body: 'Claude Code skills and AI tools for short-term rentals: market research, listing writing and pricing analysis.' }
+      ],
+      howTitle: 'How I work',
+      how: [
+        { title: 'Numbers first.', body: 'Every decision starts from data. Opinions come after.' },
+        { title: 'Build what is missing.', body: 'If a tool does not exist or does not fit, I write it.' },
+        { title: 'Say it plainly.', body: 'Owners hear the good news and the bad news, early.' },
+        { title: 'Grow when ready.', body: 'A new property comes on only when the operation can carry it.' }
+      ],
+      contactTitle: 'Let’s talk.',
+      contactBody: 'Own a property, have a project, or want to work together? Write to me directly. I read every message.',
+      roles: ['Property owner', 'Partner or investor', 'Something else'],
+      fName: 'Name', fMsg: 'Message', send: 'Send',
+      footer: 'Campania, Italy'
+    },
+    it: {
+      cta: 'Contattami', eyebrow: 'Imprenditore e informatico · Campania',
+      heroA: 'Gestisco affitti brevi in Italia', heroB: 'e costruisco il software e le automazioni che li fanno funzionare.',
+      heroMeta: '24 anni. Ingegnere autodidatta: sei anni nell’ospitalità, anni nell’IT. Parlo italiano e inglese. Vivo in Campania, aperto a trasferirmi.',
+      marquee: ['Costiera Amalfitana', 'Prezzi', 'Milano', 'Automazione', 'Salerno', 'Operatività', 'Vietri sul Mare', 'Annunci', 'Baronissi', 'Channel manager'],
+      whatTitle: 'Cosa faccio',
+      what: [
+        { title: 'Gestione immobili', body: 'Gestione completa, o solo la parte che ti serve: prezzi, creazione e testi degli annunci, consulenza su un nuovo immobile. Report chiari ogni mese.' },
+        { title: 'Tecnologia e automazione', body: 'Costruisco software e automazioni per le mie case e per altri host, collegati ai channel manager che già usano. Meno lavoro manuale, meno errori.' },
+        { title: 'Crescita e strategia', body: 'Valuto immobili e mercati con numeri reali: tariffe, occupazione, costi. Se un’operazione non regge sulla carta, lo dico.' }
+      ],
+      workTitle: 'Progetti', workIntro: 'Due brand di affitti brevi, gestiti dall’inizio alla fine.', scroll: 'Continua a scorrere', visit: 'Visita',
+      dorotea: 'Nove case tra Costiera Amalfitana, Salerno e Milano. Dal 2023.',
+      quattro: 'Una rete di oltre 50 case tra Vietri sul Mare e Baronissi. Ne gestisco tre.',
+      locations: 'località', properties: 'case', network: 'case nella rete', managed: 'gestite da me', sample: 'Dati di esempio, 2025', kRev: 'ricavo lordo', kGrowth: 'rispetto al 2024', kOcc: 'occupazione', kRevpar: 'ricavo gestito', photo: 'foto:',
+      buildTitle: 'Progetti software', buildIntro: 'Software che scrivo accanto agli affitti. Prima lo uso ogni giorno nelle mie case.',
+      build: [
+        { tag: 'In sviluppo', title: 'Casabase', body: 'Un livello sopra i channel manager che li ottimizza e li estende. In uso interno ogni giorno da Dorotea Housing.' },
+        { tag: 'In sviluppo', title: 'CasaData', body: 'Un aggregatore di dati per le ricerche sugli affitti brevi. Dati di mercato da più fonti in un solo posto, per ricerche più rapide e snelle.' },
+        { tag: 'Interni', title: 'Strumenti AI', body: 'Skill per Claude Code e strumenti AI per gli affitti brevi: ricerche di mercato, testi degli annunci e analisi dei prezzi.' }
+      ],
+      howTitle: 'Come lavoro',
+      how: [
+        { title: 'Prima i numeri.', body: 'Ogni decisione parte dai dati. Le opinioni vengono dopo.' },
+        { title: 'Costruire ciò che manca.', body: 'Se uno strumento non esiste o non va bene, lo scrivo.' },
+        { title: 'Parlare chiaro.', body: 'I proprietari sanno subito le notizie buone e quelle meno buone.' },
+        { title: 'Crescere quando si è pronti.', body: 'Un nuovo immobile entra solo quando l’organizzazione può sostenerlo.' }
+      ],
+      contactTitle: 'Parliamone.',
+      contactBody: 'Hai un immobile, un progetto o vuoi collaborare? Scrivimi direttamente. Leggo ogni messaggio.',
+      roles: ['Proprietario', 'Partner o investitore', 'Altro'],
+      fName: 'Nome', fMsg: 'Messaggio', send: 'Invia',
+      footer: 'Campania, Italia'
+    }
+  };
+
+  componentDidMount() {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const $$ = s => Array.from(document.querySelectorAll(s));
+    const ease = 'cubic-bezier(.2,.8,.2,1)';
+    this.applyTheme();
+    const cv = document.querySelector('[data-waves]'), ctx = cv && cv.getContext('2d');
+    const sizeCv = () => { if (!cv) return; cv.width = Math.round(cv.clientWidth * 0.5); cv.height = Math.round(cv.clientHeight * 0.5); };
+    sizeCv(); this.onResize = sizeCv; window.addEventListener('resize', sizeCv);
+    const cols = ['#7A3CF0', '#FFD43B', '#B595FF', '#FFE88A'];
+    const waves = time => {
+      if (!ctx) return; const w = cv.width, h = cv.height; ctx.clearRect(0, 0, w, h);
+      for (let i = 0; i < 4; i++) {
+        ctx.beginPath(); ctx.moveTo(0, h);
+        for (let x = 0; x <= w + 6; x += 6) {
+          const k = x / w;
+          ctx.lineTo(x, h * (0.48 + i * 0.12) + Math.sin(k * (2 + i * 0.6) * Math.PI + time * (0.35 + i * 0.12) + i * 1.7) * h * 0.09 + Math.sin(k * 5 * Math.PI - time * 0.5 + i) * h * 0.025);
+        }
+        ctx.lineTo(w, h); ctx.closePath(); ctx.globalAlpha = 0.6 - i * 0.08; ctx.fillStyle = cols[i]; ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    };
+    waves(0);
+
+    // name letters rise
+    $$('[data-letter]').forEach((el, i) => {
+      el.style.display = 'inline-block';
+      if (reduce) return;
+      el.style.transform = 'translateY(105%) rotate(8deg)';
+      el.style.transition = `transform .9s ${ease} ${0.15 + i * 0.045}s`;
+      requestAnimationFrame(() => requestAnimationFrame(() => { el.style.transform = 'none'; }));
+    });
+    requestAnimationFrame(() => $$('[data-swipe]').forEach(el => el.style.backgroundSize = '100% 42%'));
+
+    // reveal + count-up
+    if (!reduce && 'IntersectionObserver' in window) {
+      this.io = new IntersectionObserver(es => es.forEach(e => {
+        if (!e.isIntersecting) return;
+        e.target.style.opacity = 1; e.target.style.transform = 'none'; this.io.unobserve(e.target);
+      }), { threshold: 0.12 });
+      $$('[data-reveal]').forEach((el, i) => {
+        el.style.opacity = 0; el.style.transform = 'translateY(28px) scale(.98)';
+        el.style.transition = `opacity .8s ease, transform .9s ${ease}`;
+        this.io.observe(el);
+      });
+      this.countIo = new IntersectionObserver(es => es.forEach(e => {
+        if (!e.isIntersecting) return;
+        const el = e.target, raw = el.dataset.count || '', mm = raw.match(/^([^\d]*)(\d+)(.*)$/), n = mm ? parseInt(mm[2], 10) : NaN, pre = mm ? mm[1] : '', suf = mm ? mm[3] : ''; this.countIo.unobserve(el);
+        if (isNaN(n)) return;
+        const t0 = performance.now();
+        const step = now => { const p = Math.min(1, (now - t0) / 1100); el.textContent = pre + Math.round(n * (1 - Math.pow(1 - p, 3))) + suf; if (p < 1) requestAnimationFrame(step); };
+        requestAnimationFrame(step);
+      }), { threshold: 0.6 });
+      $$('[data-count]').forEach(el => this.countIo.observe(el));
+    }
+
+    // cursor blob in hero
+    const hero = document.querySelector('[data-hero]'), blob = document.querySelector('[data-blob]');
+    let bx = 0, by = 0, tx = 0, ty = 0;
+    if (hero && blob && !reduce && window.matchMedia('(pointer: fine)').matches) {
+      this.onMove = e => { const r = hero.getBoundingClientRect(); tx = e.clientX - r.left; ty = e.clientY - r.top; blob.style.opacity = .9; };
+      this.onLeave = () => { blob.style.opacity = 0; };
+      hero.addEventListener('pointermove', this.onMove); hero.addEventListener('pointerleave', this.onLeave);
+    }
+
+    // scroll-driven loop
+    const marquee = document.querySelector('[data-marquee]');
+    let mx = 0, lastY = window.scrollY, vel = 0;
+    const loop = () => {
+      const y = window.scrollY, vh = window.innerHeight;
+      vel = vel * 0.9 + (y - lastY) * 0.1; lastY = y;
+      const bar = document.querySelector('[data-progress]');
+      if (bar) bar.style.width = (y / Math.max(1, document.documentElement.scrollHeight - vh) * 100) + '%';
+      if (!reduce) {
+        if (y < vh * 1.2) waves(performance.now() / 1000);
+        if (marquee) {
+          const half = marquee.scrollWidth / 2;
+          const dir = vel < -0.3 ? -1 : 1;
+          mx -= (0.6 + Math.min(12, Math.abs(vel) * 0.6)) * dir;
+          if (half) { if (mx <= -half) mx += half; if (mx > 0) mx -= half; }
+          marquee.style.transform = `translate3d(${mx}px,0,0)`;
+        }
+        if (blob) { bx += (tx - bx) * 0.12; by += (ty - by) * 0.12; blob.style.transform = `translate3d(${bx}px,${by}px,0)`; }
+        const par = document.querySelector('[data-parallax]');
+        if (par && y < vh * 1.5) par.style.transform = `translate3d(0,${y * 0.18}px,0)`;
+      }
+      const pin = document.querySelector('[data-hpin]'), track = document.querySelector('[data-track]');
+      if (pin && track) {
+        const r = pin.getBoundingClientRect();
+        const p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - vh)));
+        const dist = Math.max(0, track.scrollWidth - window.innerWidth);
+        track.style.transform = `translate3d(${-p * dist}px,0,0)`;
+      }
+      $$('[data-hl]').forEach(el => {
+        const r = el.getBoundingClientRect();
+        const c = r.top + r.height / 2, d = Math.abs(c - vh * 0.5) / (vh * 0.5);
+        el.style.opacity = Math.max(0.18, Math.min(1, 1.25 - d * 1.1)).toFixed(3);
+      });
+      this.raf = requestAnimationFrame(loop);
+    };
+    this.raf = requestAnimationFrame(loop);
+  }
+
+  componentWillUnmount() {
+    cancelAnimationFrame(this.raf); window.removeEventListener('resize', this.onResize);
+    this.io && this.io.disconnect(); this.countIo && this.countIo.disconnect();
+    const hero = document.querySelector('[data-hero]');
+    if (hero && this.onMove) { hero.removeEventListener('pointermove', this.onMove); hero.removeEventListener('pointerleave', this.onLeave); }
+  }
+
+  renderVals() {
+    const p = this.props;
+    const lang = this.state.lang || p.defaultLang || 'en';
+    const t = this.copy[lang];
+    const email = p.email ?? 'hello@simoneguarneri.com';
+    const wa = p.whatsapp ?? '+39 000 000 0000';
+    const items = t.marquee.map((text, i) => ({ text, dot: i % 2 ? '#7A3CF0' : '#FFD43B' }));
+    return {
+      t,
+      setEn: () => this.setState({ lang: 'en' }), setIt: () => this.setState({ lang: 'it' }),
+      enBg: lang === 'en' ? '#FFD43B' : 'transparent', itBg: lang === 'it' ? '#FFD43B' : 'transparent',
+      enFg: lang === 'en' ? '#141414' : 'var(--ink)', itFg: lang === 'it' ? '#141414' : 'var(--ink)',
+      themeLabel: this.theme() === 'dark' ? (lang === 'it' ? 'Tema chiaro' : 'Light theme') : (lang === 'it' ? 'Tema scuro' : 'Dark theme'),
+      toggleTheme: () => { const next = this.theme() === 'dark' ? 'light' : 'dark'; try { localStorage.setItem('sg-theme', next); } catch (e) {} this.storedTheme = next; this.setState({ theme: next }); },
+      marquee: [...items, ...items],
+      what: t.what.map((w, i) => ({ ...w, n: '0' + (i + 1) })),
+      how: t.how,
+      doroteaUrl: p.doroteaUrl ?? 'https://doroteahousing.com',
+      doroteaKpis: [{ value: '€410k', label: t.kRev }, { value: '+38%', label: t.kGrowth }, { value: '81%', label: t.kOcc }],
+      quattroKpis: [{ value: '€95k', label: t.kRevpar }, { value: '+24%', label: t.kGrowth }, { value: '77%', label: t.kOcc }],
+      doroteaProps: p.doroteaProperties ?? '9', quattroProps: p.quattroProperties ?? '3',
+      email, piva: p.piva ?? '00000000000',
+      mailto: 'mailto:' + email, waLink: 'https://wa.me/' + wa.replace(/\D/g, ''),
+      roles: t.roles.map((label, i) => ({ label, pick: () => this.setState({ role: i }), bg: this.state.role === i ? '#FFD43B' : 'transparent', fg: this.state.role === i ? '#141414' : 'var(--ink)' })),
+      onSubmit: e => {
+        e.preventDefault();
+        const f = new FormData(e.target);
+        const subject = `[${t.roles[this.state.role]}] ${f.get('name')}`;
+        window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(f.get('message'))}`;
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>
