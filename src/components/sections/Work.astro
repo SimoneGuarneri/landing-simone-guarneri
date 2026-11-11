@@ -1,7 +1,8 @@
 ---
 /**
- * "Selected work". ≥768px: the design's pinned horizontal track (300vh section, sticky
- * viewport; #6 drives the track's translateX on scroll). <768px: a plain vertical stack.
+ * "Selected work". With full motion (≥768px, fine pointer): the design's pinned horizontal
+ * track (300vh section, sticky viewport; src/lib/motion/pin.ts drives its translateX).
+ * Otherwise (no JS, reduced motion, touch, <768px): a plain vertical stack.
  */
 import BrandCard from './BrandCard.astro';
 import { t, type Locale } from '../../lib/i18n';
@@ -28,12 +29,17 @@ const { locale } = Astro.props;
 </section>
 
 <style>
+  /* Default (no JS, reduced motion, coarse pointer, <768px): a plain vertical stack.
+     The pinned horizontal track exists only under html[data-motion="full"] (fine pointer,
+     ≥768px, motion allowed), set before first paint in HomePage.astro. */
   .work {
     position: relative;
+    padding-top: clamp(24px, 6vw, 48px);
   }
 
   .track {
     display: flex;
+    flex-direction: column;
     gap: 20px;
     padding: 0 clamp(20px, 5vw, 48px);
     align-items: stretch;
@@ -45,6 +51,7 @@ const { locale } = Astro.props;
     flex-direction: column;
     justify-content: center;
     gap: 20px;
+    margin-bottom: 20px;
   }
 
   .intro p {
@@ -55,18 +62,25 @@ const { locale } = Astro.props;
     max-width: 30ch;
   }
 
+  /* The "keep scrolling →" hint belongs to the horizontal track only. */
   .hint {
+    display: none;
     font-family: var(--font-mono);
     font-size: 13px;
     color: var(--accent-ink);
   }
 
   @media (min-width: 768px) {
-    .work {
-      height: 300vh;
+    .intro {
+      width: min(78vw, 420px);
     }
 
-    .pin {
+    :global(:root[data-motion='full']) .work {
+      height: 300vh;
+      padding-top: 0;
+    }
+
+    :global(:root[data-motion='full']) .pin {
       position: sticky;
       top: 0;
       height: 100vh;
@@ -75,31 +89,17 @@ const { locale } = Astro.props;
       align-items: center;
     }
 
-    .track {
+    :global(:root[data-motion='full']) .track {
+      flex-direction: row;
       will-change: transform;
     }
 
-    .intro {
-      width: min(78vw, 420px);
-    }
-  }
-
-  @media (max-width: 767.98px) {
-    .work {
-      padding-top: clamp(24px, 6vw, 48px);
+    :global(:root[data-motion='full']) .intro {
+      margin-bottom: 0;
     }
 
-    .track {
-      flex-direction: column;
-    }
-
-    .intro {
-      margin-bottom: 20px;
-    }
-
-    /* The "keep scrolling →" hint belongs to the horizontal track only. */
-    .hint {
-      display: none;
+    :global(:root[data-motion='full']) .hint {
+      display: inline;
     }
   }
 </style>

@@ -25,6 +25,20 @@ const path = '/';
 ---
 
 <BaseLayout lang={locale} path={path} title={t(locale, 'meta.title')} description={t(locale, 'meta.description')}>
+  <!-- Motion mode before first paint, so the layout it selects (pinned Work track) never
+       shifts. Same rule as motionMode() in src/lib/motion/math.ts; the motion script keeps
+       it in sync afterwards. No attribute (no JS) = static, stacked layout. -->
+  <script is:inline slot="head">
+    (function () {
+      if (!window.matchMedia) return;
+      var mq = function (q) { return window.matchMedia(q).matches; };
+      document.documentElement.dataset.motion = mq('(prefers-reduced-motion: reduce)')
+        ? 'off'
+        : mq('(max-width: 767px)') || !mq('(pointer: fine)')
+          ? 'lite'
+          : 'full';
+    })();
+  </script>
   <div class="page">
     <div data-progress class="progress" aria-hidden="true"></div>
     <Header locale={locale} />
@@ -40,6 +54,10 @@ const path = '/';
     <Footer locale={locale} />
   </div>
 </BaseLayout>
+
+<script>
+  import '../lib/motion';
+</script>
 
 <style>
   .page {
@@ -61,7 +79,9 @@ const path = '/';
     top: 0;
     left: 0;
     height: 3px;
-    width: 0;
+    width: 100%;
+    transform: scaleX(0);
+    transform-origin: 0 0;
     background: #7A3CF0;
     z-index: 30;
   }
