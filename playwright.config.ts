@@ -27,8 +27,15 @@ export default defineConfig({
     { name: 'tablet-768', use: { ...chromium, viewport: { width: 768, height: 1024 } } },
     { name: 'desktop-1280', use: { ...chromium, viewport: { width: 1280, height: 800 } } },
   ],
+  /*
+   * The suite runs against its own build: PUBLIC_E2E=1 enables the test-only Web3Forms key
+   * override (data-key-override) so the form's fetch path can be exercised with a mocked
+   * route. It goes to dist-e2e/ (SG_OUT_DIR, read by astro.config.mjs) and is previewed from
+   * there, so the deployable dist/ from `npm run build` is never an E2E build.
+   */
   webServer: {
-    command: `npm run build && npm run preview -- --port ${PORT}`,
+    command: `npx astro build && npx astro preview --port ${PORT}`,
+    env: { PUBLIC_E2E: '1', SG_OUT_DIR: './dist-e2e', ASTRO_TELEMETRY_DISABLED: '1' },
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,

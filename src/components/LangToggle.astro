@@ -31,10 +31,10 @@ const options = locales.map((l) => ({
         href={o.href}
         hreflang={o.locale}
         lang={o.locale}
-        aria-label={o.label}
         aria-current={o.current ? 'page' : undefined}
       >
-        {o.short}
+        {/* Accessible name "IT Italiano": starts with the visible text (WCAG 2.5.3). */}
+        {o.short}<span class="visually-hidden"> {o.label}</span>
       </a>
     ))
   }

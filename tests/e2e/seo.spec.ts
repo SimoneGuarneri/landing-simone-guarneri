@@ -5,7 +5,7 @@ const contacts = JSON.parse(
   readFileSync(new URL('../../src/content/contacts.json', import.meta.url), 'utf8'),
 ) as { email: string; piva: string };
 
-// Head tags don't depend on the viewport: run once, at 375 (also used for the overflow check).
+// Head tags don't depend on the viewport: run once, at 375.
 test.skip(({ viewport }) => viewport?.width !== 375, 'SEO checks run at one viewport');
 
 const pages = [
@@ -104,7 +104,7 @@ test('robots.txt allows all and points to an absolute sitemap that is served', a
 });
 
 for (const p of pages.slice(2)) {
-  test(`${p.name}: renders controller details from contacts.json, fits 375px`, async ({ page }) => {
+  test(`${p.name}: renders controller details from contacts.json`, async ({ page }) => {
     await page.goto(p.url);
     await expect(page.locator('html')).toHaveAttribute('lang', p.lang);
     await expect(page.locator('html')).toHaveAttribute('data-theme', /^(light|dark)$/);
@@ -118,10 +118,6 @@ for (const p of pages.slice(2)) {
     await expect(page.locator('footer')).toContainText(contacts.piva);
     await expect(page.locator('footer')).toContainText('©');
     await expect(main).toContainText('Garante per la protezione dei dati personali');
-
-    const overflow = await page.evaluate(
-      () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
-    );
-    expect(overflow).toBeLessThanOrEqual(0);
+    // Horizontal overflow on these pages is covered in sections.spec.ts (every viewport + 320px).
   });
 }

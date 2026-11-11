@@ -25,7 +25,7 @@ const year = new Date().getFullYear();
 <BaseLayout lang={locale} path={path} title={`${t(locale, 'privacy.title')} · Simone Guarneri`} description={t(locale, 'privacy.description')}>
   <header class="hdr">
     <div class="hdr-inner">
-      <a class="logo" href={home} aria-label={t(locale, 'privacy.back')}>sg<span aria-hidden="true">.</span></a>
+      <a class="logo" href={home}>sg<span class="dot" aria-hidden="true">.</span><span class="visually-hidden"> {t(locale, 'privacy.back')}</span></a>
       <div class="hdr-tools">
         <ThemeToggle locale={locale} />
         <LangToggle locale={locale} path={path} />
@@ -80,7 +80,6 @@ const year = new Date().getFullYear();
     color: var(--ink);
   }
 
-  .logo span,
   .dot {
     color: var(--accent-ink);
   }

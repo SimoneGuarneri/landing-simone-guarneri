@@ -18,6 +18,10 @@ const site = domain ? `https://${domain}` : 'https://simoneguarneri.github.io';
 
 const base = siteConfig.basePath || '/';
 
+// The e2e suite builds a separate, test-only artifact (PUBLIC_E2E=1) into its own folder
+// via SG_OUT_DIR (see playwright.config.ts), so it never overwrites the deployable dist/.
+const outDir = process.env.SG_OUT_DIR || './dist';
+
 /**
  * GitHub Pages custom domain: write `CNAME` into the build output only when a
  * domain is set and the site is served from the root. Otherwise no CNAME, so the
@@ -39,6 +43,7 @@ function cname() {
 
 export default defineConfig({
   output: 'static',
+  outDir,
   site,
   base,
   trailingSlash: 'always',

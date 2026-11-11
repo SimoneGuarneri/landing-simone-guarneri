@@ -12,7 +12,7 @@ const { locale } = Astro.props;
 
 <header class="site-header">
   <div class="inner">
-    <a href="#top" class="logo sg-focus" aria-label={t(locale, 'logoLabel')}>sg<span>.</span></a>
+    <a href="#top" class="logo sg-focus">sg<span class="dot">.</span><span class="visually-hidden"> {t(locale, 'logoLabel')}</span></a>
     <div class="actions">
       <ThemeToggle locale={locale} />
       <LangToggle locale={locale} path="/" />
@@ -52,7 +52,7 @@ const { locale } = Astro.props;
     color: var(--ink);
   }
 
-  .logo span {
+  .logo .dot {
     color: var(--accent-ink);
   }
 

@@ -13,10 +13,10 @@ const contacts = readJson<{ email: string }>('contacts.json');
  *
  * The repo ships with site.json `web3formsKey: null`, so a normal build exercises the
  * mailto fallback. The Web3Forms fetch path is covered at unit level
- * (tests/unit/form-submit.test.ts); here it runs only when the build allows the
- * test-only key override (`PUBLIC_E2E=1 npm run build`, or dev): the form then has
+ * (tests/unit/form-submit.test.ts) and here: Playwright's webServer builds with
+ * PUBLIC_E2E=1 into dist-e2e/ (never the deployed dist/), so the form has
  * `data-key-override` and honours `window.__SG_FORM_KEY__`, set via addInitScript.
- * Otherwise those tests are skipped.
+ * Against a server without the override (e.g. a reused plain preview) those tests skip.
  */
 
 const pages = [

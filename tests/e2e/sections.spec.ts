@@ -28,13 +28,6 @@ for (const { lang, url } of pages) {
       await expect(page.locator('[data-contact-form]')).toHaveCount(1);
     });
 
-    test('has no horizontal overflow', async ({ page }) => {
-      await page.goto(url);
-      await page.evaluate(() => document.fonts.ready);
-      const { scrollWidth, clientWidth } = await horizontalOverflow(page);
-      expect(scrollWidth).toBeLessThanOrEqual(clientWidth);
-    });
-
     test('shows the published figures and no KPI row', async ({ page }) => {
       await page.goto(url);
       const values = (brand: string) =>
@@ -73,17 +66,52 @@ test('selected work: stacked below 768px, pinned horizontal track from 768px', a
   }
 });
 
-test('header fits a 320px screen without overflow', async ({ page }) => {
-  await page.setViewportSize({ width: 320, height: 700 });
-  for (const url of ['./', './en/']) {
+// Every page, at every project viewport.
+const allPages = [...pages.map((p) => p.url), './privacy/', './en/privacy/'];
+
+for (const url of allPages) {
+  test(`${url}: no horizontal overflow`, async ({ page }) => {
     await page.goto(url);
     await page.evaluate(() => document.fonts.ready);
     const { scrollWidth, clientWidth } = await horizontalOverflow(page);
     expect(scrollWidth).toBeLessThanOrEqual(clientWidth);
-    const cta = await page.locator('header .cta').boundingBox();
-    expect(cta!.x + cta!.width).toBeLessThanOrEqual(320);
+  });
+}
+
+test.describe('320px screen', () => {
+  test.use({ viewport: { width: 320, height: 640 } });
+  // Viewport is fixed here, so one project is enough.
+  test.beforeEach(({}, info) => test.skip(info.project.name !== 'mobile-375', 'runs once'));
+
+  for (const url of allPages) {
+    test(`${url}: no horizontal overflow, header fits`, async ({ page }) => {
+      await page.goto(url);
+      await page.evaluate(() => document.fonts.ready);
+      const { scrollWidth, clientWidth } = await horizontalOverflow(page);
+      expect(scrollWidth).toBeLessThanOrEqual(clientWidth);
+      const header = await page.locator('header').first().boundingBox();
+      expect(header!.x + header!.width).toBeLessThanOrEqual(320);
+      const cta = page.locator('header .cta');
+      if (await cta.count()) {
+        const box = await cta.boundingBox();
+        expect(box!.x + box!.width).toBeLessThanOrEqual(320);
+      }
+    });
   }
 });
+
+for (const scheme of ['light', 'dark'] as const) {
+  test(`first visit with empty storage follows prefers-color-scheme: ${scheme}`, async ({ browser, baseURL }) => {
+    const context = await browser.newContext({ baseURL, colorScheme: scheme });
+    const page = await context.newPage();
+    for (const url of ['./', './en/privacy/']) {
+      await page.goto(url);
+      expect(await page.evaluate(() => localStorage.getItem('sg-theme'))).toBeNull();
+      await expect(page.locator('html')).toHaveAttribute('data-theme', scheme);
+    }
+    await context.close();
+  });
+}
 
 test('theme toggle flips data-theme and persists after reload', async ({ page }) => {
   await page.emulateMedia({ colorScheme: 'light' });
