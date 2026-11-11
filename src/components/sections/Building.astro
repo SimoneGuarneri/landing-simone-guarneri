@@ -1,0 +1,115 @@
+---
+import { t, type Locale } from '../../lib/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const items = t(locale, 'build');
+---
+
+<section id="building" class="building" aria-labelledby="building-title">
+  <div class="sg-wrap">
+    <div data-reveal class="head">
+      <h2 id="building-title" class="sg-h2">{t(locale, 'buildTitle')}</h2>
+      <p>{t(locale, 'buildIntro')}</p>
+    </div>
+    <ul class="grid">
+      {
+        items.map((b) => (
+          <li data-reveal class="card">
+            <div class="tags">
+              <span class="tag">{b.tag}</span>
+            </div>
+            <h3>{b.title}</h3>
+            <p>{b.body}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .building {
+    padding: clamp(96px, 13vw, 168px) clamp(20px, 5vw, 48px) 0;
+  }
+
+  .head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: end;
+    gap: 16px 48px;
+    margin-bottom: clamp(40px, 6vw, 72px);
+  }
+
+  .head p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--muted);
+    max-width: 40ch;
+  }
+
+  .grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: 16px;
+  }
+
+  .card {
+    background: var(--ink);
+    color: var(--bg);
+    border-radius: 28px;
+    padding: clamp(28px, 3.4vw, 40px);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    min-height: 260px;
+    transition: transform .35s cubic-bezier(.3, 1.5, .5, 1);
+  }
+
+  .card:hover {
+    transform: translateY(-6px) rotate(1deg);
+  }
+
+  .tags {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    padding: 5px 11px;
+    border-radius: 999px;
+    background: #FFD43B;
+    color: #141414;
+  }
+
+  h3 {
+    margin: auto 0 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(34px, 4vw, 52px);
+    line-height: 1;
+    letter-spacing: -.04em;
+  }
+
+  .card p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.6;
+    opacity: .78;
+    max-width: 44ch;
+    text-wrap: pretty;
+  }
+</style>

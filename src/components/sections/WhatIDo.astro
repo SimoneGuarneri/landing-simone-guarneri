@@ -1,0 +1,97 @@
+---
+import { t, type Locale } from '../../lib/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const items = t(locale, 'what').map((w, i) => ({ ...w, n: `0${i + 1}` }));
+---
+
+<section id="what" class="what" aria-labelledby="what-title">
+  <div class="sg-wrap">
+    <h2 id="what-title" data-reveal class="sg-h2 title">{t(locale, 'whatTitle')}</h2>
+    <ul class="grid">
+      {
+        items.map((w) => (
+          <li data-reveal class="card">
+            <span class="n" aria-hidden="true">{w.n}</span>
+            <div class="text">
+              <h3>{w.title}</h3>
+              <p>{w.body}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .what {
+    padding: clamp(96px, 13vw, 168px) clamp(20px, 5vw, 48px) clamp(72px, 10vw, 128px);
+  }
+
+  .title {
+    margin-bottom: clamp(40px, 6vw, 72px);
+  }
+
+  .grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: 16px;
+  }
+
+  .card {
+    background: var(--surface);
+    border-radius: 24px;
+    padding: 32px 28px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+    transition: transform .35s cubic-bezier(.3, 1.5, .5, 1), background .3s;
+  }
+
+  /* Yellow hover as in the design; ink tokens are pinned dark so text stays readable in dark theme. */
+  .card:hover {
+    transform: translateY(-6px) rotate(-1deg);
+    background: #FFD43B;
+    --ink: #141414;
+    --body: #3A3A3A;
+    --accent-ink: #7A3CF0;
+    color: #141414;
+  }
+
+  .n {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--accent-ink);
+  }
+
+  .text {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  h3 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 1.05;
+    letter-spacing: -.025em;
+  }
+
+  p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--body);
+    text-wrap: pretty;
+  }
+</style>

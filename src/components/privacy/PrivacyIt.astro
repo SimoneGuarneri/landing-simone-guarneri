@@ -1,0 +1,110 @@
+---
+/** Informativa privacy (art. 13 GDPR), italiano. Titolare, P.IVA ed email arrivano da contacts.json. */
+import type { Contacts } from '../../lib/content/schemas';
+
+interface Props {
+  contacts: Pick<Contacts, 'email' | 'piva'>;
+}
+
+const { contacts } = Astro.props;
+const mailto = `mailto:${contacts.email}`;
+---
+
+<!-- DRAFT: must be reviewed by a qualified professional before relying on it. -->
+
+<p class="updated">Ultimo aggiornamento: 11 novembre 2026</p>
+
+<p>
+  Questa pagina spiega quali dati raccolgo quando visiti questo sito o mi scrivi dal modulo di contatto,
+  perché li uso e quali diritti hai. È un’informativa ai sensi dell’art. 13 del Regolamento (UE) 2016/679 (GDPR).
+</p>
+
+<h2>Chi è il titolare del trattamento</h2>
+<p>
+  <strong>Simone Guarneri</strong>, P.IVA <span data-piva>{contacts.piva}</span>.<br />
+  Email: <a href={mailto} data-email>{contacts.email}</a>
+</p>
+
+<h2>Quali dati raccolgo dal modulo di contatto</h2>
+<p>Quando mi scrivi dal modulo raccolgo solo quello che inserisci:</p>
+<ul>
+  <li>chi sei (proprietario, partner o investitore, altro);</li>
+  <li>nome;</li>
+  <li>indirizzo email;</li>
+  <li>numero di telefono o WhatsApp, se scegli di darmelo;</li>
+  <li>il testo del messaggio.</li>
+</ul>
+<p>
+  Il messaggio mi arriva via email tramite <strong>Web3Forms</strong>, un servizio che inoltra i moduli dei siti
+  statici. Web3Forms tratta questi dati per mio conto, come responsabile del trattamento, solo per consegnarmi il
+  messaggio. Se il modulo non è disponibile, puoi scrivermi direttamente all’indirizzo email qui sopra.
+</p>
+
+<h2>Perché li uso e su quale base</h2>
+<p>
+  Uso i tuoi dati solo per leggere la tua richiesta e risponderti. Non li uso per newsletter o pubblicità e non li
+  vendo a nessuno.
+</p>
+<ul>
+  <li>
+    Se la tua richiesta riguarda un possibile incarico o una collaborazione, la base giuridica sono le misure
+    precontrattuali che chiedi tu (art. 6, par. 1, lett. b GDPR).
+  </li>
+  <li>
+    Negli altri casi, la base giuridica è il mio legittimo interesse a rispondere a chi mi contatta
+    (art. 6, par. 1, lett. f GDPR).
+  </li>
+</ul>
+<p>Fornire i dati è facoltativo, ma senza nome, email e messaggio non posso risponderti.</p>
+
+<h2>Per quanto tempo li conservo</h2>
+<p>
+  Conservo i messaggi per il tempo necessario a gestire la tua richiesta e comunque non oltre 24 mesi dall’ultimo
+  contatto. Se nasce un rapporto di lavoro, i dati necessari restano per la durata prevista dalla legge per quel
+  rapporto.
+</p>
+
+<h2>Statistiche di visita</h2>
+<p>
+  Per sapere quante persone visitano il sito posso usare <strong>GoatCounter</strong>, un servizio di statistiche
+  rispettoso della privacy. GoatCounter non usa cookie, non traccia le persone tra siti diversi e non raccoglie dati
+  personali: conta solo le visite in forma aggregata (per esempio pagina vista, sito di provenienza, tipo di
+  browser). Per questo il sito non mostra un banner sui cookie.
+</p>
+
+<h2>Preferenza del tema</h2>
+<p>
+  Se scegli il tema chiaro o scuro, il tuo browser salva questa scelta nella memoria locale
+  (<code>localStorage</code>, voce <code>sg-theme</code>). È solo una preferenza tecnica: resta sul tuo dispositivo,
+  non mi viene inviata e non ti identifica. Puoi cancellarla in qualsiasi momento dalle impostazioni del browser.
+</p>
+
+<h2>Caratteri tipografici</h2>
+<p>
+  I caratteri del sito sono ospitati sul sito stesso. Il tuo browser non fa richieste a servizi esterni di font
+  (come Google Fonts) e quindi non condivide con loro il tuo indirizzo IP.
+</p>
+
+<h2>I tuoi diritti</h2>
+<p>In base agli articoli da 15 a 22 del GDPR puoi chiedermi in ogni momento di:</p>
+<ul>
+  <li>sapere se tratto tuoi dati e averne una copia (accesso);</li>
+  <li>correggerli o completarli (rettifica);</li>
+  <li>cancellarli (oblio);</li>
+  <li>limitarne l’uso (limitazione);</li>
+  <li>riceverli in un formato leggibile per trasferirli altrove (portabilità);</li>
+  <li>opporti al loro uso basato sul legittimo interesse (opposizione).</li>
+</ul>
+<p>
+  Per farlo basta un’email a <a href={mailto}>{contacts.email}</a>. Ti rispondo entro un mese.
+</p>
+<p>
+  Se pensi che i tuoi dati siano trattati in modo non corretto, puoi presentare un reclamo al
+  <strong>Garante per la protezione dei dati personali</strong>
+  (<a href="https://www.garanteprivacy.it" rel="noopener">garanteprivacy.it</a>).
+</p>
+
+<h2>Modifiche</h2>
+<p>
+  Se cambia qualcosa in questa informativa aggiorno la data in cima alla pagina.
+</p>

@@ -1,7 +1,384 @@
 ---
-// Stub owned by ticket #7 (contact form). Replaced by the real form.
-import type { Locale } from '../lib/i18n';
-interface Props { locale: Locale }
+/**
+ * Contact form card (ticket #7). The Contact section (#5) places it in its right column.
+ *
+ * Progressive enhancement:
+ * - Without JS the form posts natively: to Web3Forms when site.json has a key,
+ *   otherwise as a `mailto:` to contacts.email. Native `required` validation applies.
+ * - With JS (src/lib/form/client.ts) it validates inline, sends via fetch and shows
+ *   sending / success / error-with-retry states in live regions.
+ *
+ * Key for e2e: the build key wins. Only when it is null AND the build is dev or
+ * PUBLIC_E2E=1 does the script honour `window.__SG_FORM_KEY__` (see client.ts).
+ */
+import { localizedPath, t, type Locale } from '../lib/i18n';
+import { contacts, site } from '../lib/content/astro';
+import { WEB3FORMS_ENDPOINT } from '../lib/form/submit';
+
+interface Props {
+  locale: Locale;
+}
+
 const { locale } = Astro.props;
+
+const key = site.web3formsKey?.trim() || null;
+const allowKeyOverride = !key && (import.meta.env.DEV || import.meta.env.PUBLIC_E2E === '1');
+const roles = t(locale, 'form.roles');
+
+// Strings the client script needs; everything else is rendered here.
+const messages = {
+  errors: {
+    required: t(locale, 'form.errors.required'),
+    email: t(locale, 'form.errors.email'),
+  },
+  sending: t(locale, 'form.status.sending'),
+  success: t(locale, 'form.status.success'),
+  send: `${t(locale, 'form.send')} →`,
+};
+
+const fields = [
+  { name: 'name', label: t(locale, 'form.name'), type: 'text', autocomplete: 'name', required: true },
+  { name: 'email', label: t(locale, 'form.email'), type: 'email', autocomplete: 'email', required: true },
+  {
+    name: 'phone',
+    label: `${t(locale, 'form.phone')} (${t(locale, 'form.optional')})`,
+    type: 'tel',
+    autocomplete: 'tel',
+    required: false,
+  },
+] as const;
+const id = (name: string) => `cf-${locale}-${name}`;
 ---
-<form data-contact-form data-locale={locale}></form>
+
+<div
+  class="cf"
+  data-contact-form
+  data-locale={locale}
+  data-access-key={key ?? undefined}
+  data-mail-to={contacts.email}
+  data-key-override={allowKeyOverride ? '' : undefined}
+  data-messages={JSON.stringify(messages)}
+>
+  <form
+    class="cf-form"
+    action={key ? WEB3FORMS_ENDPOINT : `mailto:${contacts.email}`}
+    method="post"
+    enctype={key ? undefined : 'text/plain'}
+  >
+    {key && <input type="hidden" name="access_key" value={key} />}
+
+    <fieldset class="cf-roles">
+      <legend class="visually-hidden">{t(locale, 'form.roleLegend')}</legend>
+      {
+        roles.map((label, i) => (
+          <label class="cf-chip">
+            <input type="radio" name="role" value={label} checked={i === 0} />
+            <span>{label}</span>
+          </label>
+        ))
+      }
+    </fieldset>
+
+    {
+      fields.map((f) => (
+        <div class="cf-field">
+          <label for={id(f.name)}>{f.label}</label>
+          <input
+            id={id(f.name)}
+            name={f.name}
+            type={f.type}
+            autocomplete={f.autocomplete}
+            required={f.required}
+            aria-describedby={`${id(f.name)}-error`}
+          />
+          <p class="cf-error" id={`${id(f.name)}-error`} data-error-for={f.name} />
+        </div>
+      ))
+    }
+
+    <div class="cf-field">
+      <label for={id('message')}>{t(locale, 'form.message')}</label>
+      <textarea
+        id={id('message')}
+        name="message"
+        rows="4"
+        required
+        aria-describedby={`${id('message')}-error`}></textarea>
+      <p class="cf-error" id={`${id('message')}-error`} data-error-for="message"></p>
+    </div>
+
+    <!-- Honeypot: off-screen, skipped by keyboard and screen readers. Filled → bot. -->
+    <div class="cf-hp" aria-hidden="true">
+      <label>
+        {t(locale, 'form.honeypot')}
+        <input type="text" name="botcheck" tabindex="-1" autocomplete="off" />
+      </label>
+    </div>
+
+    <button class="cf-submit" type="submit" data-submit>{messages.send}</button>
+
+    <p class="cf-privacy">
+      {t(locale, 'form.privacyNote')}
+      <a href={localizedPath(locale, '/privacy/')}>{t(locale, 'form.privacyLink')}</a>
+    </p>
+  </form>
+
+  <p class="cf-status" role="status" tabindex="-1" data-status></p>
+
+  <div class="cf-alert" role="alert" data-error-box>
+    <div data-error-content hidden>
+      <p>{t(locale, 'form.status.error')}</p>
+      <button class="cf-retry" type="button" data-retry>{t(locale, 'form.status.retry')}</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { initContactForms } from '../lib/form/client';
+  initContactForms();
+</script>
+
+<style>
+  .cf {
+    --cf-error: #b3261e;
+    background: var(--bg);
+    color: var(--ink);
+    border-radius: 28px;
+    padding: clamp(24px, 3vw, 36px);
+    align-self: end;
+    min-width: 0;
+    font-family: var(--font-sans);
+  }
+
+  :global([data-theme='dark']) .cf {
+    --cf-error: #ff8a80;
+  }
+
+  .cf-form {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .cf-form[hidden] {
+    display: none;
+  }
+
+  .cf-roles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    min-width: 0;
+  }
+
+  .cf-chip {
+    position: relative;
+    display: inline-flex;
+  }
+
+  /* Real radio, visually hidden but focusable; the span is the visible chip. */
+  .cf-chip input {
+    position: absolute;
+    inset: 0;
+    z-index: 1; /* above the chip even while it is transformed on hover */
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .cf-chip span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    cursor: pointer;
+    font: 500 13px var(--font-sans);
+    padding: 9px 16px;
+    border-radius: 999px;
+    border: 1.5px solid var(--ink);
+    background: transparent;
+    color: var(--ink);
+    transition:
+      background 0.2s,
+      transform 0.25s cubic-bezier(0.3, 1.6, 0.5, 1);
+  }
+
+  .cf-chip:hover span {
+    transform: scale(1.05);
+  }
+
+  .cf-chip input:checked + span {
+    background: var(--yellow);
+    color: var(--black);
+  }
+
+  .cf-chip input:focus-visible + span {
+    outline: 2px solid var(--accent-ink);
+    outline-offset: 2px;
+  }
+
+  .cf-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  .cf-field label {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .cf-field input,
+  .cf-field textarea {
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    background: var(--surface);
+    border: 1.5px solid transparent;
+    border-radius: 14px;
+    color: var(--ink);
+    padding: 13px 14px;
+    font-size: 16px;
+    outline: none;
+    transition:
+      border-color 0.2s,
+      background 0.2s;
+  }
+
+  .cf-field textarea {
+    resize: vertical;
+  }
+
+  .cf-field input:focus,
+  .cf-field textarea:focus {
+    border-color: var(--accent-ink);
+    background: var(--bg);
+  }
+
+  .cf-field [aria-invalid='true'] {
+    border-color: var(--cf-error);
+  }
+
+  .cf-error {
+    margin: 0;
+    font-size: 13px;
+    color: var(--cf-error);
+  }
+
+  .cf-error:empty {
+    display: none;
+  }
+
+  .cf-hp {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .cf-submit {
+    align-self: flex-start;
+    min-height: 44px;
+    cursor: pointer;
+    border: 0;
+    font: 500 15px var(--font-sans);
+    padding: 15px 28px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--bg);
+    transition:
+      transform 0.25s cubic-bezier(0.3, 1.6, 0.5, 1),
+      background 0.2s;
+  }
+
+  .cf-submit:hover:not(:disabled) {
+    transform: translateY(-3px) rotate(-2deg);
+    background: var(--purple);
+    color: var(--white);
+  }
+
+  .cf-submit:focus-visible,
+  .cf-retry:focus-visible {
+    outline: 2px solid var(--accent-ink);
+    outline-offset: 3px;
+  }
+
+  .cf-submit:disabled {
+    cursor: progress;
+    opacity: 0.65;
+  }
+
+  .cf-privacy {
+    margin: -8px 0 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  .cf-privacy a {
+    display: inline-block;
+    padding: 4px 0;
+  }
+
+  .cf-status:empty,
+  .cf-alert:has([data-error-content][hidden]) {
+    display: none;
+  }
+
+  .cf-status,
+  .cf-alert p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .cf-status,
+  .cf-alert {
+    margin-top: 18px;
+  }
+
+  .cf-alert p {
+    color: var(--cf-error);
+  }
+
+  .cf-retry {
+    margin-top: 12px;
+    min-height: 44px;
+    cursor: pointer;
+    font: 500 14px var(--font-sans);
+    padding: 10px 20px;
+    border-radius: 999px;
+    border: 1.5px solid var(--ink);
+    background: transparent;
+    color: var(--ink);
+    transition: transform 0.25s cubic-bezier(0.3, 1.6, 0.5, 1);
+  }
+
+  .cf-retry:hover {
+    transform: translateY(-2px);
+  }
+
+  .cf-status {
+    outline: none;
+  }
+
+  .cf-status[data-state='success'] {
+    margin-top: 0;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(22px, 2.4vw, 28px);
+    line-height: 1.2;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cf-chip:hover span,
+    .cf-submit:hover:not(:disabled),
+    .cf-retry:hover {
+      transform: none;
+    }
+  }
+</style>

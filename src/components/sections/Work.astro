@@ -1,0 +1,105 @@
+---
+/**
+ * "Selected work". ≥768px: the design's pinned horizontal track (300vh section, sticky
+ * viewport; #6 drives the track's translateX on scroll). <768px: a plain vertical stack.
+ */
+import BrandCard from './BrandCard.astro';
+import { t, type Locale } from '../../lib/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<section id="work" class="work" data-hpin aria-labelledby="work-title">
+  <div class="pin">
+    <div data-track class="track">
+      <div class="intro">
+        <h2 id="work-title" class="sg-h2">{t(locale, 'workTitle')}</h2>
+        <p>{t(locale, 'workIntro')}</p>
+        <span class="hint" aria-hidden="true">{t(locale, 'scroll')} →</span>
+      </div>
+      <BrandCard locale={locale} brand="dorotea" />
+      <BrandCard locale={locale} brand="quattro" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .work {
+    position: relative;
+  }
+
+  .track {
+    display: flex;
+    gap: 20px;
+    padding: 0 clamp(20px, 5vw, 48px);
+    align-items: stretch;
+  }
+
+  .intro {
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .intro p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--muted);
+    max-width: 30ch;
+  }
+
+  .hint {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--accent-ink);
+  }
+
+  @media (min-width: 768px) {
+    .work {
+      height: 300vh;
+    }
+
+    .pin {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+
+    .track {
+      will-change: transform;
+    }
+
+    .intro {
+      width: min(78vw, 420px);
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .work {
+      padding-top: clamp(24px, 6vw, 48px);
+    }
+
+    .track {
+      flex-direction: column;
+    }
+
+    .intro {
+      margin-bottom: 20px;
+    }
+
+    /* The "keep scrolling →" hint belongs to the horizontal track only. */
+    .hint {
+      display: none;
+    }
+  }
+</style>

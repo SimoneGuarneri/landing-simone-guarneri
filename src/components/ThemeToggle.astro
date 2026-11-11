@@ -1,0 +1,92 @@
+---
+/**
+ * Light/dark switch. The head script in BaseLayout sets `data-theme` before paint;
+ * this button flips it and stores the choice in localStorage ('sg-theme'), which then wins.
+ * The label names the theme the button switches *to*.
+ */
+import { t, type Locale } from '../lib/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const toLight = t(locale, 'theme.toLight');
+const toDark = t(locale, 'theme.toDark');
+---
+
+<button
+  type="button"
+  class="theme-toggle"
+  data-theme-toggle
+  data-label-light={toLight}
+  data-label-dark={toDark}
+  aria-label={toDark}
+  title={toDark}
+>
+  <span class="icon" aria-hidden="true"></span>
+</button>
+
+<script>
+  const root = document.documentElement;
+  const current = () => (root.dataset.theme === 'dark' ? 'dark' : 'light');
+
+  document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]').forEach((btn) => {
+    const sync = () => {
+      const label = (current() === 'dark' ? btn.dataset.labelLight : btn.dataset.labelDark) ?? '';
+      btn.setAttribute('aria-label', label);
+      btn.title = label;
+    };
+    btn.addEventListener('click', () => {
+      const next = current() === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = next;
+      try {
+        localStorage.setItem('sg-theme', next);
+      } catch {
+        // Storage blocked (private mode): the choice lasts for this page only.
+      }
+      sync();
+    });
+    sync();
+  });
+</script>
+
+<style>
+  .theme-toggle {
+    width: 36px;
+    height: 36px;
+    flex: none;
+    border-radius: 50%;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    background: var(--chip);
+    display: grid;
+    place-items: center;
+    transition: transform .5s cubic-bezier(.3, 1.6, .5, 1);
+  }
+
+  .theme-toggle:hover {
+    transform: rotate(180deg);
+  }
+
+  .theme-toggle:focus-visible {
+    outline: 2px solid var(--accent-ink);
+    outline-offset: 2px;
+  }
+
+  .icon {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 1.5px solid var(--ink);
+    background: linear-gradient(90deg, var(--ink) 50%, transparent 50%);
+  }
+
+  @media (pointer: coarse) {
+    .theme-toggle {
+      width: 44px;
+      height: 44px;
+    }
+  }
+</style>

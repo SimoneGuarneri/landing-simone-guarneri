@@ -1,0 +1,120 @@
+---
+/**
+ * Contact shell: title, body, Email and WhatsApp buttons on the left; the form (#7) on the right.
+ * The purple band continues into the site footer (Footer.astro), as in the design.
+ */
+import ContactForm from '../ContactForm.astro';
+import { contacts } from '../../lib/content/astro';
+import { t, type Locale } from '../../lib/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const mailto = `mailto:${contacts.email}`;
+const waLink = `https://wa.me/${contacts.whatsapp.replace(/\D/g, '')}`;
+---
+
+<section id="contact" class="contact" aria-labelledby="contact-title">
+  <div class="grid">
+    <div data-reveal class="intro">
+      <h2 id="contact-title">{t(locale, 'contactTitle')}</h2>
+      <p>{t(locale, 'contactBody')}</p>
+      <div class="buttons">
+        <a href={mailto} class="sg-btn btn-email" data-contact-email
+          ><span aria-hidden="true">✉</span> <span class="email">{contacts.email}</span></a
+        >
+        <a href={waLink} target="_blank" rel="noopener" class="sg-btn btn-wa" data-contact-whatsapp
+          >{t(locale, 'contactWhatsapp')} <span aria-hidden="true">→</span></a
+        >
+      </div>
+    </div>
+    <div data-reveal class="form-col">
+      <ContactForm locale={locale} />
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    background: #7A3CF0;
+    color: #FFFFFF;
+    border-radius: clamp(28px, 4vw, 48px) clamp(28px, 4vw, 48px) 0 0;
+    padding: clamp(80px, 11vw, 140px) clamp(20px, 5vw, 48px) 0;
+  }
+
+  .grid {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+    gap: 56px 80px;
+  }
+
+  .intro {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    min-width: 0;
+  }
+
+  h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(56px, 9vw, 128px);
+    line-height: .88;
+    letter-spacing: -.05em;
+  }
+
+  .intro p {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.6;
+    max-width: 38ch;
+  }
+
+  .buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .buttons .sg-btn {
+    padding: 14px 22px;
+    min-width: 0;
+    color: #141414;
+  }
+
+  .buttons .sg-btn:focus-visible {
+    outline-color: #FFD43B;
+  }
+
+  .email {
+    overflow-wrap: anywhere;
+  }
+
+  .btn-email {
+    background: #FFFFFF;
+  }
+
+  .btn-email:hover {
+    transform: translateY(-3px) rotate(-2deg);
+    color: #141414;
+  }
+
+  .btn-wa {
+    background: #FFD43B;
+  }
+
+  .btn-wa:hover {
+    transform: translateY(-3px) rotate(2deg);
+    color: #141414;
+  }
+
+  .form-col {
+    align-self: end;
+    min-width: 0;
+  }
+</style>

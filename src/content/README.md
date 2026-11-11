@@ -54,6 +54,26 @@ The current email, WhatsApp number and P.IVA are **placeholders**: replace them 
 "basePath": "/",
 ```
 
+See "Going live on the domain" below for the full checklist.
+
+---
+
+## Going live on the domain
+
+1. **`site.json`**: set `"domain": "simoneguarneri.com"` (no `https://`, no `www`) and `"basePath": "/"`. Push. With both set, the build writes a `CNAME` file with the domain into the published site, which tells GitHub Pages to serve it there. While `domain` is `null` or `basePath` is not `"/"`, no `CNAME` is written and the site stays on `simoneguarneri.github.io/landing-simone-guarneri/`.
+2. **DNS** (at your domain registrar):
+
+   | Type    | Name  | Value                                                                       |
+   | ------- | ----- | --------------------------------------------------------------------------- |
+   | `A`     | `@`   | `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153` |
+   | `AAAA`  | `@`   | `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153` |
+   | `CNAME` | `www` | `simoneguarneri.github.io`                                                  |
+
+   One record per value (four `A`, four `AAAA`). DNS can take up to a day to spread.
+3. **GitHub**: in the repository, *Settings → Pages*, check that the custom domain shows `simoneguarneri.com` and the DNS check is green, then tick **Enforce HTTPS** (it becomes available once the certificate is issued, usually within an hour).
+
+Canonical links, the sitemap, `robots.txt` and social previews all follow `domain` and `basePath` automatically.
+
 ---
 
 ## `figures.json`: brand figures

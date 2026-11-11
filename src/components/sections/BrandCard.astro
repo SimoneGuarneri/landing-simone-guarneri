@@ -1,0 +1,286 @@
+---
+/**
+ * One brand in "Selected work": image (or the striped placeholder), name, Visit link,
+ * description, headline figures and, only when something is published, the KPI row.
+ */
+import { Image } from 'astro:assets';
+import { contacts, figuresFor, imageFor } from '../../lib/content/astro';
+import type { Brand } from '../../lib/content';
+import { t, type Locale, type MessageKey } from '../../lib/i18n';
+
+interface Props {
+  locale: Locale;
+  brand: Brand;
+}
+
+const { locale, brand } = Astro.props;
+
+interface BrandInfo {
+  name: string;
+  url: string | null;
+  copy: 'dorotea' | 'quattro';
+  /** Label of the revenue KPI differs per brand (gross vs managed revenue). */
+  revenue: MessageKey;
+}
+
+const BRANDS: Record<Brand, BrandInfo> = {
+  dorotea: { name: 'Dorotea Housing', url: contacts.doroteaUrl, copy: 'dorotea', revenue: 'figures.kRev' },
+  quattro: { name: 'Quattro Houses', url: contacts.quattroUrl, copy: 'quattro', revenue: 'figures.kRevpar' },
+};
+
+const HEADLINE_LABEL: Record<string, MessageKey> = {
+  homes: 'figures.properties',
+  locations: 'figures.locations',
+  network: 'figures.network',
+  managed: 'figures.managed',
+};
+
+const info = BRANDS[brand];
+const KPI_LABEL: Record<string, MessageKey> = {
+  revenue: info.revenue,
+  growth: 'figures.kGrowth',
+  occupancy: 'figures.kOcc',
+};
+
+const labelFor = (map: Record<string, MessageKey>, id: string): string => {
+  const key = map[id];
+  if (!key) throw new Error(`No label for figure "${id}" of brand "${brand}"`);
+  return String(t(locale, key));
+};
+
+const figs = figuresFor(brand);
+const headline = figs.headline.map((f) => ({ ...f, label: labelFor(HEADLINE_LABEL, f.id) }));
+const kpis = figs.kpis.map((f) => ({ ...f, label: labelFor(KPI_LABEL, f.id) }));
+const image = imageFor(brand, locale);
+---
+
+<article class:list={['card', `card-${brand}`]} data-brand={brand}>
+  <div class="panel">
+    {
+      image.src && (
+        <Image
+          src={image.src}
+          alt={image.alt}
+          widths={[600, 1200]}
+          sizes="(min-width: 768px) 568px, calc(100vw - 72px)"
+          class="panel-img"
+        />
+      )
+    }
+  </div>
+  <div class="body">
+    <div class="head">
+      <h3>{info.name}</h3>
+      {
+        info.url && (
+          <a href={info.url} target="_blank" rel="noopener" class="visit sg-focus">
+            {t(locale, 'visit')}{' '}
+            <span class="visually-hidden">{info.name}</span>{' '}
+            <span aria-hidden="true">↗</span>
+          </a>
+        )
+      }
+    </div>
+    <p class="desc">{t(locale, info.copy)}</p>
+    <dl class="figures" data-figures>
+      {
+        headline.map((f) => (
+          <div class="figure">
+            <dt class="figure-label">{f.label}</dt>
+            <dd data-count={f.value} class="figure-value">
+              {f.value}
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+    {
+      kpis.length > 0 && (
+        <dl class="kpis" data-kpis>
+          {kpis.map((k) => (
+            <div class="kpi">
+              <dt class="kpi-label">{k.label}</dt>
+              <dd data-count={k.value} class="kpi-value">
+                {k.value}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .card {
+    flex: none;
+    width: min(84vw, 600px);
+    border-radius: 28px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .card-dorotea {
+    background: var(--t1);
+    --panel-bg: var(--t1b);
+    --stripe: rgba(122, 60, 240, .12);
+    --figure: var(--accent-ink);
+  }
+
+  .card-quattro {
+    background: var(--t2);
+    --panel-bg: var(--t2b);
+    --stripe: rgba(20, 20, 20, .08);
+    --figure: var(--ink);
+  }
+
+  .panel {
+    position: relative;
+    height: clamp(110px, calc(100vh - 540px), 360px);
+    flex: none;
+    border-radius: 18px;
+    overflow: hidden;
+    background-color: var(--panel-bg);
+    background-image: repeating-linear-gradient(135deg, var(--stripe) 0 1px, transparent 1px 12px);
+  }
+
+  .panel-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .body {
+    padding: 0 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  h3 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(30px, 3.6vw, 44px);
+    letter-spacing: -.035em;
+  }
+
+  .visit,
+  .visit:hover {
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--bg);
+    transition: background .2s, color .2s;
+  }
+
+  .visit:hover {
+    background: #7A3CF0;
+    color: #FFFFFF;
+  }
+
+  .desc {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--body);
+    max-width: 46ch;
+  }
+
+  dl,
+  dd {
+    margin: 0;
+  }
+
+  .figures {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 40px;
+    padding-top: 8px;
+  }
+
+  /* Value shows above its label, as in the design; dt stays first in the DOM. */
+  .figure,
+  .kpi {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+  }
+
+  .figure-value {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 48px;
+    line-height: 1;
+    letter-spacing: -.04em;
+    color: var(--figure);
+  }
+
+  .figure-label {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .kpis {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-top: 1px solid var(--ink);
+    padding-top: 16px;
+    margin-top: 4px;
+  }
+
+  .kpi {
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .kpi-value {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(24px, 2.6vw, 32px);
+    line-height: 1;
+    letter-spacing: -.03em;
+    color: var(--figure);
+    white-space: nowrap;
+  }
+
+  .kpi-label {
+    font-size: 12px;
+    line-height: 1.35;
+    color: var(--muted);
+  }
+
+  @media (max-width: 767.98px) {
+    .card {
+      width: 100%;
+    }
+
+    .panel {
+      height: clamp(180px, 56vw, 320px);
+    }
+  }
+
+  @media (pointer: coarse) {
+    .visit {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+    }
+  }
+</style>

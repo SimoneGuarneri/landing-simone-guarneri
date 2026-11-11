@@ -9,6 +9,8 @@ import '../styles/global.css';
 import { defaultLocale, locales, localizedPath, t, type Locale } from '../lib/i18n';
 // Importing the content entry validates every src/content/*.json at build time.
 import '../lib/content/astro';
+import SeoHead from '../components/SeoHead.astro';
+import Analytics from '../components/Analytics.astro';
 
 /** @deprecated Use `Locale` from `src/lib/i18n`. */
 export type Lang = Locale;
@@ -33,7 +35,6 @@ const alternates = locales.map((l) => ({ hreflang: l, href: absolute(l) }));
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
-    {description && <meta name="description" content={description} />}
     <meta name="color-scheme" content="light dark" />
     <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL.replace(/\/?$/, '/')}favicon.svg`} />
     {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
@@ -55,6 +56,8 @@ const alternates = locales.map((l) => ({ hreflang: l, href: absolute(l) }));
         document.documentElement.dataset.theme = theme;
       })();
     </script>
+    <SeoHead lang={lang} title={title} description={description} path={path} />
+    <Analytics />
     <slot name="head" />
   </head>
   <body>

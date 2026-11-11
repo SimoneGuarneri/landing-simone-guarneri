@@ -1,0 +1,89 @@
+---
+/**
+ * Per-page SEO tags: description, canonical, Open Graph, Twitter card, theme-color,
+ * and (home pages only) a JSON-LD Person. Rendered inside <head> by BaseLayout.
+ */
+import { getImage } from 'astro:assets';
+import { contacts, imageFor } from '../lib/content/astro';
+import { localizedPath, otherLocale, t, type Locale } from '../lib/i18n';
+
+interface Props {
+  lang: Locale;
+  title: string;
+  description?: string;
+  /** Locale-neutral page path (`/`, `/privacy/`). */
+  path: string;
+}
+
+const { lang, title, description, path } = Astro.props;
+
+const absolute = (p: string) => new URL(p, Astro.site).href;
+const canonical = absolute(localizedPath(lang, path));
+const homeUrl = absolute(localizedPath(lang, '/'));
+
+const ogLocale: Record<Locale, string> = { it: 'it_IT', en: 'en_US' };
+
+// Social preview: always a 1200x630 PNG with an absolute URL (crawlers don't resolve relative ones).
+const og = imageFor('og', lang);
+const ogImage = og.src
+  ? await getImage({ src: og.src, width: 1200, height: 630, format: 'png', fit: 'cover' })
+  : null;
+const ogImageUrl = ogImage ? absolute(ogImage.src) : null;
+
+const isHome = path.replace(/^\/+|\/+$/g, '') === '';
+
+let jsonLd: string | null = null;
+if (isHome) {
+  const portrait = imageFor('portrait', lang);
+  const personImage = portrait.src
+    ? absolute((await getImage({ src: portrait.src, width: 800, format: 'jpg' })).src)
+    : ogImageUrl;
+  const person = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: 'Simone Guarneri',
+    url: homeUrl,
+    ...(personImage ? { image: personImage } : {}),
+    jobTitle: t(lang, 'meta.jobTitle'),
+    email: contacts.email,
+    worksFor: { '@type': 'Organization', name: 'Dorotea Housing', url: contacts.doroteaUrl },
+    knowsLanguage: ['it', 'en'],
+    address: { '@type': 'PostalAddress', addressRegion: 'Campania', addressCountry: 'IT' },
+  };
+  // Escape `<` so no string value can close the <script> element early.
+  jsonLd = JSON.stringify(person).replace(/</g, '\\u003c');
+}
+---
+
+{description && <meta name="description" content={description} />}
+<link rel="canonical" href={canonical} />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Simone Guarneri" />
+<meta property="og:title" content={title} />
+{description && <meta property="og:description" content={description} />}
+<meta property="og:url" content={canonical} />
+<meta property="og:locale" content={ogLocale[lang]} />
+<meta property="og:locale:alternate" content={ogLocale[otherLocale(lang)]} />
+{
+  ogImageUrl && (
+    <>
+      <meta property="og:image" content={ogImageUrl} />
+      <meta property="og:image:type" content="image/png" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content={og.alt} />
+    </>
+  )
+}
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+{description && <meta name="twitter:description" content={description} />}
+{ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
+{ogImageUrl && <meta name="twitter:image:alt" content={og.alt} />}
+
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0F0F10" media="(prefers-color-scheme: dark)" />
+
+{jsonLd && <script type="application/ld+json" is:inline set:html={jsonLd} />}

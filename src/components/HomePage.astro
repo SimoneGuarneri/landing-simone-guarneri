@@ -1,0 +1,68 @@
+---
+/**
+ * The one-page home, shared by `/` (it) and `/en/`. Section order and data attributes
+ * follow design/Simone Guarneri v2.dc.html; motion (#6) hooks onto the data-* attributes.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from './sections/Header.astro';
+import Hero from './sections/Hero.astro';
+import Marquee from './sections/Marquee.astro';
+import WhatIDo from './sections/WhatIDo.astro';
+import Work from './sections/Work.astro';
+import Building from './sections/Building.astro';
+import HowIWork from './sections/HowIWork.astro';
+import Contact from './sections/Contact.astro';
+import Footer from './sections/Footer.astro';
+import { t, type Locale } from '../lib/i18n';
+import './sections/sections.css';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const path = '/';
+---
+
+<BaseLayout lang={locale} path={path} title={t(locale, 'meta.title')} description={t(locale, 'meta.description')}>
+  <div class="page">
+    <div data-progress class="progress" aria-hidden="true"></div>
+    <Header locale={locale} />
+    <main id="main" tabindex="-1">
+      <Hero locale={locale} />
+      <Marquee locale={locale} />
+      <WhatIDo locale={locale} />
+      <Work locale={locale} />
+      <Building locale={locale} />
+      <HowIWork locale={locale} />
+      <Contact locale={locale} />
+    </main>
+    <Footer locale={locale} />
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1;
+  }
+
+  main:focus {
+    outline: none;
+  }
+
+  .progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0;
+    background: #7A3CF0;
+    z-index: 30;
+  }
+</style>

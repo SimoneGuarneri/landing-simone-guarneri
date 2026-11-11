@@ -1,0 +1,76 @@
+---
+import { t, type Locale } from '../../lib/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+// Dots alternate yellow / purple; the list is doubled so #6 can loop it seamlessly.
+const items = t(locale, 'marquee').map((text, i) => ({ text, dot: i % 2 ? '#7A3CF0' : '#FFD43B' }));
+const loop = [...items, ...items];
+---
+
+<div class="marquee-clip" aria-hidden="true">
+  <div class="strip">
+    <ul data-marquee class="track">
+      {
+        loop.map((m) => (
+          <li>
+            {m.text}
+            <span class="dot" style={`background:${m.dot}`} />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>
+
+<style>
+  /* Clips the rotated, over-wide strip horizontally (no page scroll) while the padding
+     leaves room for its tilted corners. */
+  .marquee-clip {
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+    padding: 40px 0;
+    margin: -40px 0;
+    pointer-events: none;
+  }
+
+  .strip {
+    background: var(--ink);
+    color: var(--bg);
+    overflow: hidden;
+    padding: 22px 0;
+    transform: rotate(-1.5deg);
+    margin: 0 -20px;
+  }
+
+  .track {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    padding-right: 28px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(22px, 3vw, 36px);
+    letter-spacing: -.02em;
+    white-space: nowrap;
+  }
+
+  .dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+  }
+</style>

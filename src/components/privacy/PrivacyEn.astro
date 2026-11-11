@@ -1,0 +1,109 @@
+---
+/** Privacy notice (GDPR art. 13), English. Controller, VAT number and email come from contacts.json. */
+import type { Contacts } from '../../lib/content/schemas';
+
+interface Props {
+  contacts: Pick<Contacts, 'email' | 'piva'>;
+}
+
+const { contacts } = Astro.props;
+const mailto = `mailto:${contacts.email}`;
+---
+
+<!-- DRAFT: must be reviewed by a qualified professional before relying on it. -->
+
+<p class="updated">Last updated: 11 November 2026</p>
+
+<p>
+  This page explains what data I collect when you visit this site or write to me through the contact form, why I
+  use it and what rights you have. It is a notice under Article 13 of Regulation (EU) 2016/679 (GDPR).
+</p>
+
+<h2>Who is responsible for your data</h2>
+<p>
+  The data controller is <strong>Simone Guarneri</strong>, Italian VAT no. (P.IVA) <span data-piva>{contacts.piva}</span>.<br />
+  Email: <a href={mailto} data-email>{contacts.email}</a>
+</p>
+
+<h2>What I collect through the contact form</h2>
+<p>When you write to me through the form, I only collect what you type in:</p>
+<ul>
+  <li>who you are (owner, partner or investor, other);</li>
+  <li>your name;</li>
+  <li>your email address;</li>
+  <li>your phone or WhatsApp number, if you choose to give it;</li>
+  <li>your message.</li>
+</ul>
+<p>
+  The message reaches me by email through <strong>Web3Forms</strong>, a service that forwards forms from static
+  websites. Web3Forms handles this data on my behalf, as a data processor, only to deliver the message to me. If the
+  form is not available, you can email me directly at the address above.
+</p>
+
+<h2>Why I use it and on what legal basis</h2>
+<p>
+  I use your data only to read your request and reply to you. I don't use it for newsletters or advertising and I
+  don't sell it to anyone.
+</p>
+<ul>
+  <li>
+    If your request is about a possible engagement or collaboration, the legal basis is the pre-contractual steps you
+    ask for (GDPR Art. 6(1)(b)).
+  </li>
+  <li>
+    In all other cases, the legal basis is my legitimate interest in replying to people who contact me
+    (GDPR Art. 6(1)(f)).
+  </li>
+</ul>
+<p>Giving your data is optional, but without your name, email and message I can't reply.</p>
+
+<h2>How long I keep it</h2>
+<p>
+  I keep messages for as long as needed to handle your request, and in any case no longer than 24 months after our
+  last contact. If we start working together, the data needed for that work is kept for as long as the law requires.
+</p>
+
+<h2>Visit statistics</h2>
+<p>
+  To know how many people visit the site I may use <strong>GoatCounter</strong>, a privacy-friendly analytics
+  service. GoatCounter sets no cookies, does not track people across sites and collects no personal data: it only
+  counts visits in aggregate (for example the page viewed, the referring site, the browser type). That is why this
+  site shows no cookie banner.
+</p>
+
+<h2>Theme preference</h2>
+<p>
+  If you pick the light or dark theme, your browser saves that choice in its local storage
+  (<code>localStorage</code>, key <code>sg-theme</code>). It is only a technical preference: it stays on your device,
+  is never sent to me and does not identify you. You can clear it at any time in your browser settings.
+</p>
+
+<h2>Fonts</h2>
+<p>
+  The site’s fonts are hosted on the site itself. Your browser makes no requests to third-party font services (such
+  as Google Fonts), so your IP address is not shared with them.
+</p>
+
+<h2>Your rights</h2>
+<p>Under Articles 15 to 22 of the GDPR you can ask me at any time to:</p>
+<ul>
+  <li>tell you whether I hold data about you and give you a copy (access);</li>
+  <li>correct or complete it (rectification);</li>
+  <li>delete it (erasure);</li>
+  <li>limit how I use it (restriction);</li>
+  <li>give it to you in a readable format so you can take it elsewhere (portability);</li>
+  <li>stop using it where I rely on legitimate interest (objection).</li>
+</ul>
+<p>
+  Just send an email to <a href={mailto}>{contacts.email}</a>. I will reply within one month.
+</p>
+<p>
+  If you think your data is being handled incorrectly, you can lodge a complaint with the Italian data protection
+  authority, the <strong>Garante per la protezione dei dati personali</strong>
+  (<a href="https://www.garanteprivacy.it" rel="noopener" hreflang="it">garanteprivacy.it</a>).
+</p>
+
+<h2>Changes</h2>
+<p>
+  If anything in this notice changes, I update the date at the top of the page.
+</p>

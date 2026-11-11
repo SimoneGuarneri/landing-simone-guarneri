@@ -1,18 +1,5 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import LangToggle from '../components/LangToggle.astro';
-import { t, type Locale } from '../lib/i18n';
-
-const locale: Locale = 'it';
-const path = '/';
+import HomePage from '../components/HomePage.astro';
 ---
 
-<BaseLayout lang={locale} path={path} title={t(locale, 'meta.title')} description={t(locale, 'meta.description')}>
-  <header style="display:flex;justify-content:flex-end;padding:14px clamp(20px,5vw,48px)">
-    <LangToggle locale={locale} path={path} />
-  </header>
-  <main id="main">
-    <h1 style="font-family:var(--font-display);font-weight:800">Simone Guarneri<span style="color:var(--accent-ink)">.</span></h1>
-    <p>Pagina in costruzione.</p>
-  </main>
-</BaseLayout>
+<HomePage locale="it" />

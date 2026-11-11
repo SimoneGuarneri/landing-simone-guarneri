@@ -1,0 +1,12 @@
+---
+/**
+ * GoatCounter page-view counter. Rendered only when `goatcounterCode` is set in
+ * src/content/site.json. GoatCounter sets no cookies and stores no personal data.
+ */
+import { site } from '../lib/content/astro';
+
+const code = site.goatcounterCode;
+const endpoint = code ? `https://${code}.goatcounter.com/count` : null;
+---
+
+{endpoint && <script is:inline data-goatcounter={endpoint} async src="//gc.zgo.at/count.js"></script>}

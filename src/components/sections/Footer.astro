@@ -1,0 +1,79 @@
+---
+/**
+ * Site footer: continues the purple contact band. © year · P.IVA · privacy link, place.
+ * The year is the build year (no-JS fallback); the script refreshes it in the browser.
+ */
+import { contacts } from '../../lib/content/astro';
+import { localizedPath, t, type Locale } from '../../lib/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="inner">
+    <p>
+      © <span data-year>{year}</span> Simone Guarneri · {`${t(locale, 'footer.vat')} ${contacts.piva}`} · <a href={localizedPath(locale, '/privacy/')}>{t(locale, 'footer.privacy')}</a>
+    </p>
+    <p>{t(locale, 'footer.place')}</p>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-year]').forEach((el) => {
+    el.textContent = String(new Date().getFullYear());
+  });
+</script>
+
+<style>
+  .site-footer {
+    background: #7A3CF0;
+    color: #FFFFFF;
+    padding: clamp(72px, 10vw, 120px) clamp(20px, 5vw, 48px) 40px;
+  }
+
+  .inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding-top: 22px;
+    border-top: 1px solid rgba(255, 255, 255, .3);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  a {
+    color: inherit;
+    text-decoration-color: currentColor;
+  }
+
+  a:hover {
+    color: #FFD43B;
+  }
+
+  a:focus-visible {
+    outline: 2px solid #FFD43B;
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  @media (pointer: coarse) {
+    a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      min-width: 44px;
+    }
+  }
+</style>

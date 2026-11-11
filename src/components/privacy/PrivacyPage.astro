@@ -1,0 +1,163 @@
+---
+/**
+ * Shell of the privacy page (IT at /privacy/, EN at /en/privacy/): logo link home,
+ * language toggle, a readable text column and the © · P.IVA footer. The copy itself
+ * lives in PrivacyIt.astro / PrivacyEn.astro.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import LangToggle from '../LangToggle.astro';
+import ThemeToggle from '../ThemeToggle.astro';
+import { contacts } from '../../lib/content/astro';
+import { localizedPath, t, type Locale } from '../../lib/i18n';
+import PrivacyIt from './PrivacyIt.astro';
+import PrivacyEn from './PrivacyEn.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const path = '/privacy/';
+const home = localizedPath(locale, '/');
+const year = new Date().getFullYear();
+---
+
+<BaseLayout lang={locale} path={path} title={`${t(locale, 'privacy.title')} · Simone Guarneri`} description={t(locale, 'privacy.description')}>
+  <header class="hdr">
+    <div class="hdr-inner">
+      <a class="logo" href={home} aria-label={t(locale, 'privacy.back')}>sg<span aria-hidden="true">.</span></a>
+      <div class="hdr-tools">
+        <ThemeToggle locale={locale} />
+        <LangToggle locale={locale} path={path} />
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="privacy">
+    <h1>{t(locale, 'privacy.title')}<span class="dot" aria-hidden="true">.</span></h1>
+    {locale === 'it' ? <PrivacyIt contacts={contacts} /> : <PrivacyEn contacts={contacts} />}
+    <p class="back"><a href={home}>← {t(locale, 'privacy.back')}</a></p>
+  </main>
+
+  <footer class="ftr">
+    <span>© {year} Simone Guarneri · {t(locale, 'footer.vat')} {contacts.piva}</span>
+    <span>{t(locale, 'footer.place')}</span>
+  </footer>
+</BaseLayout>
+
+<style>
+  .hdr {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--hdr);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .hdr-tools {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hdr-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 14px clamp(20px, 5vw, 48px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .logo {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: -.03em;
+    text-decoration: none;
+    color: var(--ink);
+  }
+
+  .logo span,
+  .dot {
+    color: var(--accent-ink);
+  }
+
+  .privacy {
+    max-width: 68ch;
+    margin: 0 auto;
+    padding: clamp(40px, 8vw, 96px) clamp(20px, 5vw, 48px) clamp(48px, 8vw, 96px);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--body);
+    overflow-wrap: anywhere;
+  }
+
+  h1 {
+    margin: 0 0 clamp(28px, 4vw, 44px);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(40px, 8vw, 72px);
+    line-height: .95;
+    letter-spacing: -.04em;
+    color: var(--ink);
+  }
+
+  .privacy :global(h2) {
+    margin: 2.2em 0 .5em;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(20px, 2.4vw, 24px);
+    line-height: 1.25;
+    letter-spacing: -.01em;
+    color: var(--ink);
+  }
+
+  .privacy :global(p),
+  .privacy :global(ul) {
+    margin: 0 0 1em;
+  }
+
+  .privacy :global(ul) {
+    padding-left: 1.2em;
+  }
+
+  .privacy :global(li) {
+    margin-bottom: .35em;
+  }
+
+  .privacy :global(strong) {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .privacy :global(.updated) {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .back {
+    margin-top: 3em;
+  }
+
+  .back a {
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .ftr {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 22px clamp(20px, 5vw, 48px) 32px;
+    border-top: 1px solid var(--chip);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+</style>

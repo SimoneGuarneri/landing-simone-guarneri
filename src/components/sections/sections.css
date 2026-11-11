@@ -1,0 +1,38 @@
+/*
+ * Shared section styles (design: design/Simone Guarneri v2.dc.html).
+ * Component-specific rules live in each section's scoped <style>.
+ */
+
+.sg-wrap {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* Section titles: "What I do", "Selected work", "Building". */
+.sg-h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(44px, 7vw, 96px);
+  line-height: .95;
+  letter-spacing: -.04em;
+}
+
+/* Pill buttons with the design's springy hover. */
+.sg-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4em;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 999px;
+  transition: transform .25s cubic-bezier(.3, 1.6, .5, 1), background .2s, color .2s;
+}
+
+.sg-btn:focus-visible,
+.sg-focus:focus-visible {
+  outline: 2px solid var(--accent-ink);
+  outline-offset: 3px;
+}
