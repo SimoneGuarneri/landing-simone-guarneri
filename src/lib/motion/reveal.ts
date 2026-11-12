@@ -48,16 +48,17 @@ export const reveal: MotionModule = (ctx) => {
     },
     { threshold: 0.12 },
   );
-  // Snap to the hidden state (no transition), resolve it, then arm the transition, so
-  // blocks already on screen fade in rather than out.
+  // Snap to the hidden state (no transition); once the shared layout has resolved it, arm
+  // the transition, so blocks already on screen fade in rather than out.
   els.forEach((el) => {
     el.style.transition = 'none';
     el.style.opacity = '0';
     el.style.transform = `translateY(${travel}px) scale(.98)`;
   });
-  void document.body.offsetWidth;
-  els.forEach((el) => (el.style.transition = `opacity .7s ease, transform .8s ${EASE}`));
-  els.forEach((el) => io.observe(el));
+  ctx.mutate(() => {
+    els.forEach((el) => (el.style.transition = `opacity .7s ease, transform .8s ${EASE}`));
+    els.forEach((el) => io.observe(el));
+  });
   return () => {
     io.disconnect();
     timers.forEach(clearTimeout);

@@ -38,12 +38,24 @@ export const waves: MotionModule = (ctx) => {
   let time = 0;
   let inView = true;
   // Half resolution, as in the design (the canvas is blurred 30px anyway).
-  const size = () => {
-    canvas.width = Math.round(canvas.clientWidth * 0.5);
-    canvas.height = Math.round(canvas.clientHeight * 0.5);
+  let w = 0;
+  let h = 0;
+  const read = () => {
+    w = canvas.clientWidth;
+    h = canvas.clientHeight;
+  };
+  const apply = () => {
+    canvas.width = Math.round(w * 0.5);
+    canvas.height = Math.round(h * 0.5);
     draw(c, canvas.width, canvas.height, time);
   };
-  size();
+  const size = () => {
+    read();
+    apply();
+  };
+  // At start-up the read joins the shared layout; resizes size directly.
+  ctx.measure(read);
+  ctx.mutate(apply);
 
   let resizeTimer = 0;
   const onResize = () => {

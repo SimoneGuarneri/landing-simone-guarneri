@@ -20,6 +20,13 @@ export interface MotionContext {
   intro: boolean;
   /** Subscribe to the shared loop; returns the unsubscribe. */
   onFrame(cb: (frame: Frame) => void): () => void;
+  /**
+   * Start-up only (see phases.ts). Init writes start states synchronously; layout reads go
+   * in `measure`, and writes that need the resolved start state or a measurement go in
+   * `mutate`. Both run once, right after every module's init.
+   */
+  measure(cb: () => void): void;
+  mutate(cb: () => void): void;
 }
 
 export type Cleanup = () => void;

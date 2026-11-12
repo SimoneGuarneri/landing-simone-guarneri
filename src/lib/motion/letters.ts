@@ -9,15 +9,18 @@ export const letters: MotionModule = (ctx) => {
       el.style.transform = '';
       el.style.transition = '';
     });
-  // Snap to the start state (no transition), resolve it, then arm the staggered rise.
+  // Snap to the start state (no transition); once the shared layout has resolved it, arm
+  // the staggered rise.
   els.forEach((el) => {
     el.style.transition = 'none';
     el.style.transform = 'translateY(105%) rotate(8deg)';
   });
-  void document.body.offsetWidth;
-  els.forEach((el, i) => (el.style.transition = `transform .9s ${EASE} ${0.15 + i * 0.045}s`));
-  let raf = requestAnimationFrame(() => {
-    raf = requestAnimationFrame(() => els.forEach((el) => (el.style.transform = 'none')));
+  let raf = 0;
+  ctx.mutate(() => {
+    els.forEach((el, i) => (el.style.transition = `transform .9s ${EASE} ${0.15 + i * 0.045}s`));
+    raf = requestAnimationFrame(() => {
+      raf = requestAnimationFrame(() => els.forEach((el) => (el.style.transform = 'none')));
+    });
   });
   // Last letter: 0.15 + 15 × 0.045 + 0.9 ≈ 1.7s. Then hand back to the stylesheet.
   const settle = window.setTimeout(clear, 2200);

@@ -6,6 +6,7 @@
  * reduced-motion toggle). Content is fully visible without this script.
  */
 import { motionMode, type MotionMode } from './math';
+import { initInPhases } from './phases';
 import type { Cleanup, Frame, MotionContext, MotionModule } from './types';
 import { blob } from './blob';
 import { count } from './count';
@@ -65,6 +66,12 @@ function halt() {
 
 const onVisibility = () => (document.hidden ? halt() : kick());
 
+/** The loop's scroll baseline. scrollY is a layout read, so it waits for the shared layout. */
+const scrollStart: MotionModule = (ctx) => {
+  ctx.measure(() => (lastY = window.scrollY));
+  return () => {};
+};
+
 // ---- Lifecycle ------------------------------------------------------------------------
 
 /** Set by start(), which reads the capabilities afresh (also after a back/forward-cache restore). */
@@ -76,9 +83,8 @@ let introPlayed = false;
 function initModules() {
   document.documentElement.dataset.motion = mode;
   continuous = mode !== 'off';
-  lastY = window.scrollY;
   vel = 0;
-  const ctx: MotionContext = {
+  const ctx: Omit<MotionContext, 'measure' | 'mutate'> = {
     mode,
     intro: !introPlayed,
     onFrame(cb) {
@@ -87,7 +93,8 @@ function initModules() {
     },
   };
   introPlayed = true;
-  cleanups = MODULES.map((init) => init(ctx));
+  // One shared layout for the whole start-up, not one per module.
+  cleanups = initInPhases([scrollStart, ...MODULES], ctx, () => void document.body.offsetWidth);
   kick();
 }
 
