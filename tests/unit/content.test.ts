@@ -12,7 +12,7 @@ import {
 describe('content files', () => {
   it('the committed content files parse into typed content', () => {
     const content = loadContent();
-    expect(content.contacts.email).toBe('hello@simoneguarneri.com');
+    expect(content.contacts.email).toBe('simoneguarneri@proton.me');
     expect(content.contacts.quattroUrl).toBeNull();
     expect(content.contacts.birthDate).toBe('2002-01-21');
     expect(content.site.basePath).toBe('/landing-simone-guarneri/');
@@ -23,7 +23,7 @@ describe('content files', () => {
 
 describe('content validation errors', () => {
   const validContacts = {
-    email: 'hello@simoneguarneri.com',
+    email: 'simoneguarneri@proton.me',
     whatsapp: '+39 000 000 0000',
     piva: '00000000000',
     doroteaUrl: 'https://doroteahousing.com',

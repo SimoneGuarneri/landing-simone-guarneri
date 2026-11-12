@@ -1,6 +1,6 @@
 ---
 /**
- * One brand in "Selected work": image (or the striped placeholder), name, Visit link,
+ * One brand in "Where I work": image (or the striped placeholder), name, Visit link,
  * description, headline figures and, only when something is published, the KPI row.
  */
 import { Image } from 'astro:assets';
@@ -58,7 +58,7 @@ const image = imageFor(brand, locale);
           src={image.src}
           alt={image.alt}
           widths={[600, 1200]}
-          sizes="(min-width: 768px) 568px, calc(100vw - 72px)"
+          sizes="(min-width: 1376px) 600px, (min-width: 900px) 44vw, calc(100vw - 72px)"
           class="panel-img"
         />
       )
@@ -109,8 +109,7 @@ const image = imageFor(brand, locale);
 
 <style>
   .card {
-    flex: none;
-    width: min(84vw, 600px);
+    min-width: 0;
     border-radius: 28px;
     padding: 16px;
     display: flex;
@@ -134,7 +133,7 @@ const image = imageFor(brand, locale);
 
   .panel {
     position: relative;
-    height: clamp(110px, calc(100vh - 540px), 360px);
+    height: clamp(180px, 22vw, 300px);
     flex: none;
     border-radius: 18px;
     overflow: hidden;
@@ -262,13 +261,9 @@ const image = imageFor(brand, locale);
     color: var(--muted);
   }
 
-  @media (max-width: 767.98px) {
-    .card {
-      width: 100%;
-    }
-
+  @media (max-width: 899.98px) {
     .panel {
-      height: clamp(180px, 56vw, 320px);
+      height: clamp(180px, 46vw, 320px);
     }
   }
 

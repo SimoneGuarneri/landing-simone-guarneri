@@ -2,28 +2,21 @@ import { expect, test, type Page } from '@playwright/test';
 
 // URLs are relative to baseURL, which already includes the base path.
 
-const trackTransform = (page: Page) =>
-  page.locator('[data-track]').evaluate((el) => getComputedStyle(el).transform);
-
-const trackX = (page: Page) =>
-  page.locator('[data-track]').evaluate((el) => new DOMMatrixReadOnly(getComputedStyle(el).transform).m41);
-
 /**
  * Scrolls the whole page in 0.6-viewport steps inside the page (one round trip, robust
- * under parallel load) and returns the track's computed transform after every step.
+ * under parallel load) and returns how many steps it took.
  */
 const scrollThrough = (page: Page) =>
   page.evaluate(async () => {
-    const track = document.querySelector('[data-track]')!;
     const frame = () => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
-    const transforms: string[] = [];
     const step = Math.round(window.innerHeight * 0.6);
+    let steps = 0;
     for (let y = 0; y <= document.documentElement.scrollHeight; y += step) {
       window.scrollTo(0, y);
       await frame();
-      transforms.push(getComputedStyle(track).transform);
+      steps++;
     }
-    return transforms;
+    return steps;
   });
 
 test('no console errors on load', async ({ page }) => {
@@ -56,38 +49,27 @@ test.describe('reduced motion', () => {
       .evaluateAll((els) => els.map((el) => [el.textContent?.trim(), (el as HTMLElement).dataset.count]));
     for (const [text, value] of counts) expect(text).toBe(value);
     const transforms = await page
-      .locator('[data-letter], [data-marquee], [data-parallax], [data-track]')
+      .locator('[data-letter], [data-marquee], [data-parallax]')
       .evaluateAll((els) => els.map((el) => getComputedStyle(el).transform));
     expect(transforms.every((t) => t === 'none')).toBe(true);
   });
-});
-
-test('desktop, fine pointer: scrolling into Selected work moves the track', async ({ page }) => {
-  await page.setViewportSize({ width: 1280, height: 800 });
-  await page.goto('./');
-  await expect(page.locator('html')).toHaveAttribute('data-motion', 'full');
-  const top = await page.locator('#work').evaluate((el) => el.getBoundingClientRect().top + window.scrollY);
-  await page.evaluate((y) => window.scrollTo(0, y + window.innerHeight), top);
-  await expect.poll(() => trackX(page)).toBeLessThan(-10);
 });
 
 test('figures count up to the published value', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto('./');
   const values = page.locator('[data-brand="quattro"] [data-count]');
-  await page.evaluate(() => window.scrollTo(0, document.querySelector<HTMLElement>('#work')!.offsetTop + innerHeight * 1.9));
+  await page.evaluate(() => window.scrollTo(0, document.querySelector<HTMLElement>('#work')!.offsetTop));
   for (const el of await values.all()) {
     await expect(el).toHaveText((await el.getAttribute('data-count'))!, { timeout: 3000 });
   }
 });
 
-test('phone width: the track never translates and nothing overflows sideways', async ({ page }) => {
+test('phone width: scrolling the whole page never overflows sideways', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
   await page.goto('./');
   await expect(page.locator('html')).toHaveAttribute('data-motion', 'lite');
-  const transforms = await scrollThrough(page);
-  expect(transforms.length).toBeGreaterThan(5);
-  expect(transforms.every((t) => t === 'none')).toBe(true);
+  expect(await scrollThrough(page)).toBeGreaterThan(5);
   const { scrollWidth, clientWidth } = await page.evaluate(() => ({
     scrollWidth: document.documentElement.scrollWidth,
     clientWidth: document.documentElement.clientWidth,
@@ -95,13 +77,12 @@ test('phone width: the track never translates and nothing overflows sideways', a
   expect(scrollWidth).toBeLessThanOrEqual(clientWidth);
 });
 
-test('resizing across 768px switches between pinned and stacked work', async ({ page }) => {
+test('resizing across 768px switches between full and lite motion', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto('./');
   await expect(page.locator('html')).toHaveAttribute('data-motion', 'full');
   await page.setViewportSize({ width: 600, height: 800 });
   await expect(page.locator('html')).toHaveAttribute('data-motion', 'lite');
-  expect(await trackTransform(page)).toBe('none');
   await page.setViewportSize({ width: 1280, height: 800 });
   await expect(page.locator('html')).toHaveAttribute('data-motion', 'full');
 });
@@ -109,21 +90,16 @@ test('resizing across 768px switches between pinned and stacked work', async ({ 
 test.describe('touch tablet (coarse pointer)', () => {
   test.use({ viewport: { width: 1024, height: 768 }, hasTouch: true, isMobile: true });
 
-  test('runs lite motion and stacks Selected work without a pin', async ({ page }) => {
+  test('runs lite motion', async ({ page }) => {
     await page.goto('./');
     await expect(page.locator('html')).toHaveAttribute('data-motion', 'lite');
-    const section = await page.locator('#work').boundingBox();
-    expect(section!.height).toBeLessThan(768 * 3);
-    const dorotea = await page.locator('[data-brand="dorotea"]').boundingBox();
-    const quattro = await page.locator('[data-brand="quattro"]').boundingBox();
-    expect(quattro!.y).toBeGreaterThan(dorotea!.y + dorotea!.height - 1);
   });
 });
 
 test.describe('without JavaScript', () => {
   test.use({ javaScriptEnabled: false });
 
-  test('all content is visible and Selected work is stacked', async ({ page }) => {
+  test('all content is visible and nothing overflows', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto('./');
     await expect(page.locator('html')).not.toHaveAttribute('data-motion', /.*/);
@@ -134,4 +110,27 @@ test.describe('without JavaScript', () => {
     const quattro = await page.locator('[data-brand="quattro"]').boundingBox();
     expect(quattro!.x + quattro!.width).toBeLessThanOrEqual(1280);
   });
+});
+
+test('desktop, fine pointer: a dot replaces the cursor, black on the hero, yellow below', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto('./');
+  await expect(page.locator('html')).toHaveAttribute('data-motion', 'full');
+  await expect(page.locator('html')).toHaveClass(/has-dot-cursor/);
+  const dot = page.locator('[data-cursor]');
+  await page.mouse.move(640, 500);
+  await expect(dot).toHaveAttribute('data-zone', 'hero');
+  await expect(dot).toHaveAttribute('data-visible', 'true');
+  await page.evaluate(() => window.scrollTo(0, document.querySelector<HTMLElement>('#what')!.offsetTop));
+  await page.mouse.move(640, 520);
+  await expect(dot).toHaveAttribute('data-zone', 'page');
+  expect(await page.locator('body').evaluate((el) => getComputedStyle(el).cursor)).toBe('none');
+});
+
+test('phone width: no dot cursor', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto('./');
+  await expect(page.locator('html')).toHaveAttribute('data-motion', 'lite');
+  await expect(page.locator('[data-cursor]')).toHaveCount(0);
+  await expect(page.locator('html')).not.toHaveClass(/has-dot-cursor/);
 });

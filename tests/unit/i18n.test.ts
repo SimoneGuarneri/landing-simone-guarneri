@@ -75,7 +75,7 @@ describe('interpolate', () => {
   });
 
   it('works on the hero meta copy in both locales', () => {
-    expect(interpolate(t('it', 'heroMeta'), { age: 25 })).toMatch(/^25 anni\. Ingegnere/);
+    expect(interpolate(t('it', 'heroMeta'), { age: 25 })).toMatch(/^25 anni\. Sviluppatore/);
     expect(interpolate(t('en', 'heroMeta'), { age: 25 })).toMatch(/^25\. Self-taught/);
   });
 

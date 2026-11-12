@@ -9,17 +9,17 @@ import { motionMode, type MotionMode } from './math';
 import type { Cleanup, Frame, MotionContext, MotionModule } from './types';
 import { blob } from './blob';
 import { count } from './count';
+import { cursor } from './cursor';
 import { focus } from './focus';
 import { letters } from './letters';
 import { marquee } from './marquee';
 import { parallax } from './parallax';
-import { pin } from './pin';
 import { progress } from './progress';
 import { reveal } from './reveal';
 import { swipe } from './swipe';
 import { waves } from './waves';
 
-const MODULES: MotionModule[] = [waves, letters, swipe, reveal, count, blob, parallax, marquee, pin, focus, progress];
+const MODULES: MotionModule[] = [waves, letters, swipe, reveal, count, blob, parallax, marquee, focus, progress, cursor];
 
 const queries = {
   reduce: window.matchMedia('(prefers-reduced-motion: reduce)'),

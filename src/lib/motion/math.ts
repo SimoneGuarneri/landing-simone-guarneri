@@ -39,20 +39,3 @@ export function marqueeStep(mx: number, vel: number, half: number, frames: numbe
   }
   return next;
 }
-
-export interface PinGeometry {
-  /** Section's bounding-rect top. */
-  top: number;
-  /** Section height (300vh). */
-  height: number;
-  vh: number;
-  trackWidth: number;
-  vw: number;
-}
-
-/** Horizontal pin: track translateX for the current progress through the section. */
-export function pinOffset({ top, height, vh, trackWidth, vw }: PinGeometry): number {
-  const p = Math.min(1, Math.max(0, -top / Math.max(1, height - vh)));
-  const dist = Math.max(0, trackWidth - vw);
-  return 0 - p * dist;
-}

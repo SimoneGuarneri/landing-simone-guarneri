@@ -22,7 +22,7 @@ const home = localizedPath(locale, '/');
 const year = new Date().getFullYear();
 ---
 
-<BaseLayout lang={locale} path={path} title={`${t(locale, 'privacy.title')} · Simone Guarneri`} description={t(locale, 'privacy.description')}>
+<BaseLayout lang={locale} path={path} title={`${t(locale, 'privacy.title')}, Simone Guarneri`} description={t(locale, 'privacy.description')}>
   <header class="hdr">
     <div class="hdr-inner">
       <a class="logo" href={home}>sg<span class="dot" aria-hidden="true">.</span><span class="visually-hidden"> {t(locale, 'privacy.back')}</span></a>
@@ -40,7 +40,8 @@ const year = new Date().getFullYear();
   </main>
 
   <footer class="ftr">
-    <span>© {year} Simone Guarneri · {t(locale, 'footer.vat')} {contacts.piva}</span>
+    <span>© {year} Simone Guarneri</span>
+    <span>{t(locale, 'footer.vat')} {contacts.piva}</span>
     <span>{t(locale, 'footer.place')}</span>
   </footer>
 </BaseLayout>

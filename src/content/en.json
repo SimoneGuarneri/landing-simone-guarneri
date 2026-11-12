@@ -1,8 +1,8 @@
 {
   "meta": {
-    "title": "Simone Guarneri · Short-term rentals and software",
+    "title": "Simone Guarneri, short-term rentals and software",
     "description": "I manage short-term rentals in Campania, Italy, and build the software and automations that run them.",
-    "jobTitle": "Short-term rental entrepreneur and software developer"
+    "jobTitle": "Property manager and software developer"
   },
   "skipLink": "Skip to content",
   "logoLabel": "Simone Guarneri, back to top",
@@ -18,22 +18,9 @@
     "enLabel": "English"
   },
   "cta": "Get in touch",
-  "eyebrow": "Entrepreneur and computer scientist · Campania, Italy",
   "heroA": "I manage short-term rentals in Italy",
   "heroB": "and build the software and automations that run them.",
-  "heroMeta": "{age}. Self-taught engineer: six years in hospitality, years in IT. I speak Italian and English. Based in Campania, open to relocating.",
-  "marquee": [
-    "Amalfi Coast",
-    "Pricing",
-    "Milano",
-    "Automation",
-    "Salerno",
-    "Operations",
-    "Vietri sul Mare",
-    "Listings",
-    "Baronissi",
-    "Channel managers"
-  ],
+  "heroMeta": "{age}. Self-taught developer: I have studied computer science since I was 16 and have worked in hospitality since 21, when I opened my first Airbnb listing. I speak Italian and English. Based in Campania, open to relocating.",
   "whatTitle": "What I do",
   "what": [
     {
@@ -49,12 +36,11 @@
       "body": "I assess new properties and markets with real numbers: rates, occupancy, costs. If a deal does not work on paper, I say so."
     }
   ],
-  "workTitle": "Selected work",
-  "workIntro": "Two short-term rental brands, run end to end.",
-  "scroll": "Keep scrolling",
+  "workTitle": "Where I work",
+  "workIntro": "One brand I co-founded and one network I work with.",
   "visit": "Visit",
-  "dorotea": "Nine homes on the Amalfi Coast, in Salerno and in Milan. Running since 2023.",
-  "quattro": "A network of more than 50 homes around Vietri sul Mare and Baronissi. I manage three of them.",
+  "dorotea": "Nine homes on the Amalfi Coast, in Salerno and in Milan. Built from scratch in 2023 with Tommaso Apicella.",
+  "quattro": "A network of more than 50 homes around Vietri sul Mare and Baronissi. I work with them and manage three of the homes.",
   "figures": {
     "locations": "locations",
     "properties": "homes",
@@ -65,7 +51,7 @@
     "kOcc": "occupancy",
     "kRevpar": "managed revenue"
   },
-  "buildTitle": "Building",
+  "buildTitle": "What I'm building",
   "buildIntro": "Software I write alongside the rentals. Used every day in my own homes first.",
   "build": [
     {
@@ -79,11 +65,65 @@
       "body": "A data aggregator for short-term rental research. Market data from several sources in one place, so research is faster and leaner."
     },
     {
-      "tag": "Internal",
+      "tag": "Internal use",
       "title": "AI tools",
       "body": "Claude Code skills and AI tools for short-term rentals: market research, listing writing and pricing analysis."
     }
   ],
+  "skillsTitle": "Skills",
+  "skillsIntro": "What I use every day, across homes and code.",
+  "skills": {
+    "homes": {
+      "title": "Property management",
+      "items": [
+        "Revenue management",
+        "Dynamic pricing",
+        "Market research",
+        "Listing copy",
+        "Guest communication",
+        "Operations coordination",
+        "Owner reporting"
+      ]
+    },
+    "code": {
+      "title": "Computer science",
+      "groups": [
+        {
+          "label": "Languages",
+          "items": [
+            "TypeScript",
+            "JavaScript",
+            "SQL",
+            "C"
+          ]
+        },
+        {
+          "label": "Web",
+          "items": [
+            "React",
+            "Next.js",
+            "Node.js",
+            "Tailwind"
+          ]
+        },
+        {
+          "label": "Data and infrastructure",
+          "items": [
+            "Supabase",
+            "PostgreSQL",
+            "Vercel",
+            "GitHub Actions",
+            "Git"
+          ]
+        }
+      ],
+      "ai": {
+        "label": "AI",
+        "item": "Claude Code",
+        "note": "I use it with method to strengthen human work, not replace it: I decide, review and answer for every line."
+      }
+    }
+  },
   "howTitle": "How I work",
   "how": [
     {
@@ -105,11 +145,14 @@
   ],
   "contactTitle": "Let’s talk.",
   "contactBody": "Own a property, have a project, or want to work together? Write to me directly. I read every message.",
-  "contactEmail": "Email",
   "contactWhatsapp": "WhatsApp",
   "form": {
     "roleLegend": "I am a",
-    "roles": ["Property owner", "Partner or investor", "Something else"],
+    "roles": [
+      "Property owner",
+      "Partner or investor",
+      "Something else"
+    ],
     "name": "Name",
     "email": "Email",
     "phone": "Phone or WhatsApp",

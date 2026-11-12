@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { hlOpacity, marqueeStep, motionMode, pinOffset } from '../../src/lib/motion/math';
+import { hlOpacity, marqueeStep, motionMode } from '../../src/lib/motion/math';
 
 describe('motionMode', () => {
   it('is off whenever the visitor asks for reduced motion', () => {
@@ -54,19 +54,3 @@ describe('marqueeStep', () => {
   });
 });
 
-describe('pinOffset', () => {
-  // 300vh section (vh 800 → 2400px), track 2000px wide in a 1280px viewport: 720px to travel.
-  const base = { height: 2400, vh: 800, trackWidth: 2000, vw: 1280 };
-  it('is 0 before the section reaches the top', () => {
-    expect(pinOffset({ ...base, top: 300 })).toBe(0);
-  });
-  it('travels linearly with progress through the section', () => {
-    expect(pinOffset({ ...base, top: -800 })).toBe(-360);
-  });
-  it('stops at the end of the track', () => {
-    expect(pinOffset({ ...base, top: -5000 })).toBe(-720);
-  });
-  it('never moves a track that already fits', () => {
-    expect(pinOffset({ ...base, top: -800, trackWidth: 1000 })).toBe(0);
-  });
-});

@@ -320,8 +320,10 @@ const id = (name: string) => `cf-${locale}-${name}`;
     color: var(--muted);
   }
 
+  /* The privacy link sits on its own line under the note. */
   .cf-privacy a {
-    display: inline-block;
+    display: block;
+    width: fit-content;
     padding: 4px 0;
   }
 

@@ -13,7 +13,7 @@ Nothing broken is ever published: the old version stays online until the error i
 
 A few JSON rules that cover most mistakes:
 
-- Text goes in double quotes: `"hello@simoneguarneri.com"`.
+- Text goes in double quotes: `"simoneguarneri@proton.me"`.
 - Every line in a list except the last ends with a comma.
 - `null` (no quotes) means "not set".
 - `true` / `false` have no quotes.
@@ -21,13 +21,17 @@ A few JSON rules that cover most mistakes:
 
 The page copy (headlines, paragraphs, button labels) is in `it.json` and `en.json`.
 
+The Skills section and the moving strip under the hero share the same lists: `skills` in
+`it.json` / `en.json`. Add or remove a chip there and both update. Keep the same
+number of items in both languages (the build checks it).
+
 ---
 
 ## `contacts.json`: how people reach you
 
 | Field        | What it is                                                                 | Example                        |
 | ------------ | -------------------------------------------------------------------------- | ------------------------------ |
-| `email`      | Shown on the page, used by the Email button and as the form's fallback.    | `"hello@simoneguarneri.com"`   |
+| `email`      | Shown on the page, used by the Email button and as the form's fallback.    | `"simoneguarneri@proton.me"`   |
 | `whatsapp`   | Your number with country code. Spaces are fine.                            | `"+39 333 123 4567"`           |
 | `piva`       | Partita IVA, 11 digits. Shown in the footer and on the privacy page.       | `"01234567890"`                |
 | `doroteaUrl` | Dorotea Housing website (must start with `https://`).                      | `"https://doroteahousing.com"` |
@@ -101,9 +105,9 @@ There are four image slots:
 
 | Slot       | Where it appears                       | Placeholder when empty                |
 | ---------- | -------------------------------------- | ------------------------------------- |
-| `portrait` | The round photo in the hero            | The purple "sg." circle               |
-| `dorotea`  | Dorotea Housing card in Selected work  | Striped panel                         |
-| `quattro`  | Quattro Houses card in Selected work   | Striped panel                         |
+| `portrait` | The round photo in the hero            | Hidden until a photo is set           |
+| `dorotea`  | Dorotea Housing card in Where I work   | Striped panel                         |
+| `quattro`  | Quattro Houses card in Where I work    | Striped panel                         |
 | `og`       | The preview image when the link is shared on WhatsApp, LinkedIn... | (always set) |
 
 **To add a photo:**
@@ -124,4 +128,4 @@ Set `file` back to `null` to return to the placeholder. If the file name doesn't
 
 For `og`, keep the size at 1200 × 630 pixels.
 
-The `monogram.svg` in that folder is the "sg." mark (portrait placeholder). The favicon is a copy of it in `public/favicon.svg`.
+The `monogram.svg` in that folder is the "sg." mark (kept for a portrait placeholder, hidden for now). The favicon is a copy of it in `public/favicon.svg`.

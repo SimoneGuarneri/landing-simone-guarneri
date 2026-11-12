@@ -11,6 +11,7 @@ import WhatIDo from './sections/WhatIDo.astro';
 import Work from './sections/Work.astro';
 import Building from './sections/Building.astro';
 import HowIWork from './sections/HowIWork.astro';
+import Skills from './sections/Skills.astro';
 import Contact from './sections/Contact.astro';
 import Footer from './sections/Footer.astro';
 import { t, type Locale } from '../lib/i18n';
@@ -25,9 +26,9 @@ const path = '/';
 ---
 
 <BaseLayout lang={locale} path={path} title={t(locale, 'meta.title')} description={t(locale, 'meta.description')}>
-  <!-- Motion mode before first paint, so the layout it selects (pinned Work track) never
-       shifts. Same rule as motionMode() in src/lib/motion/math.ts; the motion script keeps
-       it in sync afterwards. No attribute (no JS) = static, stacked layout. -->
+  <!-- Motion mode before first paint, so effects that depend on it never shift the layout.
+       Same rule as motionMode() in src/lib/motion/math.ts; the motion script keeps
+       it in sync afterwards. No attribute (no JS) = static page. -->
   <script is:inline slot="head">
     (function () {
       if (!window.matchMedia) return;
@@ -48,6 +49,7 @@ const path = '/';
       <WhatIDo locale={locale} />
       <Work locale={locale} />
       <Building locale={locale} />
+      <Skills locale={locale} />
       <HowIWork locale={locale} />
       <Contact locale={locale} />
     </main>

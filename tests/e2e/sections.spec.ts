@@ -6,7 +6,7 @@ const pages = [
   { lang: 'en', url: './en/' },
 ] as const;
 
-const sectionIds = ['top', 'what', 'work', 'building', 'how', 'contact'];
+const sectionIds = ['top', 'what', 'work', 'building', 'skills', 'how', 'contact'];
 
 async function horizontalOverflow(page: Page) {
   return page.evaluate(() => {
@@ -47,22 +47,18 @@ for (const { lang, url } of pages) {
   });
 }
 
-test('selected work: stacked below 768px, pinned horizontal track from 768px', async ({ page }) => {
+test('where I work: cards stacked below 900px, side by side from 900px', async ({ page }) => {
   await page.goto('./');
   const width = page.viewportSize()!.width;
   const dorotea = await page.locator('[data-brand="dorotea"]').boundingBox();
   const quattro = await page.locator('[data-brand="quattro"]').boundingBox();
-  const section = await page.locator('#work').boundingBox();
-  const viewportHeight = page.viewportSize()!.height;
-  expect(dorotea && quattro && section).toBeTruthy();
-  if (width < 768) {
+  expect(dorotea && quattro).toBeTruthy();
+  if (width < 900) {
     expect(quattro!.y).toBeGreaterThan(dorotea!.y + dorotea!.height - 1);
     expect(Math.abs(quattro!.x - dorotea!.x)).toBeLessThan(1);
-    expect(section!.height).toBeLessThan(viewportHeight * 3);
   } else {
     expect(Math.abs(quattro!.y - dorotea!.y)).toBeLessThan(1);
     expect(quattro!.x).toBeGreaterThan(dorotea!.x + dorotea!.width - 1);
-    expect(section!.height).toBeCloseTo(viewportHeight * 3, 0);
   }
 });
 

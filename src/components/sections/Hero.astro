@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import { ageOn } from '../../lib/age';
-import { contacts, imageFor, Monogram } from '../../lib/content/astro';
+import { contacts, imageFor } from '../../lib/content/astro';
 import { t, type Locale } from '../../lib/i18n';
 
 interface Props {
@@ -26,18 +26,13 @@ const age = ageOn(contacts.birthDate);
   <canvas data-waves class="waves" aria-hidden="true"></canvas>
   <div data-blob class="blob" aria-hidden="true"></div>
   <div class="hero-inner">
-    <p data-reveal class="eyebrow">
-      <span class="eyebrow-dot" aria-hidden="true"></span>{t(locale, 'eyebrow')}
-    </p>
     <h1 data-parallax class="name">
       <span class="visually-hidden">Simone Guarneri.</span>
       <span class="line line-1">
-        <span aria-hidden="true">{first.map((ch) => <span data-letter>{ch}</span>)}</span><span
-          data-letter
-          class="portrait"
-        >
-          {
-            portrait.src ? (
+        <span aria-hidden="true">{first.map((ch) => <span data-letter>{ch}</span>)}</span>{
+          /* The portrait shows only once a photo is set in images.json; no placeholder for now. */
+          portrait.src && (
+            <span data-letter class="portrait">
               <Image
                 src={portrait.src}
                 alt={portrait.alt}
@@ -45,11 +40,9 @@ const age = ageOn(contacts.birthDate);
                 sizes="(min-width: 1480px) 142px, 10vw"
                 class="portrait-img"
               />
-            ) : (
-              <Monogram class="portrait-img" role="img" aria-label={portrait.alt} />
-            )
-          }
-        </span>
+            </span>
+          )
+        }
       </span>
       <span class="line line-2" aria-hidden="true">
         {last.map((ch) => <span data-letter>{ch}</span>)}<span data-letter class="name-dot">.</span>
@@ -125,23 +118,6 @@ const age = ageOn(contacts.birthDate);
     position: relative;
     max-width: 1280px;
     margin: 0 auto;
-  }
-
-  .eyebrow {
-    margin: 0 0 24px;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
-    font-size: 14px;
-    color: var(--muted);
-  }
-
-  .eyebrow-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #7A3CF0;
   }
 
   .name {

@@ -5,11 +5,11 @@ Personal landing page for Simone Guarneri: short-term rental operator and softwa
 ## Brands and products
 
 **Dorotea Housing**:
-Simone's own short-term rental brand: homes on the Amalfi Coast, in Salerno and in Milan.
+The short-term rental brand Simone built from scratch in 2023 with Tommaso Apicella: homes on the Amalfi Coast, in Salerno and in Milan.
 _Avoid_: Dorotea, Dorotea Homes
 
 **Quattro Houses**:
-A network of 50+ short-term rental homes around Vietri sul Mare and Baronissi, of which Simone manages a few.
+A network of 50+ short-term rental homes around Vietri sul Mare and Baronissi that Simone collaborates with, managing a few of its Homes.
 _Avoid_: Quattro, Quattro Case
 
 **Casabase**:

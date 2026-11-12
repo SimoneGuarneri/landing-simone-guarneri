@@ -125,3 +125,56 @@ canvas {
     scroll-behavior: auto !important;
   }
 }
+
+/* Dot cursor (src/lib/motion/cursor.ts, full motion only). The system cursor is hidden
+   while the dot is active, except in text fields where the text cursor is needed. */
+.has-dot-cursor,
+.has-dot-cursor * {
+  cursor: none !important;
+}
+
+.has-dot-cursor :is(input:not([type='radio']):not([type='checkbox']), textarea, select) {
+  cursor: text !important;
+}
+
+.sg-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .2s;
+}
+
+.sg-cursor::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  background: var(--yellow);
+  /* A dark ring keeps the yellow dot visible on light and yellow surfaces. */
+  box-shadow: 0 0 0 1.5px var(--black);
+  transition: transform .25s cubic-bezier(.3, 1.6, .5, 1), background .2s, box-shadow .2s;
+}
+
+.sg-cursor[data-visible='true'] {
+  opacity: 1;
+}
+
+.sg-cursor[data-zone='hero']::after {
+  background: var(--black);
+  box-shadow: none;
+}
+
+.sg-cursor[data-state='link']::after {
+  transform: scale(2.2);
+}
+
+.sg-cursor[data-state='text'] {
+  opacity: 0;
+}

@@ -1,8 +1,8 @@
 {
   "meta": {
-    "title": "Simone Guarneri · Affitti brevi e software",
-    "description": "Gestisco affitti brevi in Campania e costruisco il software e le automazioni che li fanno funzionare.",
-    "jobTitle": "Imprenditore negli affitti brevi e sviluppatore software"
+    "title": "Simone Guarneri, affitti brevi e software",
+    "description": "Gestisco affitti brevi in Campania e costruisco i software e le automazioni che li fanno funzionare.",
+    "jobTitle": "Property manager e sviluppatore software"
   },
   "skipLink": "Vai al contenuto",
   "logoLabel": "Simone Guarneri, inizio pagina",
@@ -18,22 +18,9 @@
     "enLabel": "English"
   },
   "cta": "Contattami",
-  "eyebrow": "Imprenditore e informatico · Campania",
   "heroA": "Gestisco affitti brevi in Italia",
-  "heroB": "e costruisco il software e le automazioni che li fanno funzionare.",
-  "heroMeta": "{age} anni. Ingegnere autodidatta: sei anni nell’ospitalità, anni nell’IT. Parlo italiano e inglese. Vivo in Campania, aperto a trasferirmi.",
-  "marquee": [
-    "Costiera Amalfitana",
-    "Prezzi",
-    "Milano",
-    "Automazione",
-    "Salerno",
-    "Operatività",
-    "Vietri sul Mare",
-    "Annunci",
-    "Baronissi",
-    "Channel manager"
-  ],
+  "heroB": "e costruisco i software e le automazioni che li fanno funzionare.",
+  "heroMeta": "{age} anni. Sviluppatore autodidatta: studio informatica da quando avevo 16 anni e lavoro nell’ospitalità dai 21, quando ho aperto il mio primo annuncio su Airbnb. Parlo italiano e inglese. Vivo in Campania, aperto a trasferirmi.",
   "whatTitle": "Cosa faccio",
   "what": [
     {
@@ -49,12 +36,11 @@
       "body": "Valuto immobili e mercati con numeri reali: tariffe, occupazione, costi. Se un’operazione non regge sulla carta, lo dico."
     }
   ],
-  "workTitle": "Progetti",
-  "workIntro": "Due brand di affitti brevi, gestiti dall’inizio alla fine.",
-  "scroll": "Continua a scorrere",
+  "workTitle": "Dove lavoro",
+  "workIntro": "Un brand che ho fondato e una rete con cui collaboro.",
   "visit": "Visita",
-  "dorotea": "Nove case tra Costiera Amalfitana, Salerno e Milano. Dal 2023.",
-  "quattro": "Una rete di oltre 50 case tra Vietri sul Mare e Baronissi. Ne gestisco tre.",
+  "dorotea": "Nove case tra Costiera Amalfitana, Salerno e Milano. L’ho costruita da zero nel 2023 con Tommaso Apicella.",
+  "quattro": "Una rete di oltre 50 case tra Vietri sul Mare e Baronissi. Collaboro con loro e ne gestisco tre.",
   "figures": {
     "locations": "località",
     "properties": "case",
@@ -65,7 +51,7 @@
     "kOcc": "occupazione",
     "kRevpar": "ricavo gestito"
   },
-  "buildTitle": "Progetti software",
+  "buildTitle": "Cosa sto costruendo",
   "buildIntro": "Software che scrivo accanto agli affitti. Prima lo uso ogni giorno nelle mie case.",
   "build": [
     {
@@ -79,11 +65,65 @@
       "body": "Un aggregatore di dati per le ricerche sugli affitti brevi. Dati di mercato da più fonti in un solo posto, per ricerche più rapide e snelle."
     },
     {
-      "tag": "Interni",
+      "tag": "Uso interno",
       "title": "Strumenti AI",
       "body": "Skill per Claude Code e strumenti AI per gli affitti brevi: ricerche di mercato, testi degli annunci e analisi dei prezzi."
     }
   ],
+  "skillsTitle": "Competenze",
+  "skillsIntro": "Quello che uso ogni giorno, tra case e codice.",
+  "skills": {
+    "homes": {
+      "title": "Gestione immobili",
+      "items": [
+        "Revenue management",
+        "Prezzi dinamici",
+        "Ricerche di mercato",
+        "Testi degli annunci",
+        "Comunicazione con gli ospiti",
+        "Coordinamento operativo",
+        "Report ai proprietari"
+      ]
+    },
+    "code": {
+      "title": "Informatica",
+      "groups": [
+        {
+          "label": "Linguaggi",
+          "items": [
+            "TypeScript",
+            "JavaScript",
+            "SQL",
+            "C"
+          ]
+        },
+        {
+          "label": "Web",
+          "items": [
+            "React",
+            "Next.js",
+            "Node.js",
+            "Tailwind"
+          ]
+        },
+        {
+          "label": "Dati e infrastruttura",
+          "items": [
+            "Supabase",
+            "PostgreSQL",
+            "Vercel",
+            "GitHub Actions",
+            "Git"
+          ]
+        }
+      ],
+      "ai": {
+        "label": "AI",
+        "item": "Claude Code",
+        "note": "Lo uso con metodo per potenziare il lavoro umano, non per sostituirlo: decido, rivedo e rispondo io di ogni riga."
+      }
+    }
+  },
   "howTitle": "Come lavoro",
   "how": [
     {
@@ -105,11 +145,14 @@
   ],
   "contactTitle": "Parliamone.",
   "contactBody": "Hai un immobile, un progetto o vuoi collaborare? Scrivimi direttamente. Leggo ogni messaggio.",
-  "contactEmail": "Email",
   "contactWhatsapp": "WhatsApp",
   "form": {
     "roleLegend": "Chi sei",
-    "roles": ["Proprietario", "Partner o investitore", "Altro"],
+    "roles": [
+      "Proprietario",
+      "Partner o investitore",
+      "Altro"
+    ],
     "name": "Nome",
     "email": "Email",
     "phone": "Telefono o WhatsApp",
