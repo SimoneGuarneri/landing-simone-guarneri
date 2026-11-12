@@ -29,13 +29,6 @@ jobs:
         env:
           CI: true
           ASTRO_TELEMETRY_DISABLED: 1
-      # Guard: the deployable artifact must not be a test build.
-      - name: Verify dist is a production build
-        run: |
-          if grep -rqE ' data-key-override([ >=]|$)' dist; then
-            echo "dist/ contains the E2E-only key override" >&2
-            exit 1
-          fi
       - uses: actions/upload-pages-artifact@v5
         with:
           path: dist

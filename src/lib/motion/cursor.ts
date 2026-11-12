@@ -20,7 +20,8 @@ export const cursor: MotionModule = (ctx) => {
   root.classList.add('has-dot-cursor');
 
   const onMove = (e: PointerEvent) => {
-    if (e.pointerType !== 'mouse') return;
+    // Mouse and pen both drive the dot: full mode hides the system cursor for any fine pointer.
+    if (e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
     dot.style.transform = `translate3d(${e.clientX}px,${e.clientY}px,0)`;
     const target = e.target instanceof Element ? e.target : null;
     dot.dataset.zone = target?.closest('[data-hero]') ? 'hero' : 'page';

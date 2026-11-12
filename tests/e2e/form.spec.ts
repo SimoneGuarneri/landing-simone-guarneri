@@ -6,17 +6,15 @@ const readJson = <T>(file: string): T =>
   JSON.parse(readFileSync(new URL(`../../src/content/${file}`, import.meta.url), 'utf8')) as T;
 const itCopy = readJson<typeof itCopyType>('it.json');
 const enCopy = readJson<typeof itCopyType>('en.json');
-const contacts = readJson<{ email: string }>('contacts.json');
+const builtKey = readJson<{ web3formsKey: string | null }>('site.json').web3formsKey?.trim() || null;
 
 /*
- * Contact form (#7). Runs at every project viewport, in both languages.
+ * Contact form. Runs at every project viewport, in both languages.
  *
- * The repo ships with site.json `web3formsKey: null`, so a normal build exercises the
- * mailto fallback. The Web3Forms fetch path is covered at unit level
- * (tests/unit/form-submit.test.ts) and here: Playwright's webServer builds with
- * PUBLIC_E2E=1 into dist-e2e/ (never the deployed dist/), so the form has
- * `data-key-override` and honours `window.__SG_FORM_KEY__`, set via addInitScript.
- * Against a server without the override (e.g. a reused plain preview) those tests skip.
+ * site.json ships a real Web3Forms key, so the page posts to Web3Forms. Nothing here may
+ * reach the real API: every test blocks api.web3forms.com, and the submission tests answer
+ * it with a mocked route. The mailto fallback (no key) is covered at unit level in
+ * tests/unit/form-submit.test.ts.
  */
 
 const pages = [
@@ -25,6 +23,12 @@ const pages = [
 ];
 
 const WEB3FORMS = 'https://api.web3forms.com/submit';
+
+// Safety net: abort any request to Web3Forms that a test has not mocked itself.
+// Routes added later in a test take precedence over this one.
+test.beforeEach(async ({ page }) => {
+  await page.route('https://api.web3forms.com/**', (route) => route.abort());
+});
 
 function formRoot(page: Page) {
   return page.locator('[data-contact-form]');
@@ -87,44 +91,14 @@ for (const { locale, url, copy } of pages) {
       const link = form.getByRole('link', { name: f.privacyLink });
       await expect(link).toHaveAttribute('href', locale === 'it' ? /\/privacy\/$/ : /\/en\/privacy\/$/);
     });
-
-    test('without a key, a valid submit opens a mailto to the contact address', async ({ page }) => {
-      test.skip(
-        (await formRoot(page).getAttribute('data-access-key')) !== null,
-        'build has a Web3Forms key; mailto fallback not in play',
-      );
-      const form = formRoot(page);
-      const mailto = form.evaluate(
-        (el) =>
-          new Promise<string>((resolve) =>
-            el.addEventListener('contactform:mailto', (e) => resolve((e as CustomEvent<{ url: string }>).detail.url)),
-          ),
-      );
-      await form.getByLabel(f.name, { exact: true }).fill('Mario Rossi');
-      await form.getByLabel(f.email, { exact: true }).fill('mario@example.com');
-      await form.getByLabel(f.message, { exact: true }).fill('Ciao');
-      await form.getByRole('button', { name: f.send }).click();
-      const href = await mailto;
-      expect(href.startsWith(`mailto:${contacts.email}?`)).toBe(true);
-      expect(decodeURIComponent(href)).toContain(`[${f.roles[0]}] Mario Rossi`);
-      // Visible fallback in case the visitor has no mail app.
-      await expect(form.locator('[data-status]')).toContainText(contacts.email);
-    });
   });
 
   test.describe(`contact form via Web3Forms (${locale})`, () => {
+    test.skip(!builtKey, 'site.json has no Web3Forms key; the mailto fallback is unit-tested');
+
     test.beforeEach(async ({ page }) => {
-      await page.addInitScript(() => {
-        (window as Window & { __SG_FORM_KEY__?: string }).__SG_FORM_KEY__ = 'e2e-test-key';
-      });
       await page.goto(`${url}#contact`);
-      // Either the build has a real key (requests are mocked below, nothing reaches Web3Forms)
-      // or it allows the test key override.
-      const root = formRoot(page);
-      const hasKey =
-        (await root.getAttribute('data-access-key')) !== null ||
-        (await root.getAttribute('data-key-override')) !== null;
-      test.skip(!hasKey, 'build has no Web3Forms key and no test override (set PUBLIC_E2E=1)');
+      await expect(formRoot(page)).toHaveAttribute('data-access-key', builtKey!);
       await formRoot(page).scrollIntoViewIfNeeded();
     });
 
@@ -156,10 +130,8 @@ for (const { locale, url, copy } of pages) {
 
       await expect(form.getByRole('status')).toHaveText(f.status.success);
       await expect(form.getByLabel(f.name, { exact: true })).toBeHidden();
-      // The build's real key wins over the test override when one is configured.
-      const builtKey = await form.getAttribute('data-access-key');
       expect(body).toMatchObject({
-        access_key: builtKey ?? 'e2e-test-key',
+        access_key: builtKey,
         subject: `[${f.roles[1]}] Mario Rossi`,
         replyto: 'mario@example.com',
         phone: '+39 333 1234567',

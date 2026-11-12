@@ -16,12 +16,11 @@ const modules = import.meta.glob<{ default: ImageMetadata }>(
 );
 
 /** Every raster image in src/assets/images/, keyed by file name. */
-export const imageAssets: Record<string, ImageMetadata> = Object.fromEntries(
+const imageAssets: Record<string, ImageMetadata> = Object.fromEntries(
   Object.entries(modules).map(([path, mod]) => [path.slice(path.lastIndexOf('/') + 1), mod.default]),
 );
 
-export const content = loadContent();
-export const { contacts, site, figures, images } = content;
+export const { contacts, site, figures, images } = loadContent();
 
 /** Image for a slot in a language; `src` is null → render the slot's placeholder. */
 export function imageFor(slot: ImageSlotName, lang: Locale): ResolvedImage<ImageMetadata> {

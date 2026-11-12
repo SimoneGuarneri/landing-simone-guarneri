@@ -1,4 +1,16 @@
+import { readFileSync } from 'node:fs';
 import { expect, test, type Page } from '@playwright/test';
+
+const readJson = <T>(file: string): T =>
+  JSON.parse(readFileSync(new URL(`../../src/content/${file}`, import.meta.url), 'utf8')) as T;
+type FigureGroup = Record<string, { value: string | number; publish: boolean }>;
+const figures = readJson<Record<'dorotea' | 'quattro', { headline: FigureGroup }>>('figures.json');
+const contacts = readJson<{ doroteaUrl: string; quattroUrl: string }>('contacts.json');
+/** Published headline values of a brand, in file order, as the page shows them. */
+const publishedHeadline = (brand: 'dorotea' | 'quattro') =>
+  Object.values(figures[brand].headline)
+    .filter((f) => f.publish)
+    .map((f) => String(f.value).trim());
 
 // URLs are relative to baseURL, which already includes the base path.
 const pages = [
@@ -32,8 +44,8 @@ for (const { lang, url } of pages) {
       await page.goto(url);
       const values = (brand: string) =>
         page.locator(`[data-brand="${brand}"] [data-figures] dd`).allTextContents();
-      expect((await values('dorotea')).map((v) => v.trim())).toEqual(['9', '3']);
-      expect((await values('quattro')).map((v) => v.trim())).toEqual(['50+', '3']);
+      expect((await values('dorotea')).map((v) => v.trim())).toEqual(publishedHeadline('dorotea'));
+      expect((await values('quattro')).map((v) => v.trim())).toEqual(publishedHeadline('quattro'));
       await page.locator('#work').scrollIntoViewIfNeeded();
       await expect(page.locator('[data-brand="dorotea"] [data-figures]')).toBeVisible();
       await expect(page.locator('[data-kpis]')).toHaveCount(0);
@@ -130,8 +142,8 @@ test('theme toggle flips data-theme and persists after reload', async ({ page })
 test('both brand cards link to their own site in a new tab', async ({ page }) => {
   await page.goto('./');
   for (const [brand, href] of [
-    ['dorotea', 'https://doroteahousing.com'],
-    ['quattro', 'https://www.quattro.house'],
+    ['dorotea', contacts.doroteaUrl],
+    ['quattro', contacts.quattroUrl],
   ]) {
     const link = page.locator(`[data-brand="${brand}"] a.visit`);
     await expect(link).toHaveAttribute('href', href);

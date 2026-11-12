@@ -49,7 +49,7 @@
     "kRev": "ricavo lordo",
     "kGrowth": "rispetto al 2024",
     "kOcc": "occupazione",
-    "kRevpar": "ricavo gestito"
+    "kManagedRevenue": "ricavo gestito"
   },
   "buildTitle": "Cosa sto costruendo",
   "buildIntro": "Software che scrivo accanto agli affitti. Prima lo uso ogni giorno nelle mie case.",

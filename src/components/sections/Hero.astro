@@ -25,7 +25,7 @@ const age = ageOn(contacts.birthDate);
 <section id="top" class="hero" data-hero>
   <canvas data-waves class="waves" aria-hidden="true"></canvas>
   <div data-blob class="blob" aria-hidden="true"></div>
-  <div class="hero-inner">
+  <div class="sg-wrap hero-inner">
     <h1 data-parallax class="name">
       <span class="visually-hidden">Simone Guarneri.</span>
       <span class="line line-1">
@@ -107,7 +107,7 @@ const age = ageOn(contacts.birthDate);
     height: 280px;
     margin: -140px 0 0 -140px;
     border-radius: 50%;
-    background: #FFD43B;
+    background: var(--yellow);
     mix-blend-mode: var(--blend);
     pointer-events: none;
     opacity: 0;
@@ -116,8 +116,6 @@ const age = ageOn(contacts.birthDate);
 
   .hero-inner {
     position: relative;
-    max-width: 1280px;
-    margin: 0 auto;
   }
 
   .name {
@@ -186,7 +184,7 @@ const age = ageOn(contacts.birthDate);
     text-wrap: pretty;
   }
 
-  /* Final state of the highlight swipe (#6 animates background-size from 0%). */
+  /* Final state of the highlight swipe (the motion module animates background-size from 0%). */
   .swipe {
     background-image: linear-gradient(var(--hl), var(--hl));
     background-repeat: no-repeat;
@@ -220,8 +218,8 @@ const age = ageOn(contacts.birthDate);
   }
 
   .btn-primary {
-    background: #7A3CF0;
-    color: #FFFFFF;
+    background: var(--purple);
+    color: var(--white);
   }
 
   .btn-primary:hover {
@@ -238,7 +236,7 @@ const age = ageOn(contacts.birthDate);
 
   .btn-outline:hover {
     transform: translateY(-3px) rotate(2deg);
-    background: #FFD43B;
-    color: #141414;
+    background: var(--yellow);
+    color: var(--black);
   }
 </style>

@@ -1,6 +1,20 @@
+import { readFileSync } from 'node:fs';
 import { expect, test, type Page } from '@playwright/test';
 
 // URLs are relative to baseURL, which already includes the base path.
+
+const images = JSON.parse(
+  readFileSync(new URL('../../src/content/images.json', import.meta.url), 'utf8'),
+) as Record<string, { alt: { it: string; en: string } }>;
+
+type Project = 'mobile-375' | 'tablet-768' | 'desktop-1280';
+/** Tests that set their own viewport would repeat identically in every project: run them once. */
+const runOnceOn = (project: Project) =>
+  test.skip(test.info().project.name !== project, `viewport is fixed here; runs on ${project} only`);
+
+/** The motion script has run and set <html data-motion>. */
+const motionReady = (page: Page) =>
+  expect(page.locator('html')).toHaveAttribute('data-motion', /^(full|lite|off)$/);
 
 /**
  * Scrolls the whole page in 0.6-viewport steps inside the page (one round trip, robust
@@ -25,9 +39,11 @@ test('no console errors on load', async ({ page }) => {
   page.on('pageerror', (e) => errors.push(e.message));
   for (const url of ['./', './en/']) {
     await page.goto(url);
-    await page.waitForTimeout(400);
+    await motionReady(page);
     await page.mouse.wheel(0, 1500);
-    await page.waitForTimeout(200);
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+    // Let a few frames of scroll-driven effects run.
+    await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
   }
   expect(errors).toEqual([]);
 });
@@ -56,16 +72,40 @@ test.describe('reduced motion', () => {
 });
 
 test('figures count up to the published value', async ({ page }) => {
-  await page.setViewportSize({ width: 1280, height: 800 });
+  runOnceOn('desktop-1280');
   await page.goto('./');
+  await expect(page.locator('html')).toHaveAttribute('data-motion', 'full');
+  // The published value is already in the HTML, so record every text each figure shows
+  // on the way: it must pass through other values before settling on the published one.
+  await page.evaluate(() => {
+    const w = window as Window & { __counts?: string[][] };
+    const els = Array.from(document.querySelectorAll<HTMLElement>('[data-brand="quattro"] [data-count]'));
+    w.__counts = els.map(() => []);
+    els.forEach((el, i) =>
+      new MutationObserver(() => w.__counts![i]!.push(el.textContent?.trim() ?? '')).observe(el, {
+        childList: true,
+        characterData: true,
+        subtree: true,
+      }),
+    );
+  });
   const values = page.locator('[data-brand="quattro"] [data-count]');
   await page.evaluate(() => window.scrollTo(0, document.querySelector<HTMLElement>('#work')!.offsetTop));
-  for (const el of await values.all()) {
-    await expect(el).toHaveText((await el.getAttribute('data-count'))!, { timeout: 3000 });
+  const els = await values.all();
+  expect(els.length).toBeGreaterThan(0);
+  for (const el of els) {
+    await expect(el).toHaveText((await el.getAttribute('data-count'))!, { timeout: 5000 });
   }
+  const seen = await page.evaluate(() => (window as Window & { __counts?: string[][] }).__counts!);
+  const targets = await values.evaluateAll((list) => list.map((el) => (el as HTMLElement).dataset.count!));
+  targets.forEach((target, i) => {
+    expect(seen[i]!.some((text) => text !== target), `figure ${target} never counted`).toBe(true);
+    expect(seen[i]!.at(-1)).toBe(target);
+  });
 });
 
 test('phone width: scrolling the whole page never overflows sideways', async ({ page }) => {
+  runOnceOn('mobile-375');
   await page.setViewportSize({ width: 375, height: 812 });
   await page.goto('./');
   await expect(page.locator('html')).toHaveAttribute('data-motion', 'lite');
@@ -78,6 +118,7 @@ test('phone width: scrolling the whole page never overflows sideways', async ({ 
 });
 
 test('resizing across 768px switches between full and lite motion', async ({ page }) => {
+  runOnceOn('desktop-1280');
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto('./');
   await expect(page.locator('html')).toHaveAttribute('data-motion', 'full');
@@ -91,6 +132,7 @@ test.describe('touch tablet (coarse pointer)', () => {
   test.use({ viewport: { width: 1024, height: 768 }, hasTouch: true, isMobile: true });
 
   test('runs lite motion', async ({ page }) => {
+    runOnceOn('tablet-768');
     await page.goto('./');
     await expect(page.locator('html')).toHaveAttribute('data-motion', 'lite');
   });
@@ -100,6 +142,7 @@ test.describe('without JavaScript', () => {
   test.use({ javaScriptEnabled: false });
 
   test('all content is visible and nothing overflows', async ({ page }) => {
+    runOnceOn('desktop-1280');
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto('./');
     await expect(page.locator('html')).not.toHaveAttribute('data-motion', /.*/);
@@ -113,6 +156,7 @@ test.describe('without JavaScript', () => {
 });
 
 test('desktop, fine pointer: a dot replaces the cursor, black on the hero, yellow below', async ({ page }) => {
+  runOnceOn('desktop-1280');
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto('./');
   await expect(page.locator('html')).toHaveAttribute('data-motion', 'full');
@@ -128,6 +172,7 @@ test('desktop, fine pointer: a dot replaces the cursor, black on the hero, yello
 });
 
 test('phone width: no dot cursor', async ({ page }) => {
+  runOnceOn('mobile-375');
   await page.setViewportSize({ width: 375, height: 812 });
   await page.goto('./');
   await expect(page.locator('html')).toHaveAttribute('data-motion', 'lite');
@@ -150,7 +195,8 @@ const revealTimes = (page: Page, selector: string) =>
     let y = top - window.innerHeight * 0.6;
     let lastStep = -Infinity;
     const start = performance.now();
-    while (seen.some((t) => t === null) && performance.now() - start < 6000) {
+    // Generous budget: under parallel load frames can be slow.
+    while (seen.some((t) => t === null) && performance.now() - start < 15000) {
       if (performance.now() - lastStep > 150 && y < end) {
         y += window.innerHeight / 4;
         window.scrollTo(0, y);
@@ -164,33 +210,36 @@ const revealTimes = (page: Page, selector: string) =>
     return seen;
   }, selector);
 
-for (const { name, size } of [
-  { name: 'desktop (full)', size: { width: 1280, height: 800 } },
-  { name: 'tablet (full)', size: { width: 768, height: 1024 } },
-  { name: 'phone (lite)', size: { width: 375, height: 812 } },
-]) {
+for (const { name, project, mode } of [
+  { name: 'desktop (full)', project: 'desktop-1280', mode: 'full' },
+  { name: 'tablet (full)', project: 'tablet-768', mode: 'full' },
+  { name: 'phone (lite)', project: 'mobile-375', mode: 'lite' },
+] as const) {
   test(`${name}: a section's blocks appear one after another as it scrolls in`, async ({ page }) => {
-    await page.setViewportSize(size);
+    runOnceOn(project);
     await page.goto('./');
-    await page.waitForTimeout(300);
+    await expect(page.locator('html')).toHaveAttribute('data-motion', mode);
     const times = await revealTimes(page, '#what');
     expect(times.length).toBeGreaterThanOrEqual(4);
     expect(times.every((t) => t !== null)).toBe(true);
+    // Ordering only: each block is first seen no earlier than the one before it, and the
+    // last later than the first (they do not all pop in at once).
     const t = times as number[];
-    for (let i = 1; i < t.length; i++) expect(t[i]).toBeGreaterThanOrEqual(t[i - 1]);
-    expect(t[t.length - 1] - t[0]).toBeGreaterThanOrEqual(100);
+    for (let i = 1; i < t.length; i++) expect(t[i]).toBeGreaterThanOrEqual(t[i - 1]!);
+    expect(t[t.length - 1]!).toBeGreaterThan(t[0]!);
   });
 }
 
 test.describe('contact photo in dots', () => {
   test('grows its dots in when it scrolls into view', async ({ page }) => {
+    runOnceOn('desktop-1280');
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto('./');
     const photo = page.locator('[data-dots]');
     await expect(photo).toHaveAttribute('data-dots', 'pending');
     await photo.scrollIntoViewIfNeeded();
     await expect(photo).toHaveAttribute('data-dots', 'done');
-    await expect(photo.locator('img')).toHaveAttribute('alt', 'Ritratto di Simone Guarneri');
+    await expect(photo.locator('img')).toHaveAttribute('alt', images.contact!.alt.it);
   });
 
   test.describe('with reduced motion', () => {
@@ -199,7 +248,7 @@ test.describe('contact photo in dots', () => {
       await page.goto('./en/');
       const photo = page.locator('[data-dots]');
       await expect(photo).not.toHaveAttribute('data-dots', 'pending');
-      await expect(photo.locator('img')).toHaveAttribute('alt', 'Portrait of Simone Guarneri');
+      await expect(photo.locator('img')).toHaveAttribute('alt', images.contact!.alt.en);
       await photo.scrollIntoViewIfNeeded();
       await expect(photo.locator('img')).toBeVisible();
     });

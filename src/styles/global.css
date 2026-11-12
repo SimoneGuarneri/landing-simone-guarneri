@@ -88,8 +88,8 @@ a:hover {
 }
 
 ::selection {
-  background: #FFD43B;
-  color: #141414;
+  background: var(--yellow);
+  color: var(--black);
 }
 
 input,

@@ -1,15 +1,12 @@
 ---
 /**
- * Contact form card (ticket #7). The Contact section (#5) places it in its right column.
+ * Contact form card. The Contact section places it in its right column.
  *
  * Progressive enhancement:
  * - Without JS the form posts natively: to Web3Forms when site.json has a key,
  *   otherwise as a `mailto:` to contacts.email. Native `required` validation applies.
  * - With JS (src/lib/form/client.ts) it validates inline, sends via fetch and shows
  *   sending / success / error-with-retry states in live regions.
- *
- * Key for e2e: the build key wins. Only when it is null AND the build is dev or
- * PUBLIC_E2E=1 does the script honour `window.__SG_FORM_KEY__` (see client.ts).
  */
 import { interpolate, localizedPath, t, type Locale } from '../lib/i18n';
 import { contacts, site } from '../lib/content/astro';
@@ -22,7 +19,6 @@ interface Props {
 const { locale } = Astro.props;
 
 const key = site.web3formsKey?.trim() || null;
-const allowKeyOverride = !key && (import.meta.env.DEV || import.meta.env.PUBLIC_E2E === '1');
 const roles = t(locale, 'form.roles');
 
 // Strings the client script needs; everything else is rendered here.
@@ -57,7 +53,6 @@ const id = (name: string) => `cf-${locale}-${name}`;
   data-locale={locale}
   data-access-key={key ?? undefined}
   data-mail-to={contacts.email}
-  data-key-override={allowKeyOverride ? '' : undefined}
   data-messages={JSON.stringify(messages)}
 >
   <form

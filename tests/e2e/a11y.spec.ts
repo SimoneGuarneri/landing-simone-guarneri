@@ -2,7 +2,7 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
 
 /*
- * Accessibility gate (#9): axe-core on every page, at every project viewport, in both
+ * Accessibility gate: axe-core on every page, at every project viewport, in both
  * themes. Zero serious/critical violations allowed.
  *
  * The main pass runs with reduced motion so the page is in its final, settled state
@@ -94,7 +94,18 @@ test.describe('axe (full motion, after the intro settles)', () => {
         await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
         await page.evaluate(() => document.fonts.ready);
         await scrollThrough(page);
-        await page.waitForTimeout(1200);
+        // Every reveal has played and handed back to the stylesheet (inline styles cleared).
+        await expect
+          .poll(
+            () =>
+              page
+                .locator('[data-reveal]')
+                .evaluateAll((els) =>
+                  els.every((el) => (el as HTMLElement).style.opacity === '' && getComputedStyle(el).opacity === '1'),
+                ),
+            { timeout: 10_000 },
+          )
+          .toBe(true);
         expect(await seriousViolations(page, { midScroll: true })).toEqual([]);
       });
     }

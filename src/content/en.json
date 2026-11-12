@@ -49,7 +49,7 @@
     "kRev": "gross revenue",
     "kGrowth": "year on year",
     "kOcc": "occupancy",
-    "kRevpar": "managed revenue"
+    "kManagedRevenue": "managed revenue"
   },
   "buildTitle": "What I'm building",
   "buildIntro": "Software I write alongside the rentals. Used every day in my own homes first.",

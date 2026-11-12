@@ -1,7 +1,7 @@
 ---
 /**
  * The one-page home, shared by `/` (it) and `/en/`. Section order and data attributes
- * follow design/Simone Guarneri v2.dc.html; motion (#6) hooks onto the data-* attributes.
+ * follow design/Simone Guarneri v2.dc.html; motion (src/lib/motion) hooks onto the data-* attributes.
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from './sections/Header.astro';
@@ -84,7 +84,7 @@ const path = '/';
     width: 100%;
     transform: scaleX(0);
     transform-origin: 0 0;
-    background: #7A3CF0;
+    background: var(--purple);
     z-index: 30;
   }
 </style>

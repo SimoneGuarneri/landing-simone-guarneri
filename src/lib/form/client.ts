@@ -14,18 +14,9 @@ interface FormMessages {
   send: string;
 }
 
-declare global {
-  interface Window {
-    /** E2E-only key override; honoured only when the build has no key and allows it. */
-    __SG_FORM_KEY__?: string;
-  }
-}
-
+/** The Web3Forms key baked in at build time from site.json; null → mailto fallback. */
 function accessKeyFor(root: HTMLElement): string | null {
-  const built = root.dataset.accessKey?.trim();
-  if (built) return built;
-  if (root.hasAttribute('data-key-override')) return window.__SG_FORM_KEY__?.trim() || null;
-  return null;
+  return root.dataset.accessKey?.trim() || null;
 }
 
 function setup(root: HTMLElement): void {

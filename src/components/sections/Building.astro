@@ -11,7 +11,7 @@ const items = t(locale, 'build');
 
 <section id="building" class="building" aria-labelledby="building-title">
   <div class="sg-wrap">
-    <div class="head">
+    <div class="sg-head">
       <h2 id="building-title" data-reveal class="sg-h2">{t(locale, 'buildTitle')}</h2>
       <p data-reveal>{t(locale, 'buildIntro')}</p>
     </div>
@@ -36,21 +36,9 @@ const items = t(locale, 'build');
     padding: clamp(72px, 9vw, 120px) clamp(20px, 5vw, 48px) 0;
   }
 
-  /* Title with the intro right underneath, both left-aligned. */
-  .head {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
+  /* More room under the head than the shared .sg-head default. */
+  .sg-head {
     margin-bottom: clamp(40px, 6vw, 72px);
-  }
-
-  .head p {
-    margin: 0;
-    font-size: 16px;
-    line-height: 1.6;
-    color: var(--muted);
-    max-width: 40ch;
   }
 
   .grid {
@@ -80,10 +68,6 @@ const items = t(locale, 'build');
 
   .tags {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
   }
 
   .tag {
@@ -91,8 +75,8 @@ const items = t(locale, 'build');
     font-size: 12px;
     padding: 5px 11px;
     border-radius: 999px;
-    background: #FFD43B;
-    color: #141414;
+    background: var(--yellow);
+    color: var(--black);
   }
 
   h3 {

@@ -12,7 +12,7 @@ export interface PublishedFigure<Id extends string = string> {
 
 export interface BrandFigures<B extends Brand> {
   headline: PublishedFigure<HeadlineId<B>>[];
-  /** Empty when no KPI is published: the page then renders neither the row nor its caption. */
+  /** Empty when no KPI is published: the page then renders no KPI row. */
   kpis: PublishedFigure<KpiId>[];
 }
 

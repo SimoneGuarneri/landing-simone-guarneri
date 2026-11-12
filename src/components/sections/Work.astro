@@ -15,7 +15,7 @@ const { locale } = Astro.props;
 
 <section id="work" class="work" aria-labelledby="work-title">
   <div class="sg-wrap">
-    <div class="head">
+    <div class="sg-head">
       <h2 id="work-title" data-reveal class="sg-h2">{t(locale, 'workTitle')}</h2>
       <p data-reveal>{t(locale, 'workIntro')}</p>
     </div>
@@ -29,22 +29,6 @@ const { locale } = Astro.props;
 <style>
   .work {
     padding: clamp(72px, 9vw, 120px) clamp(20px, 5vw, 48px) 0;
-  }
-
-  .head {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-    margin-bottom: clamp(28px, 4vw, 48px);
-  }
-
-  .head p {
-    margin: 0;
-    font-size: 16px;
-    line-height: 1.6;
-    color: var(--muted);
-    max-width: 40ch;
   }
 
   .cards {

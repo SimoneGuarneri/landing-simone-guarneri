@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest';
 import itCopy from '../../src/content/it.json';
 import enCopy from '../../src/content/en.json';
 import {
-  alternatePath,
   assertCopyParity,
   compareKeys,
   interpolate,
@@ -100,15 +99,5 @@ describe('localizedPath', () => {
   it('works with a root base path', () => {
     expect(localizedPath('it', '/privacy', '/')).toBe('/privacy/');
     expect(localizedPath('en', '/', '/')).toBe('/en/');
-  });
-});
-
-describe('alternatePath', () => {
-  const base = '/landing-simone-guarneri/';
-
-  it('points to the same page in the other language', () => {
-    expect(alternatePath('it', '/', base)).toBe('/landing-simone-guarneri/en/');
-    expect(alternatePath('en', '/', base)).toBe('/landing-simone-guarneri/');
-    expect(alternatePath('en', '/privacy/', base)).toBe('/landing-simone-guarneri/privacy/');
   });
 });

@@ -1,6 +1,7 @@
 ---
 /**
- * Site footer: continues the purple contact band. © year, P.IVA and privacy link on one line (spaced, no separators), place.
+ * Site footer: continues the purple contact band. © year, P.IVA and privacy link on one line
+ * (spaced, no separators), then the place.
  * The year is the build year (no-JS fallback); the script refreshes it in the browser.
  */
 import { contacts } from '../../lib/content/astro';
@@ -15,7 +16,7 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
-  <div class="inner">
+  <div class="sg-wrap inner">
     <div class="legal">
       <p>© <span data-year>{year}</span> Simone Guarneri</p>
       <p>{`${t(locale, 'footer.vat')} ${contacts.piva}`}</p>
@@ -33,14 +34,12 @@ const year = new Date().getFullYear();
 
 <style>
   .site-footer {
-    background: #7A3CF0;
-    color: #FFFFFF;
+    background: var(--purple);
+    color: var(--white);
     padding: clamp(72px, 10vw, 120px) clamp(20px, 5vw, 48px) 40px;
   }
 
   .inner {
-    max-width: 1280px;
-    margin: 0 auto;
     padding-top: 22px;
     border-top: 1px solid rgba(255, 255, 255, .3);
     display: flex;
@@ -82,11 +81,11 @@ const year = new Date().getFullYear();
   }
 
   a:hover {
-    color: #FFD43B;
+    color: var(--yellow);
   }
 
   a:focus-visible {
-    outline: 2px solid #FFD43B;
+    outline: 2px solid var(--yellow);
     outline-offset: 2px;
     border-radius: 2px;
   }

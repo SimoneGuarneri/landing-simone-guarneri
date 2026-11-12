@@ -36,3 +36,21 @@
   outline: 2px solid var(--accent-ink);
   outline-offset: 3px;
 }
+
+/* Section head: title with the intro right underneath, both left-aligned
+   (Work, Building, Skills). */
+.sg-head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: clamp(28px, 4vw, 48px);
+}
+
+.sg-head p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 40ch;
+}

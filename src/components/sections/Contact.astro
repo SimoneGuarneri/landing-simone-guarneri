@@ -1,7 +1,7 @@
 ---
 /**
  * Contact shell: title, body, Email and WhatsApp buttons on the left, then (when images.json
- * sets `contact`) the photo shown through a screen of fading dots; the form (#7) on the right.
+ * sets `contact`) the photo shown through a screen of fading dots; the contact form on the right.
  * The purple band continues into the site footer (Footer.astro), as in the design.
  */
 import { Image } from 'astro:assets';
@@ -20,15 +20,15 @@ const photo = imageFor('contact', locale);
 ---
 
 <section id="contact" class="contact" aria-labelledby="contact-title">
-  <div class="grid">
+  <div class="sg-wrap grid">
     <div class="intro">
       <h2 id="contact-title" data-reveal>{t(locale, 'contactTitle')}</h2>
       <p data-reveal>{t(locale, 'contactBody')}</p>
       <div data-reveal class="buttons">
-        <a href={mailto} class="sg-btn btn-email" data-contact-email
+        <a href={mailto} class="sg-btn btn-email"
           ><span aria-hidden="true">✉</span> <span class="email">{contacts.email}</span></a
         >
-        <a href={waLink} target="_blank" rel="noopener" class="sg-btn btn-wa" data-contact-whatsapp
+        <a href={waLink} target="_blank" rel="noopener" class="sg-btn btn-wa"
           >{t(locale, 'contactWhatsapp')} <span aria-hidden="true">→</span></a
         >
       </div>
@@ -54,15 +54,13 @@ const photo = imageFor('contact', locale);
 
 <style>
   .contact {
-    background: #7A3CF0;
-    color: #FFFFFF;
+    background: var(--purple);
+    color: var(--white);
     border-radius: clamp(28px, 4vw, 48px) clamp(28px, 4vw, 48px) 0 0;
     padding: clamp(80px, 11vw, 140px) clamp(20px, 5vw, 48px) 0;
   }
 
   .grid {
-    max-width: 1280px;
-    margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
     gap: 56px 80px;
@@ -100,11 +98,11 @@ const photo = imageFor('contact', locale);
   .buttons .sg-btn {
     padding: 14px 22px;
     min-width: 0;
-    color: #141414;
+    color: var(--black);
   }
 
   .buttons .sg-btn:focus-visible {
-    outline-color: #FFD43B;
+    outline-color: var(--yellow);
   }
 
   .email {
@@ -112,21 +110,21 @@ const photo = imageFor('contact', locale);
   }
 
   .btn-email {
-    background: #FFFFFF;
+    background: var(--white);
   }
 
   .btn-email:hover {
     transform: translateY(-3px) rotate(-2deg);
-    color: #141414;
+    color: var(--black);
   }
 
   .btn-wa {
-    background: #FFD43B;
+    background: var(--yellow);
   }
 
   .btn-wa:hover {
     transform: translateY(-3px) rotate(2deg);
-    color: #141414;
+    color: var(--black);
   }
 
   .form-col {

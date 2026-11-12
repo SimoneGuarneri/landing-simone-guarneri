@@ -38,7 +38,7 @@ number of items in both languages (the build checks it).
 | `quattroUrl` | Quattro Houses website. Leave `null` to hide its "Visit" button.           | `null` or `"https://..."`      |
 | `birthDate`  | Used to compute your age in the hero. Format `YYYY-MM-DD`.                 | `"2002-01-21"`                 |
 
-The current email, WhatsApp number and P.IVA are **placeholders**: replace them before launch.
+These are the live values: whatever you put here appears on the page and in the privacy policy.
 
 ---
 
@@ -108,7 +108,7 @@ There are five image slots:
 | `portrait` | The round photo in the hero            | Hidden until a photo is set           |
 | `dorotea`  | Dorotea Housing card in Where I work   | Striped panel                         |
 | `quattro`  | Quattro Houses card in Where I work    | Striped panel                         |
-| `contact`  | Your photo under the Contact buttons, shown in yellow and black and drawn in as it scrolls into view | Hidden until a photo is set |
+| `contact`  | Your photo under the Contact buttons, shown in black and white through a screen of dots that grow in as it scrolls into view | Hidden until a photo is set |
 | `og`       | The preview image when the link is shared on WhatsApp, LinkedIn... | (always set) |
 
 **To add a photo:**
@@ -125,7 +125,7 @@ There are five image slots:
 
 3. Update `alt`: a short description of the photo in both languages, read aloud to blind visitors.
 
-Set `file` back to `null` to return to the placeholder. If the file name doesn't match a file in the folder, the build stops and tells you.
+Set `file` back to `null` to return to the placeholder (or hide the slot, for `portrait` and `contact`). If the file name doesn't match a file in the folder, the build stops and tells you.
 
 For `og`, keep the size at 1200 × 630 pixels.
 

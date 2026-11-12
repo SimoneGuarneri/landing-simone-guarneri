@@ -5,7 +5,7 @@ const figureValue = z
   .union([z.string().trim().min(1), z.number()])
   .transform((v) => String(v));
 
-export const figureSchema = z.strictObject({
+const figureSchema = z.strictObject({
   value: figureValue,
   publish: z.boolean(),
 });
@@ -68,7 +68,7 @@ export const imagesSchema = z.strictObject({
   portrait: imageSlotSchema,
   dorotea: imageSlotSchema,
   quattro: imageSlotSchema,
-  /** Photo at the end of the page, under the Contact buttons (duotone, renders in on scroll). */
+  /** Photo at the end of the page, under the Contact buttons, shown through a screen of dots. */
   contact: imageSlotSchema,
   og: imageSlotSchema,
 });
@@ -77,7 +77,6 @@ export type Figure = z.output<typeof figureSchema>;
 export type Figures = z.output<typeof figuresSchema>;
 export type Contacts = z.output<typeof contactsSchema>;
 export type SiteConfig = z.output<typeof siteSchema>;
-export type ImageSlot = z.output<typeof imageSlotSchema>;
 export type Images = z.output<typeof imagesSchema>;
 export type ImageSlotName = keyof Images;
 export type Brand = keyof Figures;

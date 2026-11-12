@@ -116,12 +116,3 @@ export function localizedPath(
   const rel = `${prefix}${clean}`;
   return withBase(base, rel === '' || rel.endsWith('/') ? rel : `${rel}/`);
 }
-
-/** URL of the same page in the other language (for the IT/EN toggle). */
-export function alternatePath(
-  locale: Locale,
-  path = '/',
-  base: string = import.meta.env.BASE_URL,
-): string {
-  return localizedPath(otherLocale(locale), path, base);
-}

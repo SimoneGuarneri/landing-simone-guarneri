@@ -10,8 +10,8 @@ const { locale } = Astro.props;
 // yellow dot for homes, purple for code. Doubled so the motion module can loop it seamlessly.
 const { homes, code } = t(locale, 'skills');
 const columns = [
-  homes.items.map((text) => ({ text, dot: '#FFD43B' })),
-  [...code.groups.flatMap((g) => g.items), code.ai.item].map((text) => ({ text, dot: '#7A3CF0' })),
+  homes.items.map((text) => ({ text, dot: 'var(--yellow)' })),
+  [...code.groups.flatMap((g) => g.items), code.ai.item].map((text) => ({ text, dot: 'var(--purple)' })),
 ];
 const longest = Math.max(...columns.map((col) => col.length));
 const items = Array.from({ length: longest }, (_, i) => columns.map((col) => col[i]))

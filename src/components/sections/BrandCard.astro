@@ -24,7 +24,7 @@ interface BrandInfo {
 
 const BRANDS: Record<Brand, BrandInfo> = {
   dorotea: { name: 'Dorotea Housing', url: contacts.doroteaUrl, revenue: 'figures.kRev' },
-  quattro: { name: 'Quattro Houses', url: contacts.quattroUrl, revenue: 'figures.kRevpar' },
+  quattro: { name: 'Quattro Houses', url: contacts.quattroUrl, revenue: 'figures.kManagedRevenue' },
 };
 
 // Typed by figure id: adding a figure to figures.json without a label is a type error.
@@ -185,8 +185,8 @@ const image = imageFor(brand, locale);
   }
 
   .visit:hover {
-    background: #7A3CF0;
-    color: #FFFFFF;
+    background: var(--purple);
+    color: var(--white);
   }
 
   .desc {

@@ -28,10 +28,10 @@ export default defineConfig({
     { name: 'desktop-1280', use: { ...chromium, viewport: { width: 1280, height: 800 } } },
   ],
   /*
-   * The suite runs against its own build: PUBLIC_E2E=1 enables the test-only Web3Forms key
-   * override (data-key-override) so the form's fetch path can be exercised with a mocked
-   * route. It goes to dist-e2e/ (SG_OUT_DIR, read by astro.config.mjs) and is previewed from
-   * there, so the deployable dist/ from `npm run build` is never an E2E build.
+   * The suite runs against its own build: PUBLIC_E2E=1 leaves the GoatCounter counter out
+   * (see Analytics.astro) so test runs are never counted. It goes to dist-e2e/ (SG_OUT_DIR,
+   * read by astro.config.mjs) and is previewed from there, so the deployable dist/ from
+   * `npm run build` is never an E2E build.
    */
   webServer: {
     command: `npx astro build && npx astro preview --port ${PORT}`,

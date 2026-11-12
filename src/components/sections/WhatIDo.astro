@@ -59,11 +59,11 @@ const items = t(locale, 'what').map((w, i) => ({ ...w, n: `0${i + 1}` }));
   /* Yellow hover as in the design; ink tokens are pinned dark so text stays readable in dark theme. */
   .card:hover {
     transform: translateY(-6px) rotate(-1deg);
-    background: #FFD43B;
-    --ink: #141414;
+    background: var(--yellow);
+    --ink: var(--black);
     --body: #3A3A3A;
-    --accent-ink: #7A3CF0;
-    color: #141414;
+    --accent-ink: var(--purple);
+    color: var(--black);
   }
 
   .n {

@@ -11,7 +11,7 @@ const { locale } = Astro.props;
 ---
 
 <header class="site-header">
-  <div class="inner">
+  <div class="sg-wrap inner">
     <a href="#top" class="logo sg-focus">sg<span class="dot">.</span><span class="visually-hidden"> {t(locale, 'logoLabel')}</span></a>
     <div class="actions">
       <ThemeToggle locale={locale} />
@@ -32,8 +32,6 @@ const { locale } = Astro.props;
   }
 
   .inner {
-    max-width: 1280px;
-    margin: 0 auto;
     padding: 14px clamp(20px, 5vw, 48px);
     display: flex;
     align-items: center;
@@ -79,8 +77,8 @@ const { locale } = Astro.props;
   }
 
   .cta:hover {
-    background: #FFD43B;
-    color: #141414;
+    background: var(--yellow);
+    color: var(--black);
   }
 
   /* Narrow phones: tighten so logo, theme, IT/EN and CTA fit on one row down to 320px. */

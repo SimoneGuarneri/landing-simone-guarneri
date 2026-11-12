@@ -67,7 +67,8 @@ const onVisibility = () => (document.hidden ? halt() : kick());
 
 // ---- Lifecycle ------------------------------------------------------------------------
 
-let mode: MotionMode = currentMode();
+/** Set by start(), which reads the capabilities afresh (also after a back/forward-cache restore). */
+let mode: MotionMode;
 let cleanups: Cleanup[] = [];
 let started = false;
 let introPlayed = false;
