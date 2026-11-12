@@ -17,15 +17,15 @@ const { homes, code } = t(locale, 'skills');
 
 <section id="skills" class="skills" aria-labelledby="skills-title">
   <div class="sg-wrap">
-    <div data-reveal class="head">
-      <h2 id="skills-title" class="sg-h2">{t(locale, 'skillsTitle')}</h2>
-      <p>{t(locale, 'skillsIntro')}</p>
+    <div class="head">
+      <h2 id="skills-title" data-reveal class="sg-h2">{t(locale, 'skillsTitle')}</h2>
+      <p data-reveal>{t(locale, 'skillsIntro')}</p>
     </div>
     <div class="fields">
       <div data-reveal class="field homes">
         <h3>{homes.title}</h3>
         <ul class="chips">
-          {homes.items.map((item) => <li>{item}</li>)}
+          {homes.items.map((item) => <li data-reveal>{item}</li>)}
         </ul>
       </div>
       <div data-reveal class="field code">
@@ -38,7 +38,7 @@ const { homes, code } = t(locale, 'skills');
                 <dd>
                   <ul class="chips">
                     {g.items.map((item) => (
-                      <li>{item}</li>
+                      <li data-reveal>{item}</li>
                     ))}
                   </ul>
                 </dd>
@@ -49,9 +49,9 @@ const { homes, code } = t(locale, 'skills');
             <dt>{code.ai.label}</dt>
             <dd>
               <ul class="chips">
-                <li>{code.ai.item}</li>
+                <li data-reveal>{code.ai.item}</li>
               </ul>
-              <p class="note">{code.ai.note}</p>
+              <p data-reveal class="note">{code.ai.note}</p>
             </dd>
           </div>
         </dl>

@@ -101,13 +101,14 @@ Labels ("homes", "occupancy"...) are translated in `it.json` / `en.json`, not he
 
 ## `images.json` + `src/assets/images/`: photos
 
-There are four image slots:
+There are five image slots:
 
 | Slot       | Where it appears                       | Placeholder when empty                |
 | ---------- | -------------------------------------- | ------------------------------------- |
 | `portrait` | The round photo in the hero            | Hidden until a photo is set           |
 | `dorotea`  | Dorotea Housing card in Where I work   | Striped panel                         |
 | `quattro`  | Quattro Houses card in Where I work    | Striped panel                         |
+| `contact`  | Your photo under the Contact buttons, shown in yellow and black and drawn in as it scrolls into view | Hidden until a photo is set |
 | `og`       | The preview image when the link is shared on WhatsApp, LinkedIn... | (always set) |
 
 **To add a photo:**

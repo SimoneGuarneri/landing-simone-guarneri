@@ -1,10 +1,12 @@
 ---
 /**
- * Contact shell: title, body, Email and WhatsApp buttons on the left; the form (#7) on the right.
+ * Contact shell: title, body, Email and WhatsApp buttons on the left, then (when images.json
+ * sets `contact`) a duotone photo that scans in on scroll; the form (#7) on the right.
  * The purple band continues into the site footer (Footer.astro), as in the design.
  */
+import { Image } from 'astro:assets';
 import ContactForm from '../ContactForm.astro';
-import { contacts } from '../../lib/content/astro';
+import { contacts, imageFor } from '../../lib/content/astro';
 import { t, type Locale } from '../../lib/i18n';
 
 interface Props {
@@ -14,14 +16,15 @@ interface Props {
 const { locale } = Astro.props;
 const mailto = `mailto:${contacts.email}`;
 const waLink = `https://wa.me/${contacts.whatsapp.replace(/\D/g, '')}`;
+const photo = imageFor('contact', locale);
 ---
 
 <section id="contact" class="contact" aria-labelledby="contact-title">
   <div class="grid">
-    <div data-reveal class="intro">
-      <h2 id="contact-title">{t(locale, 'contactTitle')}</h2>
-      <p>{t(locale, 'contactBody')}</p>
-      <div class="buttons">
+    <div class="intro">
+      <h2 id="contact-title" data-reveal>{t(locale, 'contactTitle')}</h2>
+      <p data-reveal>{t(locale, 'contactBody')}</p>
+      <div data-reveal class="buttons">
         <a href={mailto} class="sg-btn btn-email" data-contact-email
           ><span aria-hidden="true">✉</span> <span class="email">{contacts.email}</span></a
         >
@@ -29,6 +32,19 @@ const waLink = `https://wa.me/${contacts.whatsapp.replace(/\D/g, '')}`;
           >{t(locale, 'contactWhatsapp')} <span aria-hidden="true">→</span></a
         >
       </div>
+      {
+        photo.src && (
+          <figure class="photo" data-scan>
+            <Image
+              src={photo.src}
+              alt={photo.alt}
+              widths={[360, 720]}
+              sizes="(min-width: 768px) 360px, calc(100vw - 40px)"
+              class="photo-img"
+            />
+          </figure>
+        )
+      }
     </div>
     <div data-reveal class="form-col">
       <ContactForm locale={locale} />
@@ -116,5 +132,77 @@ const waLink = `https://wa.me/${contacts.whatsapp.replace(/\D/g, '')}`;
   .form-col {
     align-self: end;
     min-width: 0;
+  }
+
+  /* Duotone: the photo in greyscale multiplied over yellow, so it reads as black on yellow
+     like the rest of the palette instead of a plain snapshot. */
+  .photo {
+    position: relative;
+    margin: auto 0 0;
+    width: min(100%, 360px);
+    aspect-ratio: 4 / 5;
+    border-radius: 28px;
+    overflow: hidden;
+    background: var(--yellow);
+    transform: rotate(-2deg);
+  }
+
+  .photo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 70% 30%;
+    filter: grayscale(1) contrast(1.25) brightness(1.08);
+    mix-blend-mode: multiply;
+  }
+
+  /* Scan-in (src/lib/motion/scan.ts sets data-scan): the picture is drawn top to
+     bottom in steps, sharpening as it goes, with a scan line leading the way. */
+  .photo::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 3px;
+    background: var(--black);
+    opacity: 0;
+  }
+
+  .photo[data-scan='pending'] .photo-img {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  .photo[data-scan='done'] .photo-img {
+    animation: scan-in 1.6s steps(16, end) both;
+  }
+
+  .photo[data-scan='done']::after {
+    animation: scan 1.6s steps(16, end) both;
+  }
+
+  @keyframes scan-in {
+    from {
+      clip-path: inset(0 0 100% 0);
+      filter: grayscale(1) contrast(1.25) brightness(1.08) blur(8px);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+      filter: grayscale(1) contrast(1.25) brightness(1.08) blur(0);
+    }
+  }
+
+  @keyframes scan {
+    from {
+      top: 0;
+      opacity: 1;
+    }
+    99% {
+      opacity: 1;
+    }
+    to {
+      top: 100%;
+      opacity: 0;
+    }
   }
 </style>

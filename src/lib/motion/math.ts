@@ -39,3 +39,28 @@ export function marqueeStep(mx: number, vel: number, half: number, frames: numbe
   }
   return next;
 }
+
+/** Per-mode numbers for block entrances: stagger step and cap (ms), rise distance (px). */
+const REVEAL = {
+  full: { step: 80, cap: 640, travel: 28 },
+  lite: { step: 60, cap: 400, travel: 16 },
+} as const;
+
+/**
+ * Next entrance slot in one section's queue. `now` is when a block scrolls into view and
+ * `next` the earliest start the section's queue allows (from the previous call; 0 at
+ * first). Blocks start one step apart, never wait longer than the cap, and a block that
+ * arrives after a pause starts at once. Returns the block's delay (ms) and the queue's
+ * new `next`.
+ */
+export function queueReveal(now: number, next: number, mode: MotionMode): { delay: number; next: number } {
+  if (mode === 'off') return { delay: 0, next: now };
+  const { step, cap } = REVEAL[mode];
+  const delay = Math.min(Math.max(0, next - now), cap);
+  return { delay, next: now + delay + step };
+}
+
+/** How far (px) a block rises as it reveals: shorter on phones and touch screens. */
+export function revealTravel(mode: MotionMode): number {
+  return mode === 'off' ? 0 : REVEAL[mode].travel;
+}

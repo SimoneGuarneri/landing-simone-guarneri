@@ -68,6 +68,8 @@ export const imagesSchema = z.strictObject({
   portrait: imageSlotSchema,
   dorotea: imageSlotSchema,
   quattro: imageSlotSchema,
+  /** Photo at the end of the page, under the Contact buttons (duotone, renders in on scroll). */
+  contact: imageSlotSchema,
   og: imageSlotSchema,
 });
 

@@ -50,7 +50,7 @@ const kpis = figs.kpis.map((f) => ({ ...f, label: label(KPI_LABEL[f.id]) }));
 const image = imageFor(brand, locale);
 ---
 
-<article class:list={['card', `card-${brand}`]} data-brand={brand}>
+<article data-reveal class:list={['card', `card-${brand}`]} data-brand={brand}>
   <div class="panel">
     {
       image.src && (

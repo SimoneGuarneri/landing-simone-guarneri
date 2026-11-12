@@ -15,9 +15,9 @@ const { locale } = Astro.props;
 
 <section id="work" class="work" aria-labelledby="work-title">
   <div class="sg-wrap">
-    <div data-reveal class="head">
-      <h2 id="work-title" class="sg-h2">{t(locale, 'workTitle')}</h2>
-      <p>{t(locale, 'workIntro')}</p>
+    <div class="head">
+      <h2 id="work-title" data-reveal class="sg-h2">{t(locale, 'workTitle')}</h2>
+      <p data-reveal>{t(locale, 'workIntro')}</p>
     </div>
     <div class="cards">
       <BrandCard locale={locale} brand="dorotea" />

@@ -54,7 +54,22 @@ const year = new Date().getFullYear();
   .legal {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 4px 20px;
+  }
+
+  /* Phones: name, P.IVA and Privacy in one column, left-aligned. */
+  @media (max-width: 599.98px) {
+    .inner {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .legal {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+    }
   }
 
   p {

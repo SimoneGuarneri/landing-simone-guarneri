@@ -68,8 +68,9 @@ for (const { locale, url, copy } of pages) {
       await group.getByRole('radio', { name: f.roles[0] }).focus();
       await page.keyboard.press('ArrowRight');
       await expect(group.getByRole('radio', { name: f.roles[1] })).toBeChecked();
-      const box = await group.locator('label').first().boundingBox();
-      expect(box?.height).toBeGreaterThanOrEqual(44);
+      // Layout height, not the bounding box: a scroll-in reveal may still be scaling the form.
+      const height = await group.locator('label').first().evaluate((el) => (el as HTMLElement).offsetHeight);
+      expect(height).toBeGreaterThanOrEqual(44);
     });
 
     test('honeypot is not visible, not focusable and hidden from assistive tech', async ({ page }) => {
