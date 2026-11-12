@@ -15,12 +15,12 @@ import { letters } from './letters';
 import { marquee } from './marquee';
 import { parallax } from './parallax';
 import { progress } from './progress';
-import { scan } from './scan';
+import { dots } from './dots';
 import { reveal } from './reveal';
 import { swipe } from './swipe';
 import { waves } from './waves';
 
-const MODULES: MotionModule[] = [waves, letters, swipe, reveal, count, blob, parallax, marquee, focus, progress, cursor, scan];
+const MODULES: MotionModule[] = [waves, letters, swipe, reveal, count, blob, parallax, marquee, focus, progress, cursor, dots];
 
 const queries = {
   reduce: window.matchMedia('(prefers-reduced-motion: reduce)'),

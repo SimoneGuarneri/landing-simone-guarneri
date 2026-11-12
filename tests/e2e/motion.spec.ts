@@ -181,3 +181,27 @@ for (const { name, size } of [
     expect(t[t.length - 1] - t[0]).toBeGreaterThanOrEqual(100);
   });
 }
+
+test.describe('contact photo in dots', () => {
+  test('grows its dots in when it scrolls into view', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.goto('./');
+    const photo = page.locator('[data-dots]');
+    await expect(photo).toHaveAttribute('data-dots', 'pending');
+    await photo.scrollIntoViewIfNeeded();
+    await expect(photo).toHaveAttribute('data-dots', 'done');
+    await expect(photo.locator('img')).toHaveAttribute('alt', 'Ritratto di Simone Guarneri');
+  });
+
+  test.describe('with reduced motion', () => {
+    test.use({ reducedMotion: 'reduce' });
+    test('shows the finished dots at once', async ({ page }) => {
+      await page.goto('./en/');
+      const photo = page.locator('[data-dots]');
+      await expect(photo).not.toHaveAttribute('data-dots', 'pending');
+      await expect(photo.locator('img')).toHaveAttribute('alt', 'Portrait of Simone Guarneri');
+      await photo.scrollIntoViewIfNeeded();
+      await expect(photo.locator('img')).toBeVisible();
+    });
+  });
+});

@@ -1,7 +1,7 @@
 ---
 /**
  * Contact shell: title, body, Email and WhatsApp buttons on the left, then (when images.json
- * sets `contact`) a duotone photo that scans in on scroll; the form (#7) on the right.
+ * sets `contact`) the photo shown through a screen of fading dots; the form (#7) on the right.
  * The purple band continues into the site footer (Footer.astro), as in the design.
  */
 import { Image } from 'astro:assets';
@@ -34,7 +34,7 @@ const photo = imageFor('contact', locale);
       </div>
       {
         photo.src && (
-          <figure class="photo" data-scan>
+          <figure class="photo" data-dots>
             <Image
               src={photo.src}
               alt={photo.alt}
@@ -134,75 +134,51 @@ const photo = imageFor('contact', locale);
     min-width: 0;
   }
 
-  /* Duotone: the photo in greyscale multiplied over yellow, so it reads as black on yellow
-     like the rest of the palette instead of a plain snapshot. */
+  /* The photo seen through a screen of dots: black and white, lightened into the purple
+     (screen blend), each dot a window on the picture, the whole fading out at the edges.
+     src/lib/motion/dots.ts grows the dots in (data-dots) the first time it scrolls into
+     view; without it the finished dots show. */
+  @property --dot {
+    syntax: '<length>';
+    inherits: false;
+    initial-value: 2.6px;
+  }
+
   .photo {
-    position: relative;
     margin: auto 0 0;
     width: min(100%, 360px);
     aspect-ratio: 4 / 5;
-    border-radius: 28px;
-    overflow: hidden;
-    background: var(--yellow);
-    transform: rotate(-2deg);
   }
 
   .photo-img {
+    --dot: 2.6px;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 70% 30%;
-    filter: grayscale(1) contrast(1.25) brightness(1.08);
-    mix-blend-mode: multiply;
+    object-position: 55% 35%;
+    filter: grayscale(1) contrast(1.3) brightness(1.05);
+    mix-blend-mode: screen;
+    mask-image:
+      radial-gradient(circle, #000 var(--dot), transparent calc(var(--dot) + .6px)),
+      radial-gradient(ellipse closest-side, #000 50%, transparent 100%);
+    mask-size: 6px 6px, 100% 100%;
+    mask-composite: intersect;
   }
 
-  /* Scan-in (src/lib/motion/scan.ts sets data-scan): the picture is drawn top to
-     bottom in steps, sharpening as it goes, with a scan line leading the way. */
-  .photo::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    height: 3px;
-    background: var(--black);
-    opacity: 0;
+  .photo[data-dots='pending'] .photo-img {
+    --dot: 0px;
   }
 
-  .photo[data-scan='pending'] .photo-img {
-    clip-path: inset(0 0 100% 0);
+  .photo[data-dots='done'] .photo-img {
+    animation: dots-in 1.4s cubic-bezier(.2, .8, .2, 1) both;
   }
 
-  .photo[data-scan='done'] .photo-img {
-    animation: scan-in 1.6s steps(16, end) both;
-  }
-
-  .photo[data-scan='done']::after {
-    animation: scan 1.6s steps(16, end) both;
-  }
-
-  @keyframes scan-in {
+  @keyframes dots-in {
     from {
-      clip-path: inset(0 0 100% 0);
-      filter: grayscale(1) contrast(1.25) brightness(1.08) blur(8px);
+      --dot: 0px;
     }
     to {
-      clip-path: inset(0 0 0 0);
-      filter: grayscale(1) contrast(1.25) brightness(1.08) blur(0);
-    }
-  }
-
-  @keyframes scan {
-    from {
-      top: 0;
-      opacity: 1;
-    }
-    99% {
-      opacity: 1;
-    }
-    to {
-      top: 100%;
-      opacity: 0;
+      --dot: 2.6px;
     }
   }
 </style>
