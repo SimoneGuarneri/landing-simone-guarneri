@@ -1,0 +1,584 @@
+---
+/**
+ * 404, served by GitHub Pages for every unknown URL, including /en/... ones. One file for both
+ * languages: Italian is rendered by default and a head script switches <html lang> to "en" when
+ * the missing URL sits under /en/; CSS then shows the English copy (no flash, no redirect).
+ * The easter egg: the "404." tiles arrive shuffled and can be swapped back into order.
+ * Without JS the tiles simply read "404." and stay inert.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import { localizedPath, t, type Locale } from '../lib/i18n';
+import '../components/sections/sections.css';
+
+const locales: Locale[] = ['it', 'en'];
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const home = (l: Locale) => localizedPath(l, '/');
+const other = (l: Locale): Locale => (l === 'it' ? 'en' : 'it');
+const pageTitle = (l: Locale) => `${t(l, 'notFound.title')}, Simone Guarneri`;
+const solved = ['4', '0', '4', '.'];
+const year = new Date().getFullYear();
+
+const gameStrings = (l: Locale) => JSON.stringify(t(l, 'notFound.game'));
+const uiStrings = JSON.stringify({
+  skip: t('en', 'skipLink'),
+  toLight: t('en', 'theme.toLight'),
+  toDark: t('en', 'theme.toDark'),
+});
+const tileLabel = (c: string, i: number) =>
+  t('it', 'notFound.game.tile')
+    .replace('{char}', c === '.' ? t('it', 'notFound.game.dot') : c)
+    .replace('{pos}', String(i + 1))
+    .replace('{total}', String(solved.length));
+---
+
+<BaseLayout
+  lang="it"
+  path="/404/"
+  noindex
+  title={pageTitle('it')}
+  description={t('it', 'notFound.description')}
+>
+  <!-- Language before first paint: GitHub Pages serves this same file for /en/anything. -->
+  <script is:inline slot="head" define:vars={{ base, enTitle: pageTitle('en') }}>
+    (function () {
+      var p = location.pathname;
+      if (p.indexOf(base + 'en/') === 0 || p === base + 'en') {
+        document.documentElement.lang = 'en';
+        document.title = enTitle;
+      }
+    })();
+  </script>
+
+  <div class="page">
+    <header class="site-header">
+      <div class="sg-wrap inner">
+        {
+          locales.map((l) => (
+            <a href={home(l)} class="logo sg-focus" data-l={l}>
+              sg<span class="dot">.</span>
+              <span class="visually-hidden"> {t(l, 'notFound.home')}</span>
+            </a>
+          ))
+        }
+        <ThemeToggle locale="it" />
+      </div>
+    </header>
+
+    <main id="main" tabindex="-1" data-ui-en={uiStrings}>
+      <section class="nf" data-hero>
+        <canvas data-waves class="waves" aria-hidden="true"></canvas>
+        <div class="sg-wrap grid">
+          {
+            locales.map((l) => (
+              <div class="copy" data-l={l} lang={l}>
+                <h1>
+                  {t(l, 'notFound.heading')}
+                  <span class="dot">.</span>
+                </h1>
+                <p class="lede">{t(l, 'notFound.lede')}</p>
+                <div class="ctas">
+                  <a href={home(l)} class="sg-btn btn-primary">
+                    {t(l, 'notFound.home')} <span aria-hidden="true">→</span>
+                  </a>
+                  <a
+                    href={home(other(l))}
+                    hreflang={other(l)}
+                    lang={other(l)}
+                    class="sg-btn btn-outline"
+                  >
+                    {t(other(l), 'notFound.homeLink')}
+                  </a>
+                </div>
+              </div>
+            ))
+          }
+
+          <div
+            class="game"
+            data-game
+            data-it={gameStrings('it')}
+            data-en={gameStrings('en')}
+            aria-labelledby="game-title"
+          >
+            <div class="game-text" data-game-text hidden>
+              <h2 id="game-title" data-game-title>{t('it', 'notFound.game.title')}</h2>
+              <p data-game-hint>{t('it', 'notFound.game.hint')}</p>
+            </div>
+            <div class="tiles" role="group" aria-label={t('it', 'notFound.game.group')} data-tiles>
+              {
+                solved.map((c, i) => (
+                  <button
+                    type="button"
+                    class="tile"
+                    data-tile
+                    data-char={c}
+                    aria-label={tileLabel(c, i)}
+                    disabled
+                  >
+                    <span class="glyph" aria-hidden="true">{c === '.' ? '' : c}</span>
+                  </button>
+                ))
+              }
+            </div>
+            <p class="status" data-status aria-live="polite"></p>
+            <button type="button" class="sg-btn btn-outline again" data-again hidden>
+              {t('it', 'notFound.game.again')}
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="ftr">
+      <p>© {year} Simone Guarneri</p>
+    </footer>
+  </div>
+</BaseLayout>
+
+<script>
+  import '../lib/motion';
+</script>
+
+<script>
+  type GameStrings = {
+    title: string;
+    hint: string;
+    group: string;
+    tile: string;
+    dot: string;
+    picked: string;
+    order: string;
+    solved: string;
+    again: string;
+  };
+
+  const SOLVED = ['4', '0', '4', '.'];
+  const en = document.documentElement.lang === 'en';
+  const fill = (tpl: string, v: Record<string, string | number>) =>
+    tpl.replace(/\{(\w+)\}/g, (_, k: string) => String(v[k] ?? ''));
+
+  // Interface strings BaseLayout and ThemeToggle render in Italian.
+  if (en) {
+    try {
+      const ui = JSON.parse(document.querySelector<HTMLElement>('[data-ui-en]')?.dataset.uiEn ?? '{}');
+      const skip = document.querySelector('.skip-link');
+      if (skip && ui.skip) skip.textContent = ui.skip;
+      document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]').forEach((btn) => {
+        btn.dataset.labelLight = ui.toLight;
+        btn.dataset.labelDark = ui.toDark;
+        const label = document.documentElement.dataset.theme === 'dark' ? ui.toLight : ui.toDark;
+        btn.setAttribute('aria-label', label);
+        btn.title = label;
+      });
+    } catch {
+      // Keep the Italian labels.
+    }
+  }
+
+  const root = document.querySelector<HTMLElement>('[data-game]');
+  if (root) {
+    const s: GameStrings = JSON.parse((en ? root.dataset.en : root.dataset.it) ?? '{}');
+    const tiles = [...root.querySelectorAll<HTMLButtonElement>('[data-tile]')];
+    const status = root.querySelector<HTMLElement>('[data-status]')!;
+    const again = root.querySelector<HTMLButtonElement>('[data-again]')!;
+    root.querySelector('[data-game-title]')!.textContent = s.title;
+    root.querySelector('[data-game-hint]')!.textContent = s.hint;
+    root.querySelector('[data-tiles]')!.setAttribute('aria-label', s.group);
+    again.textContent = s.again;
+    root.querySelector<HTMLElement>('[data-game-text]')!.hidden = false;
+
+    let order = [...SOLVED];
+    let picked = -1;
+    const name = (c: string) => (c === '.' ? s.dot : c);
+    const isSolved = () => order.join('') === SOLVED.join('');
+
+    const render = () => {
+      tiles.forEach((tile, i) => {
+        const c = order[i];
+        tile.dataset.char = c;
+        tile.querySelector('.glyph')!.textContent = c === '.' ? '' : c;
+        tile.setAttribute('aria-label', fill(s.tile, { char: name(c), pos: i + 1, total: tiles.length }));
+        tile.setAttribute('aria-pressed', String(i === picked));
+      });
+    };
+
+    const pop = (i: number) => {
+      const tile = tiles[i];
+      tile.classList.remove('pop');
+      void tile.offsetWidth; // restart the animation
+      tile.classList.add('pop');
+    };
+
+    const shuffle = () => {
+      do {
+        for (let i = order.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [order[i], order[j]] = [order[j], order[i]];
+        }
+      } while (isSolved());
+      picked = -1;
+      delete root.dataset.solved;
+      tiles.forEach((tile) => (tile.disabled = false));
+      again.hidden = true;
+      status.textContent = '';
+      render();
+    };
+
+    const win = () => {
+      root.dataset.solved = 'true';
+      status.textContent = s.solved;
+      again.hidden = false;
+      // Hand focus to the button that stays usable before the tiles go inert.
+      if (tiles.includes(document.activeElement as HTMLButtonElement)) again.focus();
+      tiles.forEach((tile) => (tile.disabled = true));
+    };
+
+    const swap = (a: number, b: number) => {
+      [order[a], order[b]] = [order[b], order[a]];
+      picked = -1;
+      render();
+      pop(a);
+      pop(b);
+      if (isSolved()) win();
+      else status.textContent = fill(s.order, { order: order.map(name).join(', ') });
+    };
+
+    tiles.forEach((tile, i) => {
+      tile.addEventListener('click', () => {
+        if (picked < 0) {
+          picked = i;
+          status.textContent = fill(s.picked, { char: name(order[i]) });
+          render();
+        } else if (picked === i) {
+          picked = -1;
+          status.textContent = '';
+          render();
+        } else {
+          swap(picked, i);
+        }
+      });
+      tile.addEventListener('keydown', (e) => {
+        const step = e.key === 'ArrowLeft' ? -1 : e.key === 'ArrowRight' ? 1 : 0;
+        if (!step) return;
+        e.preventDefault();
+        const j = i + step;
+        if (j < 0 || j >= tiles.length) return;
+        // Arrows carry the focused tile one place along.
+        swap(i, j);
+        if (!tiles[j].disabled) tiles[j].focus();
+      });
+    });
+
+    again.addEventListener('click', () => {
+      shuffle();
+      tiles[0].focus();
+    });
+
+    shuffle();
+  }
+</script>
+
+<style>
+  /* One file, two languages: show the copy matching <html lang> (set by the head script). */
+  :global(html:not([lang='en'])) [data-l='en'],
+  :global(html[lang='en']) [data-l='it'] {
+    display: none;
+  }
+
+  .page {
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  main:focus {
+    outline: none;
+  }
+
+  /* Header: same bar as the home, with only the logo and the theme switch. */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--hdr);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .inner {
+    padding: 14px clamp(16px, 5vw, 48px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .logo,
+  .logo:hover {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 20px;
+    text-decoration: none;
+    letter-spacing: -.03em;
+    color: var(--ink);
+  }
+
+  .dot {
+    color: var(--accent-ink);
+  }
+
+  /* The hero, with the home page's waves rising behind it. */
+  .nf {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding: clamp(40px, 8vw, 96px) clamp(16px, 5vw, 48px) clamp(96px, 12vw, 160px);
+  }
+
+  .waves {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    filter: blur(30px);
+    opacity: var(--waves-op);
+    pointer-events: none;
+    transition: opacity .4s;
+  }
+
+  .grid {
+    position: relative;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+    gap: clamp(48px, 7vw, 96px) clamp(32px, 6vw, 96px);
+    align-items: center;
+  }
+
+  h1 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(40px, 6.6vw, 92px);
+    line-height: .95;
+    letter-spacing: -.04em;
+    text-wrap: balance;
+  }
+
+  .lede {
+    margin: clamp(20px, 3vw, 32px) 0 0;
+    font-size: clamp(18px, 2vw, 24px);
+    line-height: 1.45;
+    letter-spacing: -.01em;
+    max-width: 34ch;
+    color: var(--body);
+    text-wrap: pretty;
+  }
+
+  .ctas {
+    margin-top: clamp(28px, 4vw, 40px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .sg-btn {
+    padding: 15px 26px;
+  }
+
+  .btn-primary {
+    background: var(--purple);
+    color: var(--white);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-3px) rotate(-2deg);
+    background: var(--ink);
+    color: var(--bg);
+  }
+
+  .btn-outline {
+    font-weight: 400;
+    border: 1.5px solid var(--ink);
+    color: var(--ink);
+    background: transparent;
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  .btn-outline:hover {
+    transform: translateY(-3px) rotate(2deg);
+    background: var(--yellow);
+    color: var(--black);
+  }
+
+  /* The game: four big tiles that spell "404." once in order. */
+  .game {
+    min-width: 0;
+  }
+
+  .game h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(22px, 2.4vw, 28px);
+    line-height: 1.15;
+    letter-spacing: -.02em;
+  }
+
+  .game-text p {
+    margin: 8px 0 0;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--body);
+    max-width: 44ch;
+  }
+
+  .tiles {
+    container-type: inline-size;
+    margin-top: clamp(20px, 3vw, 28px);
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(6px, 1.2vw, 14px);
+    max-width: 560px;
+  }
+
+  .tile {
+    position: relative;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    border-radius: clamp(14px, 2vw, 24px);
+    background: var(--surface);
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 19cqi;
+    line-height: 1;
+    letter-spacing: -.04em;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: transform .25s cubic-bezier(.3, 1.6, .5, 1), background .2s, color .2s;
+  }
+
+  .tile:disabled {
+    cursor: default;
+  }
+
+  .tile:not(:disabled):hover {
+    transform: translateY(-4px);
+  }
+
+  .tile:focus-visible {
+    outline: 2px solid var(--accent-ink);
+    outline-offset: 3px;
+  }
+
+  .tile[aria-pressed='true'] {
+    background: var(--yellow);
+    color: var(--black);
+    transform: translateY(-8px) rotate(-4deg);
+  }
+
+  /* The dot is drawn, not typed, so it sits where a full stop would. */
+  .tile[data-char='.'] .glyph::after {
+    content: '';
+    display: block;
+    width: .2em;
+    height: .2em;
+    border-radius: 50%;
+    background: var(--accent-ink);
+    transform: translateY(.26em);
+  }
+
+  .tile[aria-pressed='true'][data-char='.'] .glyph::after {
+    background: var(--purple);
+  }
+
+  .tile.pop {
+    animation: pop .35s cubic-bezier(.3, 1.6, .5, 1);
+  }
+
+  @keyframes pop {
+    from {
+      transform: scale(.88);
+    }
+  }
+
+  /* Solved: the tiles turn purple and hop in turn. */
+  [data-solved] .tile {
+    background: var(--purple);
+    color: var(--white);
+    animation: hop .6s cubic-bezier(.3, 1.6, .5, 1) both;
+  }
+
+  [data-solved] .tile[data-char='.'] .glyph::after {
+    background: var(--yellow);
+  }
+
+  [data-solved] .tile:nth-child(2) {
+    animation-delay: .08s;
+  }
+
+  [data-solved] .tile:nth-child(3) {
+    animation-delay: .16s;
+  }
+
+  [data-solved] .tile:nth-child(4) {
+    animation-delay: .24s;
+  }
+
+  @keyframes hop {
+    40% {
+      transform: translateY(-18%) rotate(-3deg);
+    }
+  }
+
+  .status {
+    min-height: 1.55em;
+    margin: 16px 0 0;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink);
+    max-width: 44ch;
+  }
+
+  .again {
+    margin-top: 12px;
+  }
+
+  .again[hidden] {
+    display: none;
+  }
+
+  .ftr {
+    padding: 20px clamp(16px, 5vw, 48px) 28px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .ftr p {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  @media (pointer: coarse) {
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+    }
+  }
+</style>

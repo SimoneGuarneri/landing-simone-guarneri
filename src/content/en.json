@@ -187,5 +187,24 @@
     "place": "Campania, Italy",
     "vat": "VAT no.",
     "privacy": "Privacy"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "This page does not exist or has moved.",
+    "heading": "This page isn’t here",
+    "lede": "Maybe the link was old, maybe I moved it. The home page, at least, is right where it was.",
+    "home": "Back to the home page",
+    "homeLink": "Home in English",
+    "game": {
+      "title": "While you’re here",
+      "hint": "The 404 got shuffled. Put it back in order: tap two tiles to swap them, or use Enter and the arrow keys.",
+      "group": "404 tiles",
+      "tile": "{char}, position {pos} of {total}",
+      "dot": "dot",
+      "picked": "{char} picked. Now choose a tile to swap it with.",
+      "order": "Current order: {order}.",
+      "solved": "There it is, the 404 is fixed. The page you wanted, not so much.",
+      "again": "Shuffle again"
+    }
   }
 }

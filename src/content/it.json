@@ -187,5 +187,24 @@
     "place": "Campania, Italia",
     "vat": "P.IVA",
     "privacy": "Privacy"
+  },
+  "notFound": {
+    "title": "Pagina non trovata",
+    "description": "Questa pagina non esiste o è stata spostata.",
+    "heading": "Questa pagina non c’è",
+    "lede": "Forse il link era vecchio, forse l’ho spostata io. La home invece è sempre al suo posto.",
+    "home": "Torna alla home",
+    "homeLink": "Home in italiano",
+    "game": {
+      "title": "Già che sei qui",
+      "hint": "Il 404 si è mescolato. Rimettilo in ordine: tocca due tessere per scambiarle, oppure da tastiera usa Invio e le frecce.",
+      "group": "Tessere del 404",
+      "tile": "{char}, posizione {pos} di {total}",
+      "dot": "punto",
+      "picked": "{char} scelta. Ora scegli con quale scambiarla.",
+      "order": "Ordine attuale: {order}.",
+      "solved": "Eccolo, il 404 è a posto. La pagina che cercavi, invece, no.",
+      "again": "Mescola di nuovo"
+    }
   }
 }

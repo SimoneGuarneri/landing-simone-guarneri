@@ -13,9 +13,11 @@ interface Props {
   description?: string;
   /** Locale-neutral page path (`/`, `/privacy/`). */
   path: string;
+  /** No canonical URL and a robots noindex (404 page). */
+  noindex?: boolean;
 }
 
-const { lang, title, description, path } = Astro.props;
+const { lang, title, description, path, noindex = false } = Astro.props;
 
 const absolute = (p: string) => new URL(p, Astro.site).href;
 const canonical = absolute(localizedPath(lang, path));
@@ -56,13 +58,13 @@ if (isHome) {
 ---
 
 {description && <meta name="description" content={description} />}
-<link rel="canonical" href={canonical} />
+{noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
 
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Simone Guarneri" />
 <meta property="og:title" content={title} />
 {description && <meta property="og:description" content={description} />}
-<meta property="og:url" content={canonical} />
+{!noindex && <meta property="og:url" content={canonical} />}
 <meta property="og:locale" content={ogLocale[lang]} />
 <meta property="og:locale:alternate" content={ogLocale[otherLocale(lang)]} />
 {
