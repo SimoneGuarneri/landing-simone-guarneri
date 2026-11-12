@@ -5,7 +5,7 @@
  */
 import { Image } from 'astro:assets';
 import { contacts, figuresFor, imageFor } from '../../lib/content/astro';
-import type { Brand } from '../../lib/content';
+import type { Brand, HeadlineId, KpiId } from '../../lib/content';
 import { t, type Locale, type MessageKey } from '../../lib/i18n';
 
 interface Props {
@@ -18,17 +18,17 @@ const { locale, brand } = Astro.props;
 interface BrandInfo {
   name: string;
   url: string | null;
-  copy: 'dorotea' | 'quattro';
   /** Label of the revenue KPI differs per brand (gross vs managed revenue). */
   revenue: MessageKey;
 }
 
 const BRANDS: Record<Brand, BrandInfo> = {
-  dorotea: { name: 'Dorotea Housing', url: contacts.doroteaUrl, copy: 'dorotea', revenue: 'figures.kRev' },
-  quattro: { name: 'Quattro Houses', url: contacts.quattroUrl, copy: 'quattro', revenue: 'figures.kRevpar' },
+  dorotea: { name: 'Dorotea Housing', url: contacts.doroteaUrl, revenue: 'figures.kRev' },
+  quattro: { name: 'Quattro Houses', url: contacts.quattroUrl, revenue: 'figures.kRevpar' },
 };
 
-const HEADLINE_LABEL: Record<string, MessageKey> = {
+// Typed by figure id: adding a figure to figures.json without a label is a type error.
+const HEADLINE_LABEL: Record<HeadlineId<'dorotea'> | HeadlineId<'quattro'>, MessageKey> = {
   homes: 'figures.properties',
   locations: 'figures.locations',
   network: 'figures.network',
@@ -36,21 +36,17 @@ const HEADLINE_LABEL: Record<string, MessageKey> = {
 };
 
 const info = BRANDS[brand];
-const KPI_LABEL: Record<string, MessageKey> = {
+const KPI_LABEL: Record<KpiId, MessageKey> = {
   revenue: info.revenue,
   growth: 'figures.kGrowth',
   occupancy: 'figures.kOcc',
 };
 
-const labelFor = (map: Record<string, MessageKey>, id: string): string => {
-  const key = map[id];
-  if (!key) throw new Error(`No label for figure "${id}" of brand "${brand}"`);
-  return String(t(locale, key));
-};
+const label = (key: MessageKey): string => String(t(locale, key));
 
 const figs = figuresFor(brand);
-const headline = figs.headline.map((f) => ({ ...f, label: labelFor(HEADLINE_LABEL, f.id) }));
-const kpis = figs.kpis.map((f) => ({ ...f, label: labelFor(KPI_LABEL, f.id) }));
+const headline = figs.headline.map((f) => ({ ...f, label: label(HEADLINE_LABEL[f.id]) }));
+const kpis = figs.kpis.map((f) => ({ ...f, label: label(KPI_LABEL[f.id]) }));
 const image = imageFor(brand, locale);
 ---
 
@@ -81,7 +77,7 @@ const image = imageFor(brand, locale);
         )
       }
     </div>
-    <p class="desc">{t(locale, info.copy)}</p>
+    <p class="desc">{t(locale, brand)}</p>
     <dl class="figures" data-figures>
       {
         headline.map((f) => (

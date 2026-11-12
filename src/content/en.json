@@ -125,7 +125,8 @@
       "sending": "Sending…",
       "success": "Message sent. I will get back to you soon.",
       "error": "Your message did not go through. Try again, or write to me by email.",
-      "retry": "Try again"
+      "retry": "Try again",
+      "mailto": "Opening your mail app. If nothing happens, write to me at {email}."
     },
     "privacyNote": "I use your details only to reply to you.",
     "privacyLink": "Privacy policy"

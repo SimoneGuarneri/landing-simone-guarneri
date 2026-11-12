@@ -9,6 +9,8 @@ interface FormMessages {
   errors: Record<FieldError, string>;
   sending: string;
   success: string;
+  /** Shown when falling back to the visitor's mail app, with the address to write to. */
+  mailto: string;
   send: string;
 }
 
@@ -106,6 +108,8 @@ function setup(root: HTMLElement): void {
         if (document.activeElement === document.body) retryBtn!.focus();
         break;
       case 'mailto':
+        // Without a mail app the redirect does nothing, so always leave a visible way to reach Simone.
+        status!.textContent = messages.mailto;
         root.dispatchEvent(new CustomEvent('contactform:mailto', { detail: { url: result.url } }));
         window.location.href = result.url;
         break;

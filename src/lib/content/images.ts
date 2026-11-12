@@ -1,7 +1,8 @@
 import { ContentError } from './parse';
+import type { Locale } from '../i18n';
 import type { ImageSlotName, Images } from './schemas';
 
-export type Locale = 'it' | 'en';
+export type { Locale };
 
 export interface ResolvedImage<Asset> {
   /** The image asset, or null → render the slot's placeholder. */

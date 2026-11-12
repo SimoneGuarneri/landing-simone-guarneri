@@ -11,7 +11,7 @@
  * Key for e2e: the build key wins. Only when it is null AND the build is dev or
  * PUBLIC_E2E=1 does the script honour `window.__SG_FORM_KEY__` (see client.ts).
  */
-import { localizedPath, t, type Locale } from '../lib/i18n';
+import { interpolate, localizedPath, t, type Locale } from '../lib/i18n';
 import { contacts, site } from '../lib/content/astro';
 import { WEB3FORMS_ENDPOINT } from '../lib/form/submit';
 
@@ -33,6 +33,7 @@ const messages = {
   },
   sending: t(locale, 'form.status.sending'),
   success: t(locale, 'form.status.success'),
+  mailto: interpolate(t(locale, 'form.status.mailto'), { email: contacts.email }),
   send: `${t(locale, 'form.send')} →`,
 };
 

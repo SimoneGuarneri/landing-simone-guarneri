@@ -3,16 +3,25 @@ import figuresJson from '../../content/figures.json';
 import imagesJson from '../../content/images.json';
 import siteJson from '../../content/site.json';
 import { parseContent } from './parse';
-import { contactsSchema, figuresSchema, imagesSchema, siteSchema } from './schemas';
+import {
+  contactsSchema,
+  figuresSchema,
+  imagesSchema,
+  siteSchema,
+  type Contacts,
+  type Figures,
+  type Images,
+  type SiteConfig,
+} from './schemas';
 
 export * from './schemas';
 export { ContentError, parseContent } from './parse';
 
 export interface Content {
-  contacts: import('./schemas').Contacts;
-  site: import('./schemas').SiteConfig;
-  figures: import('./schemas').Figures;
-  images: import('./schemas').Images;
+  contacts: Contacts;
+  site: SiteConfig;
+  figures: Figures;
+  images: Images;
 }
 
 /** Validate every editable content file. Throws ContentError (file + field path) on the first bad file. */

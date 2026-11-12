@@ -11,9 +11,7 @@ import { defaultLocale, locales, localizedPath, t, type Locale } from '../lib/i1
 import '../lib/content/astro';
 import SeoHead from '../components/SeoHead.astro';
 import Analytics from '../components/Analytics.astro';
-
-/** @deprecated Use `Locale` from `src/lib/i18n`. */
-export type Lang = Locale;
+import { THEME_STORAGE_KEY } from '../lib/theme';
 
 interface Props {
   lang: Locale;
@@ -39,14 +37,16 @@ const alternates = locales.map((l) => ({ hreflang: l, href: absolute(l) }));
     <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL.replace(/\/?$/, '/')}favicon.svg`} />
     {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
     <link rel="alternate" hreflang="x-default" href={absolute(defaultLocale)} />
-    <!-- Theme before first paint: stored choice ('sg-theme') wins, else OS preference. -->
-    <script is:inline>
+    <!-- Theme before first paint: stored choice wins, else OS preference. -->
+    <script is:inline define:vars={{ themeKey: THEME_STORAGE_KEY }}>
       (function () {
         var theme = null;
         try {
-          var stored = localStorage.getItem('sg-theme');
+          var stored = localStorage.getItem(themeKey);
           if (stored === 'light' || stored === 'dark') theme = stored;
-        } catch (e) {}
+        } catch (_) {
+          // Storage blocked (private mode): fall back to the OS preference below.
+        }
         if (!theme) {
           theme =
             window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches

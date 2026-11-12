@@ -28,6 +28,8 @@ const toDark = t(locale, 'theme.toDark');
 </button>
 
 <script>
+  import { THEME_STORAGE_KEY } from '../lib/theme';
+
   const root = document.documentElement;
   const current = () => (root.dataset.theme === 'dark' ? 'dark' : 'light');
 
@@ -41,7 +43,7 @@ const toDark = t(locale, 'theme.toDark');
       const next = current() === 'dark' ? 'light' : 'dark';
       root.dataset.theme = next;
       try {
-        localStorage.setItem('sg-theme', next);
+        localStorage.setItem(THEME_STORAGE_KEY, next);
       } catch {
         // Storage blocked (private mode): the choice lasts for this page only.
       }

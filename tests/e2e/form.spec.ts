@@ -106,6 +106,8 @@ for (const { locale, url, copy } of pages) {
       const href = await mailto;
       expect(href.startsWith(`mailto:${contacts.email}?`)).toBe(true);
       expect(decodeURIComponent(href)).toContain(`[${f.roles[0]}] Mario Rossi`);
+      // Visible fallback in case the visitor has no mail app.
+      await expect(form.locator('[data-status]')).toContainText(contacts.email);
     });
   });
 

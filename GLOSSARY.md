@@ -21,12 +21,12 @@ Simone's in-development data aggregator for short-term rental market research.
 ## People and things
 
 **Owner**:
-A property owner who might hand a home to Simone for management. The primary audience of the page.
-_Avoid_: Landlord, client, host
+A property owner who might hand a Home to Simone for management. The primary audience of the page. "Property owner" is fine in page copy.
+_Avoid_: Landlord, client
 
 **Home**:
-A single short-term rental unit, as counted in brand figures.
-_Avoid_: Property, listing, apartment (in page copy)
+A single short-term rental unit, as counted in Brand figures. "Property" is an accepted synonym in page copy (property management, property manager).
+_Avoid_: Listing (that is the ad on a booking platform, not the unit)
 
 **Brand figures**:
 The headline numbers shown for a brand (homes, locations, revenue, growth, occupancy). Each figure is either published or withheld; invented "sample" numbers are never published.

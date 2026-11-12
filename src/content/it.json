@@ -125,7 +125,8 @@
       "sending": "Invio in corso…",
       "success": "Messaggio inviato. Ti rispondo appena posso.",
       "error": "Il messaggio non è partito. Riprova, oppure scrivimi via email.",
-      "retry": "Riprova"
+      "retry": "Riprova",
+      "mailto": "Sto aprendo la tua app di posta. Se non si apre, scrivimi a {email}."
     },
     "privacyNote": "Uso i tuoi dati solo per risponderti.",
     "privacyLink": "Informativa privacy"
