@@ -64,7 +64,7 @@ See "Going live on the domain" below for the full checklist.
 
 ## Going live on the domain
 
-1. **`site.json`**: set `"domain": "simoneguarneri.com"` (no `https://`, no `www`) and `"basePath": "/"`. Push. With both set, the build writes a `CNAME` file with the domain into the published site, which tells GitHub Pages to serve it there. While `domain` is `null` or `basePath` is not `"/"`, no `CNAME` is written and the site stays on `simoneguarneri.github.io/landing-simone-guarneri/`.
+1. **`site.json`**: set `"domain": "simoneguarneri.com"` (no `https://`, no `www`) and `"basePath": "/"`. Push. With both set, the build writes a `CNAME` file with the domain into the published site. While `domain` is `null` or `basePath` is not `"/"`, no `CNAME` is written and the site stays on `simoneguarneri.github.io/landing-simone-guarneri/`.
 2. **DNS** (at your domain registrar):
 
    | Type    | Name  | Value                                                                       |
@@ -73,8 +73,8 @@ See "Going live on the domain" below for the full checklist.
    | `AAAA`  | `@`   | `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153` |
    | `CNAME` | `www` | `simoneguarneri.github.io`                                                  |
 
-   One record per value (four `A`, four `AAAA`). DNS can take up to a day to spread.
-3. **GitHub**: in the repository, *Settings → Pages*, check that the custom domain shows `simoneguarneri.com` and the DNS check is green, then tick **Enforce HTTPS** (it becomes available once the certificate is issued, usually within an hour).
+   One record per value (four `A`, four `AAAA`). The `AAAA` records are optional (IPv6). Leave any registrar "HTTPS"/proxy toggle off on these records: GitHub issues the certificate itself. DNS can take up to a day to spread.
+3. **GitHub**: in the repository, *Settings → Pages*, set the custom domain to `simoneguarneri.com` (the site deploys through GitHub Actions, so the `CNAME` file alone does not set it), wait for the DNS check to go green, then tick **Enforce HTTPS** (it becomes available once the certificate is issued, usually within an hour).
 
 Canonical links, the sitemap, `robots.txt` and social previews all follow `domain` and `basePath` automatically.
 
