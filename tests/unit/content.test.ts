@@ -13,7 +13,7 @@ describe('content files', () => {
   it('the committed content files parse into typed content', () => {
     const content = loadContent();
     expect(content.contacts.email).toBe('simoneguarneri@proton.me');
-    expect(content.contacts.quattroUrl).toBeNull();
+    expect(content.contacts.quattroUrl).toBe('https://www.quattro.house');
     expect(content.contacts.birthDate).toBe('2002-01-21');
     expect(content.site.domain).toBe('simoneguarneri.com');
     expect(content.site.basePath).toBe('/');

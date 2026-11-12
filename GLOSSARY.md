@@ -15,7 +15,7 @@ _Avoid_: Quattro, Quattro Case
 **Casabase**:
 Simone's in-development software layer on top of channel managers that optimizes and extends them.
 
-**CasaData**:
+**Casadata**:
 Simone's in-development data aggregator for short-term rental market research.
 
 ## People and things

@@ -126,3 +126,16 @@ test('theme toggle flips data-theme and persists after reload', async ({ page })
   await page.reload();
   await expect(html).toHaveAttribute('data-theme', 'light');
 });
+
+test('both brand cards link to their own site in a new tab', async ({ page }) => {
+  await page.goto('./');
+  for (const [brand, href] of [
+    ['dorotea', 'https://doroteahousing.com'],
+    ['quattro', 'https://www.quattro.house'],
+  ]) {
+    const link = page.locator(`[data-brand="${brand}"] a.visit`);
+    await expect(link).toHaveAttribute('href', href);
+    await expect(link).toHaveAttribute('target', '_blank');
+    await expect(link).toHaveAttribute('rel', /noopener/);
+  }
+});
