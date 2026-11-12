@@ -39,16 +39,20 @@
   "workTitle": "Dove lavoro",
   "workIntro": "Un brand che ho fondato e una rete con cui collaboro.",
   "visit": "Visita",
-  "dorotea": "Nove case tra Costiera Amalfitana, Salerno e Milano. L’ho costruita da zero nel 2023 con Tommaso Apicella.",
-  "quattro": "Una rete di oltre 50 case tra Vietri sul Mare e Baronissi. Collaboro con loro e ne gestisco tre.",
+  "siteNote": {
+    "dorotea": "Sito in rifacimento",
+    "quattro": ""
+  },
+  "dorotea": "Nove case tra Costiera Amalfitana, Salerno e Milano. L’ho costruita da zero nel 2023 aiutando Tommaso Apicella.",
+  "quattro": "Una rete di oltre 50 case. Collaboro con loro con compiti di backoffice e gestione.",
   "figures": {
     "locations": "località",
     "properties": "case",
     "network": "case nella rete",
     "managed": "gestite da me",
-    "kRev": "ricavo lordo",
-    "kGrowth": "rispetto al 2024",
-    "kOcc": "occupazione",
+    "kRev": "ricavo lordo 2025",
+    "kGrowth": "crescita sul 2024",
+    "kOcc": "occupazione 2025",
     "kManagedRevenue": "ricavo gestito"
   },
   "buildTitle": "Cosa sto costruendo",

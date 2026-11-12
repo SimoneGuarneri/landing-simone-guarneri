@@ -48,6 +48,8 @@ const figs = figuresFor(brand);
 const headline = figs.headline.map((f) => ({ ...f, label: label(HEADLINE_LABEL[f.id]) }));
 const kpis = figs.kpis.map((f) => ({ ...f, label: label(KPI_LABEL[f.id]) }));
 const image = imageFor(brand, locale);
+/** Optional short note under the Visit button; empty in the copy files = no note. */
+const siteNote = t(locale, `siteNote.${brand}`);
 ---
 
 <article data-reveal class:list={['card', `card-${brand}`]} data-brand={brand}>
@@ -69,11 +71,14 @@ const image = imageFor(brand, locale);
       <h3>{info.name}</h3>
       {
         info.url && (
-          <a href={info.url} target="_blank" rel="noopener" class="visit sg-focus">
-            {t(locale, 'visit')}{' '}
-            <span class="visually-hidden">{info.name}</span>{' '}
-            <span aria-hidden="true">↗</span>
-          </a>
+          <div class="link">
+            <a href={info.url} target="_blank" rel="noopener" class="visit sg-focus">
+              {t(locale, 'visit')}{' '}
+              <span class="visually-hidden">{info.name}</span>{' '}
+              <span aria-hidden="true">↗</span>
+            </a>
+            {siteNote && <span class="site-note" data-site-note>{siteNote}</span>}
+          </div>
         )
       }
     </div>
@@ -170,6 +175,26 @@ const image = imageFor(brand, locale);
     font-weight: 800;
     font-size: clamp(30px, 3.6vw, 44px);
     letter-spacing: -.035em;
+  }
+
+  /* Visit button, with an optional short note under it (e.g. the site is being rebuilt). */
+  .link {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+  }
+
+  .site-note {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* Narrow cards: the link wraps under the name, so it lines up on the left. */
+  @media (max-width: 599.98px) {
+    .link {
+      align-items: flex-start;
+    }
   }
 
   .visit,

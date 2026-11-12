@@ -12,3 +12,5 @@ dist-e2e/
 # Local editor/agent config
 .claude/
 .taste-skill/
+CLAUDE.md
+docs/agents/

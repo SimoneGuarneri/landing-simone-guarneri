@@ -5,9 +5,9 @@
       "locations": { "value": "3", "publish": true }
     },
     "kpis": {
-      "revenue": { "value": "€410k", "publish": false },
-      "growth": { "value": "+38%", "publish": false },
-      "occupancy": { "value": "81%", "publish": false }
+      "revenue": { "value": "€278k", "publish": true },
+      "growth": { "value": "+124%", "publish": true },
+      "occupancy": { "value": "46%", "publish": false }
     }
   },
   "quattro": {

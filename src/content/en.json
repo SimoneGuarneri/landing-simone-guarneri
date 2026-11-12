@@ -39,16 +39,20 @@
   "workTitle": "Where I work",
   "workIntro": "One brand I co-founded and one network I work with.",
   "visit": "Visit",
-  "dorotea": "Nine homes on the Amalfi Coast, in Salerno and in Milan. Built from scratch in 2023 with Tommaso Apicella.",
-  "quattro": "A network of more than 50 homes around Vietri sul Mare and Baronissi. I work with them and manage three of the homes.",
+  "siteNote": {
+    "dorotea": "Website being rebuilt",
+    "quattro": ""
+  },
+  "dorotea": "Nine homes on the Amalfi Coast, in Salerno and in Milan. I helped Tommaso Apicella build it from scratch in 2023.",
+  "quattro": "A network of more than 50 homes. I work with them on back-office and management.",
   "figures": {
     "locations": "locations",
     "properties": "homes",
     "network": "homes in the network",
     "managed": "managed by me",
-    "kRev": "gross revenue",
-    "kGrowth": "year on year",
-    "kOcc": "occupancy",
+    "kRev": "gross revenue 2025",
+    "kGrowth": "growth on 2024",
+    "kOcc": "occupancy 2025",
     "kManagedRevenue": "managed revenue"
   },
   "buildTitle": "What I'm building",

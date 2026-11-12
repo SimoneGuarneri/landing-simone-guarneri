@@ -4,11 +4,11 @@ import { expect, test, type Page } from '@playwright/test';
 const readJson = <T>(file: string): T =>
   JSON.parse(readFileSync(new URL(`../../src/content/${file}`, import.meta.url), 'utf8')) as T;
 type FigureGroup = Record<string, { value: string | number; publish: boolean }>;
-const figures = readJson<Record<'dorotea' | 'quattro', { headline: FigureGroup }>>('figures.json');
+const figures = readJson<Record<'dorotea' | 'quattro', { headline: FigureGroup; kpis: FigureGroup }>>('figures.json');
 const contacts = readJson<{ doroteaUrl: string; quattroUrl: string }>('contacts.json');
-/** Published headline values of a brand, in file order, as the page shows them. */
-const publishedHeadline = (brand: 'dorotea' | 'quattro') =>
-  Object.values(figures[brand].headline)
+/** Published values of a brand's headline figures or KPIs, in file order, as the page shows them. */
+const published = (brand: 'dorotea' | 'quattro', group: 'headline' | 'kpis') =>
+  Object.values(figures[brand][group])
     .filter((f) => f.publish)
     .map((f) => String(f.value).trim());
 
@@ -40,15 +40,25 @@ for (const { lang, url } of pages) {
       await expect(page.locator('[data-contact-form]')).toHaveCount(1);
     });
 
-    test('shows the published figures and no KPI row', async ({ page }) => {
+    test('shows exactly the published figures and KPIs', async ({ page }) => {
       await page.goto(url);
-      const values = (brand: string) =>
-        page.locator(`[data-brand="${brand}"] [data-figures] dd`).allTextContents();
-      expect((await values('dorotea')).map((v) => v.trim())).toEqual(publishedHeadline('dorotea'));
-      expect((await values('quattro')).map((v) => v.trim())).toEqual(publishedHeadline('quattro'));
+      for (const brand of ['dorotea', 'quattro'] as const) {
+        const card = page.locator(`[data-brand="${brand}"]`);
+        const headline = (await card.locator('[data-figures] dd').allTextContents()).map((v) => v.trim());
+        expect(headline).toEqual(published(brand, 'headline'));
+        const kpis = published(brand, 'kpis');
+        if (kpis.length === 0) {
+          await expect(card.locator('[data-kpis]')).toHaveCount(0);
+        } else {
+          // The KPI values count up when scrolled into view: compare the target each one counts to.
+          const shown = await card
+            .locator('[data-kpis] dd')
+            .evaluateAll((els) => els.map((el) => ((el as HTMLElement).dataset.count ?? el.textContent ?? '').trim()));
+          expect(shown).toEqual(kpis);
+        }
+      }
       await page.locator('#work').scrollIntoViewIfNeeded();
       await expect(page.locator('[data-brand="dorotea"] [data-figures]')).toBeVisible();
-      await expect(page.locator('[data-kpis]')).toHaveCount(0);
     });
 
     test('renders the age and year from the content files', async ({ page }) => {
@@ -149,5 +159,15 @@ test('both brand cards link to their own site in a new tab', async ({ page }) =>
     await expect(link).toHaveAttribute('href', href);
     await expect(link).toHaveAttribute('target', '_blank');
     await expect(link).toHaveAttribute('rel', /noopener/);
+  }
+});
+
+test('a brand card shows its site note only when the copy has one', async ({ page }) => {
+  const copy = readJson<{ siteNote: Record<'dorotea' | 'quattro', string> }>('it.json');
+  await page.goto('./');
+  for (const brand of ['dorotea', 'quattro'] as const) {
+    const note = page.locator(`[data-brand="${brand}"] [data-site-note]`);
+    if (copy.siteNote[brand]) await expect(note).toHaveText(copy.siteNote[brand]);
+    else await expect(note).toHaveCount(0);
   }
 });

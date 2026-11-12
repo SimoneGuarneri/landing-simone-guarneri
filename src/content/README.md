@@ -34,7 +34,7 @@ number of items in both languages (the build checks it).
 | `email`      | Shown on the page, used by the Email button and as the form's fallback.    | `"simoneguarneri@proton.me"`   |
 | `whatsapp`   | Your number with country code. Spaces are fine.                            | `"+39 333 123 4567"`           |
 | `piva`       | Partita IVA, 11 digits. Shown in the footer and on the privacy page.       | `"01234567890"`                |
-| `doroteaUrl` | Dorotea Housing website (must start with `https://`).                      | `"https://doroteahousing.com"` |
+| `doroteaUrl` | Dorotea Housing website (must start with `https://`).                      | `"https://villadorotea.com"` |
 | `quattroUrl` | Quattro Houses website. Leave `null` to hide its "Visit" button.           | `null` or `"https://..."`      |
 | `birthDate`  | Used to compute your age in the hero. Format `YYYY-MM-DD`.                 | `"2002-01-21"`                 |
 

@@ -90,18 +90,20 @@ test('figures count up to the published value', async ({ page }) => {
     );
   });
   const values = page.locator('[data-brand="quattro"] [data-count]');
-  await page.evaluate(() => window.scrollTo(0, document.querySelector<HTMLElement>('#work')!.offsetTop));
-  const els = await values.all();
-  expect(els.length).toBeGreaterThan(0);
-  for (const el of els) {
-    await expect(el).toHaveText((await el.getAttribute('data-count'))!, { timeout: 5000 });
-  }
-  const seen = await page.evaluate(() => (window as Window & { __counts?: string[][] }).__counts!);
+  // Centre the figures: each counts only once 60% visible, and the card is still rising in.
+  await values.first().evaluate((el) => el.scrollIntoView({ block: 'center' }));
   const targets = await values.evaluateAll((list) => list.map((el) => (el as HTMLElement).dataset.count!));
-  targets.forEach((target, i) => {
-    expect(seen[i]!.some((text) => text !== target), `figure ${target} never counted`).toBe(true);
-    expect(seen[i]!.at(-1)).toBe(target);
-  });
+  expect(targets.length).toBeGreaterThan(0);
+  // Each figure must have shown an intermediate value and then settled on its published one.
+  await expect
+    .poll(
+      async () => {
+        const seen = await page.evaluate(() => (window as Window & { __counts?: string[][] }).__counts!);
+        return targets.every((target, i) => seen[i]!.some((text) => text !== target) && seen[i]!.at(-1) === target);
+      },
+      { timeout: 5000 },
+    )
+    .toBe(true);
 });
 
 test('phone width: scrolling the whole page never overflows sideways', async ({ page }) => {
