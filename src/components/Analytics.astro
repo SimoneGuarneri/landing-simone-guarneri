@@ -5,7 +5,9 @@
  */
 import { site } from '../lib/content/astro';
 
-const code = site.goatcounterCode;
+// Never count test runs: the e2e build (PUBLIC_E2E=1) and dev server ship no counter.
+const enabled = !import.meta.env.DEV && import.meta.env.PUBLIC_E2E !== '1';
+const code = enabled ? site.goatcounterCode : null;
 const endpoint = code ? `https://${code}.goatcounter.com/count` : null;
 ---
 

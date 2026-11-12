@@ -117,8 +117,13 @@ for (const { locale, url, copy } of pages) {
         (window as Window & { __SG_FORM_KEY__?: string }).__SG_FORM_KEY__ = 'e2e-test-key';
       });
       await page.goto(`${url}#contact`);
-      const overridable = await formRoot(page).getAttribute('data-key-override');
-      test.skip(overridable === null, 'build does not allow the test key override (set PUBLIC_E2E=1)');
+      // Either the build has a real key (requests are mocked below, nothing reaches Web3Forms)
+      // or it allows the test key override.
+      const root = formRoot(page);
+      const hasKey =
+        (await root.getAttribute('data-access-key')) !== null ||
+        (await root.getAttribute('data-key-override')) !== null;
+      test.skip(!hasKey, 'build has no Web3Forms key and no test override (set PUBLIC_E2E=1)');
       await formRoot(page).scrollIntoViewIfNeeded();
     });
 
@@ -150,8 +155,10 @@ for (const { locale, url, copy } of pages) {
 
       await expect(form.getByRole('status')).toHaveText(f.status.success);
       await expect(form.getByLabel(f.name, { exact: true })).toBeHidden();
+      // The build's real key wins over the test override when one is configured.
+      const builtKey = await form.getAttribute('data-access-key');
       expect(body).toMatchObject({
-        access_key: 'e2e-test-key',
+        access_key: builtKey ?? 'e2e-test-key',
         subject: `[${f.roles[1]}] Mario Rossi`,
         replyto: 'mario@example.com',
         phone: '+39 333 1234567',
