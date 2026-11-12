@@ -10,9 +10,7 @@ const { contacts } = Astro.props;
 const mailto = `mailto:${contacts.email}`;
 ---
 
-<!-- DRAFT: must be reviewed by a qualified professional before relying on it. -->
-
-<p class="updated">Last updated: 11 November 2026</p>
+<p class="updated">Last updated: 12 November 2026</p>
 
 <p>
   This page explains what data I collect when you visit this site or write to me through the contact form, why I
@@ -23,6 +21,14 @@ const mailto = `mailto:${contacts.email}`;
 <p>
   The data controller is <strong>Simone Guarneri</strong>, Italian VAT no. (P.IVA) <span data-piva>{contacts.piva}</span>.<br />
   Email: <a href={mailto} data-email>{contacts.email}</a>
+</p>
+
+<h2>Where the site is hosted</h2>
+<p>
+  The site is served by <strong>GitHub Pages</strong>, a service of GitHub, Inc. (United States). When you open a
+  page, GitHub’s servers receive your IP address and the technical details of the request (for example the page
+  requested, date and time, browser type) and record them in their logs to deliver the site to you and protect it
+  from abuse. The legal basis is my legitimate interest in running a working, secure website (GDPR Art. 6(1)(f)).
 </p>
 
 <h2>What I collect through the contact form</h2>
@@ -36,8 +42,14 @@ const mailto = `mailto:${contacts.email}`;
 </ul>
 <p>
   The message reaches me by email through <strong>Web3Forms</strong>, a service that forwards forms from static
-  websites. Web3Forms handles this data on my behalf, as a data processor, only to deliver the message to me. If the
-  form is not available, you can email me directly at the address above.
+  websites, run by Web3Creative, based in India. Web3Forms handles this data on my behalf, as a data processor under
+  its Data Processing Agreement (part of its terms of service), only to deliver the message to me. To do so it uses
+  Amazon Web Services, Cloudflare and Hetzner. To stop spam, your IP address and email may be sent to CleanTalk and to
+  Akismet (Automattic). If the form is not available, you can email me directly at the address above.
+</p>
+<p>
+  If you use the WhatsApp or email buttons, the conversation goes through WhatsApp (Meta) or your mail provider, under
+  their own privacy policies.
 </p>
 
 <h2>Why I use it and on what legal basis</h2>
@@ -60,15 +72,19 @@ const mailto = `mailto:${contacts.email}`;
 <h2>How long I keep it</h2>
 <p>
   I keep messages for as long as needed to handle your request, and in any case no longer than 24 months after our
-  last contact. If we start working together, the data needed for that work is kept for as long as the law requires.
+  last contact. Web3Forms normally keeps messages for up to 3 years: I delete them from my Web3Forms account within the
+  same 24 months. If we start working together, the data needed for that work is kept for as long as the law requires.
 </p>
 
 <h2>Visit statistics</h2>
 <p>
-  To know how many people visit the site I may use <strong>GoatCounter</strong>, a privacy-friendly analytics
-  service. GoatCounter sets no cookies, does not track people across sites and collects no personal data: it only
-  counts visits in aggregate (for example the page viewed, the referring site, the browser type). That is why this
-  site shows no cookie banner.
+  To know how many people visit the site I use <strong>GoatCounter</strong>, a privacy-friendly analytics service. The
+  counting script loads from <code>gc.zgo.at</code>, so that request reaches GoatCounter’s servers. To count unique
+  visits, GoatCounter briefly uses your IP address and browser details (user agent), then discards them without
+  storing them. It sets no cookies and does not track people across sites: it only shows me aggregate figures (for
+  example the page viewed, the referring site, the browser type). The legal basis is my legitimate interest in
+  understanding how the site is used (GDPR Art. 6(1)(f)). Because no cookies or tracking identifiers are stored on
+  your device, this site shows no cookie banner.
 </p>
 
 <h2>Theme preference</h2>
@@ -83,6 +99,20 @@ const mailto = `mailto:${contacts.email}`;
   The site’s fonts are hosted on the site itself. Your browser makes no requests to third-party font services (such
   as Google Fonts), so your IP address is not shared with them.
 </p>
+
+<h2>Transfers outside the European Union</h2>
+<p>Some of the services I use process data outside the European Union:</p>
+<ul>
+  <li>
+    <strong>GitHub</strong> (United States) is certified under the EU-US Data Privacy Framework, which the European
+    Commission recognises as an adequate safeguard;
+  </li>
+  <li>
+    <strong>Web3Forms</strong> (India) and the providers it uses (Amazon Web Services, Cloudflare, Hetzner, CleanTalk,
+    Akismet) receive data from the European Economic Area under the Standard Contractual Clauses approved by the
+    European Commission.
+  </li>
+</ul>
 
 <h2>Your rights</h2>
 <p>Under Articles 15 to 22 of the GDPR you can ask me at any time to:</p>

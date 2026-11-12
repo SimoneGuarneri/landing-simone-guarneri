@@ -10,9 +10,7 @@ const { contacts } = Astro.props;
 const mailto = `mailto:${contacts.email}`;
 ---
 
-<!-- DRAFT: must be reviewed by a qualified professional before relying on it. -->
-
-<p class="updated">Ultimo aggiornamento: 11 novembre 2026</p>
+<p class="updated">Ultimo aggiornamento: 12 novembre 2026</p>
 
 <p>
   Questa pagina spiega quali dati raccolgo quando visiti questo sito o mi scrivi dal modulo di contatto,
@@ -23,6 +21,15 @@ const mailto = `mailto:${contacts.email}`;
 <p>
   <strong>Simone Guarneri</strong>, P.IVA <span data-piva>{contacts.piva}</span>.<br />
   Email: <a href={mailto} data-email>{contacts.email}</a>
+</p>
+
+<h2>Dove è ospitato il sito</h2>
+<p>
+  Il sito è pubblicato su <strong>GitHub Pages</strong>, un servizio di GitHub, Inc. (Stati Uniti). Quando apri una
+  pagina, i server di GitHub ricevono il tuo indirizzo IP e i dati tecnici della richiesta (per esempio pagina
+  richiesta, data e ora, tipo di browser) e li registrano nei loro log per consegnarti il sito e proteggerlo da abusi.
+  La base giuridica è il mio legittimo interesse a pubblicare un sito funzionante e sicuro (art. 6, par. 1, lett. f
+  GDPR).
 </p>
 
 <h2>Quali dati raccolgo dal modulo di contatto</h2>
@@ -36,8 +43,15 @@ const mailto = `mailto:${contacts.email}`;
 </ul>
 <p>
   Il messaggio mi arriva via email tramite <strong>Web3Forms</strong>, un servizio che inoltra i moduli dei siti
-  statici. Web3Forms tratta questi dati per mio conto, come responsabile del trattamento, solo per consegnarmi il
-  messaggio. Se il modulo non è disponibile, puoi scrivermi direttamente all’indirizzo email qui sopra.
+  statici, gestito da Web3Creative, con sede in India. Web3Forms tratta questi dati per mio conto, come responsabile
+  del trattamento in base al suo accordo sul trattamento dei dati (incluso nei suoi termini di servizio), solo per
+  consegnarmi il messaggio. Per farlo usa i servizi di Amazon Web Services, Cloudflare e Hetzner. Per bloccare lo
+  spam, il tuo indirizzo IP e la tua email possono essere inviati a CleanTalk e ad Akismet (Automattic). Se il modulo
+  non è disponibile, puoi scrivermi direttamente all’indirizzo email qui sopra.
+</p>
+<p>
+  Se usi i pulsanti WhatsApp o email, la conversazione passa da WhatsApp (Meta) o dal tuo provider di posta, secondo le
+  loro informative privacy.
 </p>
 
 <h2>Perché li uso e su quale base</h2>
@@ -60,16 +74,20 @@ const mailto = `mailto:${contacts.email}`;
 <h2>Per quanto tempo li conservo</h2>
 <p>
   Conservo i messaggi per il tempo necessario a gestire la tua richiesta e comunque non oltre 24 mesi dall’ultimo
-  contatto. Se nasce un rapporto di lavoro, i dati necessari restano per la durata prevista dalla legge per quel
-  rapporto.
+  contatto. Web3Forms di norma conserva i messaggi fino a 3 anni: io li cancello anche dal mio account Web3Forms entro
+  gli stessi 24 mesi. Se nasce un rapporto di lavoro, i dati necessari restano per la durata prevista dalla legge per
+  quel rapporto.
 </p>
 
 <h2>Statistiche di visita</h2>
 <p>
-  Per sapere quante persone visitano il sito posso usare <strong>GoatCounter</strong>, un servizio di statistiche
-  rispettoso della privacy. GoatCounter non usa cookie, non traccia le persone tra siti diversi e non raccoglie dati
-  personali: conta solo le visite in forma aggregata (per esempio pagina vista, sito di provenienza, tipo di
-  browser). Per questo il sito non mostra un banner sui cookie.
+  Per sapere quante persone visitano il sito uso <strong>GoatCounter</strong>, un servizio di statistiche rispettoso
+  della privacy. Lo script che conta le visite si carica da <code>gc.zgo.at</code>, quindi questa richiesta raggiunge i
+  server di GoatCounter. Per contare le visite uniche GoatCounter usa per poco tempo il tuo indirizzo IP e i dati del
+  browser (user agent), poi li scarta senza salvarli. Non usa cookie e non traccia le persone tra siti diversi: mi
+  mostra solo dati aggregati (per esempio pagina vista, sito di provenienza, tipo di browser). La base giuridica è il
+  mio legittimo interesse a capire come viene usato il sito (art. 6, par. 1, lett. f GDPR). Poiché sul tuo dispositivo
+  non viene salvato nessun cookie né identificativo di tracciamento, il sito non mostra un banner sui cookie.
 </p>
 
 <h2>Preferenza del tema</h2>
@@ -84,6 +102,20 @@ const mailto = `mailto:${contacts.email}`;
   I caratteri del sito sono ospitati sul sito stesso. Il tuo browser non fa richieste a servizi esterni di font
   (come Google Fonts) e quindi non condivide con loro il tuo indirizzo IP.
 </p>
+
+<h2>Trasferimenti fuori dall’Unione europea</h2>
+<p>Alcuni dei servizi che uso trattano dati fuori dall’Unione europea:</p>
+<ul>
+  <li>
+    <strong>GitHub</strong> (Stati Uniti) aderisce all’EU-US Data Privacy Framework, che la Commissione europea
+    riconosce come garanzia adeguata;
+  </li>
+  <li>
+    <strong>Web3Forms</strong> (India) e i fornitori che usa (Amazon Web Services, Cloudflare, Hetzner, CleanTalk,
+    Akismet) ricevono i dati dallo Spazio economico europeo sulla base delle Clausole contrattuali standard approvate
+    dalla Commissione europea.
+  </li>
+</ul>
 
 <h2>I tuoi diritti</h2>
 <p>In base agli articoli da 15 a 22 del GDPR puoi chiedermi in ogni momento di:</p>
