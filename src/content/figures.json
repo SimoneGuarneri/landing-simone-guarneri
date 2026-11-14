@@ -12,8 +12,8 @@
   },
   "quattro": {
     "headline": {
-      "network": { "value": "50+", "publish": true },
-      "managed": { "value": "3", "publish": true }
+      "network": { "value": "50+", "publish": false },
+      "managed": { "value": "3", "publish": false }
     },
     "kpis": {
       "revenue": { "value": "€95k", "publish": false },

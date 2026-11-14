@@ -13,7 +13,7 @@ Nothing broken is ever published: the old version stays online until the error i
 
 A few JSON rules that cover most mistakes:
 
-- Text goes in double quotes: `"simoneguarneri@proton.me"`.
+- Text goes in double quotes: `"contact@simoneguarneri.com"`.
 - Every line in a list except the last ends with a comma.
 - `null` (no quotes) means "not set".
 - `true` / `false` have no quotes.
@@ -31,7 +31,7 @@ number of items in both languages (the build checks it).
 
 | Field        | What it is                                                                 | Example                        |
 | ------------ | -------------------------------------------------------------------------- | ------------------------------ |
-| `email`      | Shown on the page, used by the Email button and as the form's fallback.    | `"simoneguarneri@proton.me"`   |
+| `email`      | Shown on the page, used by the Email button and as the form's fallback.    | `"contact@simoneguarneri.com"`   |
 | `whatsapp`   | Your number with country code. Spaces are fine.                            | `"+39 333 123 4567"`           |
 | `piva`       | Partita IVA, 11 digits. Shown in the footer and on the privacy page.       | `"01234567890"`                |
 | `doroteaUrl` | Dorotea Housing website (must start with `https://`).                      | `"https://villadorotea.com"` |

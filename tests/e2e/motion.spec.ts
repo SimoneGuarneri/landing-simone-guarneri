@@ -79,7 +79,7 @@ test('figures count up to the published value', async ({ page }) => {
   // on the way: it must pass through other values before settling on the published one.
   await page.evaluate(() => {
     const w = window as Window & { __counts?: string[][] };
-    const els = Array.from(document.querySelectorAll<HTMLElement>('[data-brand="quattro"] [data-count]'));
+    const els = Array.from(document.querySelectorAll<HTMLElement>('[data-brand="dorotea"] [data-count]'));
     w.__counts = els.map(() => []);
     els.forEach((el, i) =>
       new MutationObserver(() => w.__counts![i]!.push(el.textContent?.trim() ?? '')).observe(el, {
@@ -89,7 +89,7 @@ test('figures count up to the published value', async ({ page }) => {
       }),
     );
   });
-  const values = page.locator('[data-brand="quattro"] [data-count]');
+  const values = page.locator('[data-brand="dorotea"] [data-count]');
   // Centre the figures: each counts only once 60% visible, and the card is still rising in.
   await values.first().evaluate((el) => el.scrollIntoView({ block: 'center' }));
   const targets = await values.evaluateAll((list) => list.map((el) => (el as HTMLElement).dataset.count!));

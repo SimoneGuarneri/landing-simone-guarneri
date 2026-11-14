@@ -1,7 +1,7 @@
 ---
 /**
  * One brand in "Where I work": image (or the striped placeholder), name, Visit link,
- * description, headline figures and, only when something is published, the KPI row.
+ * description and, only when something is published, the headline figures and KPI row.
  */
 import { Image } from 'astro:assets';
 import { contacts, figuresFor, imageFor } from '../../lib/content/astro';
@@ -83,18 +83,20 @@ const siteNote = t(locale, `siteNote.${brand}`);
       }
     </div>
     <p class="desc">{t(locale, brand)}</p>
-    <dl class="figures" data-figures>
-      {
-        headline.map((f) => (
-          <div class="figure">
-            <dt class="figure-label">{f.label}</dt>
-            <dd data-count={f.value} class="figure-value">
-              {f.value}
-            </dd>
-          </div>
-        ))
-      }
-    </dl>
+    {
+      headline.length > 0 && (
+        <dl class="figures" data-figures>
+          {headline.map((f) => (
+            <div class="figure">
+              <dt class="figure-label">{f.label}</dt>
+              <dd data-count={f.value} class="figure-value">
+                {f.value}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      )
+    }
     {
       kpis.length > 0 && (
         <dl class="kpis" data-kpis>
@@ -123,17 +125,17 @@ const siteNote = t(locale, `siteNote.${brand}`);
   }
 
   .card-dorotea {
-    background: var(--t1);
-    --panel-bg: var(--t1b);
-    --stripe: rgba(122, 60, 240, .12);
-    --figure: var(--accent-ink);
-  }
-
-  .card-quattro {
     background: var(--t2);
     --panel-bg: var(--t2b);
     --stripe: rgba(20, 20, 20, .08);
     --figure: var(--ink);
+  }
+
+  .card-quattro {
+    background: var(--t1);
+    --panel-bg: var(--t1b);
+    --stripe: rgba(122, 60, 240, .12);
+    --figure: var(--accent-ink);
   }
 
   .panel {
