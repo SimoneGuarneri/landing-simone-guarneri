@@ -50,7 +50,7 @@ if (isHome) {
     email: contacts.email,
     worksFor: { '@type': 'Organization', name: 'Dorotea Housing', url: contacts.doroteaUrl },
     knowsLanguage: ['it', 'en'],
-    address: { '@type': 'PostalAddress', addressRegion: 'Campania', addressCountry: 'IT' },
+    address: { '@type': 'PostalAddress', addressLocality: 'Salerno', addressRegion: 'Campania', addressCountry: 'IT' },
   };
   // Escape `<` so no string value can close the <script> element early.
   jsonLd = JSON.stringify(person).replace(/</g, '\\u003c');

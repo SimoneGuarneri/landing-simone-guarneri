@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Simone Guarneri, affitti brevi e software",
-    "description": "Gestisco affitti brevi in Campania e costruisco i software e le automazioni che li fanno funzionare.",
+    "description": "Gestisco affitti brevi in Italia e costruisco i software e le automazioni che li fanno funzionare.",
     "jobTitle": "Property manager e sviluppatore software"
   },
   "skipLink": "Vai al contenuto",
@@ -20,23 +20,23 @@
   "cta": "Contattami",
   "heroA": "Gestisco affitti brevi in Italia",
   "heroB": "e costruisco i software e le automazioni che li fanno funzionare.",
-  "heroMeta": "{age} anni. Sviluppatore autodidatta: studio informatica da quando avevo 16 anni e lavoro nell’ospitalità dai 21, quando ho aperto il mio primo annuncio su Airbnb. Parlo italiano e inglese. Vivo in Campania, aperto a trasferirmi.",
+  "heroMeta": "{age} anni, sviluppatore autodidatta. Studio informatica da quando avevo 16 anni e lavoro nell’ospitalità dai 21, l’anno del mio primo annuncio su Airbnb. Parlo italiano e inglese; vivo a Salerno e sono disposto a trasferirmi.",
   "whatTitle": "Cosa faccio",
   "what": [
     {
       "title": "Gestione immobili",
-      "body": "Gestione completa, o solo la parte che ti serve: prezzi, creazione e testi degli annunci, consulenza su un nuovo immobile. Report chiari ogni mese."
+      "body": "Gestione completa o solo la parte che ti serve, che siano i prezzi, la creazione e i testi degli annunci o un parere su un nuovo immobile. Ogni mese ricevi un report chiaro."
     },
     {
       "title": "Tecnologia e automazione",
-      "body": "Costruisco software e automazioni per le mie case e per altri host, collegati ai channel manager che già usano. Meno lavoro manuale, meno errori."
+      "body": "Costruisco software e automazioni per le mie case e per altri host, collegati ai channel manager che già usano, così c’è meno lavoro manuale e si sbaglia meno."
     },
     {
       "title": "Crescita e strategia",
-      "body": "Valuto immobili e mercati con numeri reali: tariffe, occupazione, costi. Se un’operazione non regge sulla carta, lo dico."
+      "body": "Valuto immobili e mercati su tariffe, occupazione e costi reali, e se un’operazione non regge sulla carta te lo dico."
     }
   ],
-  "workTitle": "Dove lavoro",
+  "workTitle": "Con chi collaboro",
   "workIntro": "Un brand che ho fondato e una rete con cui collaboro.",
   "visit": "Visita",
   "siteNote": {
@@ -44,7 +44,7 @@
     "quattro": ""
   },
   "dorotea": "Nove case tra Costiera Amalfitana, Salerno e Milano. L’ho costruita da zero nel 2023 aiutando Tommaso Apicella.",
-  "quattro": "Una rete di oltre 50 case. Collaboro con loro con compiti di backoffice e gestione.",
+  "quattro": "Una piattaforma di prenotazione diretta per oltre 50 case vacanze, quasi tutte tra Salerno e Pompei, qualcuna a Roma, Milano e Firenze. L’ospite prenota direttamente dal proprietario, mentre Quattro gestisce oltre 20 canali, prezzi e calendari con una commissione del 4%. Con loro seguo backoffice e gestione.",
   "figures": {
     "locations": "località",
     "properties": "case",
@@ -56,17 +56,17 @@
     "kManagedRevenue": "ricavo gestito"
   },
   "buildTitle": "Cosa sto costruendo",
-  "buildIntro": "Software che scrivo accanto agli affitti. Prima lo uso ogni giorno nelle mie case.",
+  "buildIntro": "Software che scrivo accanto agli affitti; gira ogni giorno nelle mie case prima che altrove.",
   "build": [
     {
       "tag": "In sviluppo",
       "title": "Casabase",
-      "body": "Un livello sopra i channel manager che li ottimizza e li estende. In uso interno ogni giorno da Dorotea Housing."
+      "body": "Si appoggia al channel manager e copre quello che non fa. Dorotea Housing lo usa ogni giorno."
     },
     {
       "tag": "In sviluppo",
       "title": "Casadata",
-      "body": "Un aggregatore di dati per le ricerche sugli affitti brevi. Dati di mercato da più fonti in un solo posto, per ricerche più rapide e snelle."
+      "body": "Metti un pin ovunque in Italia: Casadata raccoglie gli annunci Airbnb e Booking.com intorno, scarta quelli che falserebbero i numeri e unisce il resto in un solo report, dai ricavi alla stagionalità fino a concorrenti e comparabili."
     },
     {
       "tag": "Uso interno",
@@ -124,31 +124,31 @@
       "ai": {
         "label": "AI",
         "item": "Claude Code",
-        "note": "Lo uso con metodo per potenziare il lavoro umano, non per sostituirlo: decido, rivedo e rispondo io di ogni riga."
+        "note": "Lo uso per lavorare più veloce. Le decisioni restano mie: rivedo ogni riga e ne rispondo io."
       }
     }
   },
   "howTitle": "Come lavoro",
   "how": [
     {
-      "title": "Prima i numeri.",
-      "body": "Ogni decisione parte dai dati. Le opinioni vengono dopo."
+      "title": "Prima i numeri",
+      "body": "Ogni decisione parte dai dati, le opinioni vengono dopo."
     },
     {
-      "title": "Costruire ciò che manca.",
-      "body": "Se uno strumento non esiste o non va bene, lo scrivo."
+      "title": "Costruire ciò che manca",
+      "body": "Se lo strumento non esiste o non va bene, lo scrivo."
     },
     {
-      "title": "Parlare chiaro.",
-      "body": "I proprietari sanno subito le notizie buone e quelle meno buone."
+      "title": "Parlare chiaro",
+      "body": "I proprietari sanno le notizie cattive presto quanto quelle buone."
     },
     {
-      "title": "Crescere quando si è pronti.",
+      "title": "Crescere quando si è pronti",
       "body": "Un nuovo immobile entra solo quando l’organizzazione può sostenerlo."
     }
   ],
-  "contactTitle": "Parliamone.",
-  "contactBody": "Hai un immobile, un progetto o vuoi collaborare? Scrivimi direttamente. Leggo ogni messaggio.",
+  "contactTitle": "Parliamone",
+  "contactBody": "Hai un immobile, un progetto o vuoi collaborare? Scrivimi direttamente; leggo ogni messaggio io.",
   "contactWhatsapp": "WhatsApp",
   "form": {
     "roleLegend": "Chi sei",
@@ -184,7 +184,7 @@
     "back": "Torna alla home"
   },
   "footer": {
-    "place": "Campania, Italia",
+    "place": "Salerno, Italia",
     "vat": "P.IVA",
     "privacy": "Privacy"
   },

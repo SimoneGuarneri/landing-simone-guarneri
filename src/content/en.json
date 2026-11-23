@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Simone Guarneri, short-term rentals and software",
-    "description": "I manage short-term rentals in Campania, Italy, and build the software and automations that run them.",
+    "description": "I manage short-term rentals in Italy and build the software and automations that run them.",
     "jobTitle": "Property manager and software developer"
   },
   "skipLink": "Skip to content",
@@ -20,23 +20,23 @@
   "cta": "Get in touch",
   "heroA": "I manage short-term rentals in Italy",
   "heroB": "and build the software and automations that run them.",
-  "heroMeta": "{age}. Self-taught developer: I have studied computer science since I was 16 and have worked in hospitality since 21, when I opened my first Airbnb listing. I speak Italian and English. Based in Campania, open to relocating.",
+  "heroMeta": "{age} years old, self-taught developer. I've been studying computer science since I was 16 and working in hospitality since 21, the year I opened my first Airbnb listing. I speak Italian and English; based in Salerno, Italy, and open to relocating.",
   "whatTitle": "What I do",
   "what": [
     {
       "title": "Property management",
-      "body": "Full management, or only the part you need: pricing, listing setup and copy, or advice on a new property. Owners get clear monthly reports."
+      "body": "Full management or just the piece you need, whether that's pricing, setting up and writing the listing, or a second opinion on a new property. Owners get a clear report every month."
     },
     {
       "title": "Technology and automation",
-      "body": "I build software and automations for my homes and for other hosts, connected to the channel managers they already use. Less manual work, fewer errors."
+      "body": "I build software and automations for my own homes and for other hosts, plugged into the channel managers they already use, so there's less manual work and fewer mistakes."
     },
     {
       "title": "Growth and strategy",
-      "body": "I assess new properties and markets with real numbers: rates, occupancy, costs. If a deal does not work on paper, I say so."
+      "body": "I look at new properties and markets through real rates, occupancy and costs, and if a deal doesn't work on paper, I'll say so."
     }
   ],
-  "workTitle": "Where I work",
+  "workTitle": "Who I work with",
   "workIntro": "One brand I co-founded and one network I work with.",
   "visit": "Visit",
   "siteNote": {
@@ -44,7 +44,7 @@
     "quattro": ""
   },
   "dorotea": "Nine homes on the Amalfi Coast, in Salerno and in Milan. I helped Tommaso Apicella build it from scratch in 2023.",
-  "quattro": "A network of more than 50 homes. I work with them on back-office and management.",
+  "quattro": "A direct-booking platform for more than 50 holiday homes, most around Salerno and Pompei, a few in Rome, Milan and Florence. Guests book straight with the owner, while Quattro handles 20+ booking channels, pricing and calendars for a 4% fee. I work with them on back-office and management.",
   "figures": {
     "locations": "locations",
     "properties": "homes",
@@ -56,17 +56,17 @@
     "kManagedRevenue": "managed revenue"
   },
   "buildTitle": "What I'm building",
-  "buildIntro": "Software I write alongside the rentals. Used every day in my own homes first.",
+  "buildIntro": "Software I write alongside the rentals; it runs in my own homes every day before it goes anywhere else.",
   "build": [
     {
       "tag": "In development",
       "title": "Casabase",
-      "body": "A layer on top of channel managers that optimizes and extends them. In daily internal use at Dorotea Housing."
+      "body": "Sits on top of the channel manager and covers what it doesn't do. Dorotea Housing runs on it every day."
     },
     {
       "tag": "In development",
       "title": "Casadata",
-      "body": "A data aggregator for short-term rental research. Market data from several sources in one place, so research is faster and leaner."
+      "body": "Drop a pin anywhere in Italy: Casadata pulls the Airbnb and Booking.com listings around it, throws out the ones that would skew the numbers and merges the rest into one report, from revenue and seasonality to competitors and comps."
     },
     {
       "tag": "Internal use",
@@ -124,31 +124,31 @@
       "ai": {
         "label": "AI",
         "item": "Claude Code",
-        "note": "I use it with method to strengthen human work, not replace it: I decide, review and answer for every line."
+        "note": "I use it to work faster. The decisions stay mine: I review every line and answer for what ships."
       }
     }
   },
   "howTitle": "How I work",
   "how": [
     {
-      "title": "Numbers first.",
-      "body": "Every decision starts from data. Opinions come after."
+      "title": "Numbers first",
+      "body": "Every decision starts from the data, and opinions come after."
     },
     {
-      "title": "Build what is missing.",
-      "body": "If a tool does not exist or does not fit, I write it."
+      "title": "Build what is missing",
+      "body": "If the tool doesn't exist or doesn't fit, I write it."
     },
     {
-      "title": "Say it plainly.",
-      "body": "Owners hear the good news and the bad news, early."
+      "title": "Say it plainly",
+      "body": "Owners hear the bad news as early as the good."
     },
     {
-      "title": "Grow when ready.",
+      "title": "Grow when ready",
       "body": "A new property comes on only when the operation can carry it."
     }
   ],
-  "contactTitle": "Let’s talk.",
-  "contactBody": "Own a property, have a project, or want to work together? Write to me directly. I read every message.",
+  "contactTitle": "Let’s talk",
+  "contactBody": "Own a property, have a project, or want to work together? Write to me directly; I read every message myself.",
   "contactWhatsapp": "WhatsApp",
   "form": {
     "roleLegend": "I am a",
@@ -170,8 +170,8 @@
     },
     "status": {
       "sending": "Sending…",
-      "success": "Message sent. I will get back to you soon.",
-      "error": "Your message did not go through. Try again, or write to me by email.",
+      "success": "Message sent. I'll get back to you soon.",
+      "error": "Your message didn't go through. Try again, or write to me by email.",
       "retry": "Try again",
       "mailto": "Opening your mail app. If nothing happens, write to me at {email}."
     },
@@ -184,7 +184,7 @@
     "back": "Back to home"
   },
   "footer": {
-    "place": "Campania, Italy",
+    "place": "Salerno, Italy",
     "vat": "VAT no.",
     "privacy": "Privacy"
   },

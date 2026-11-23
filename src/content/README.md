@@ -106,8 +106,8 @@ There are five image slots:
 | Slot       | Where it appears                       | Placeholder when empty                |
 | ---------- | -------------------------------------- | ------------------------------------- |
 | `portrait` | The round photo in the hero            | Hidden until a photo is set           |
-| `dorotea`  | Dorotea Housing card in Where I work   | Striped panel                         |
-| `quattro`  | Quattro Houses card in Where I work    | Striped panel                         |
+| `dorotea`  | Dorotea Housing card in Who I work with | Hidden until a photo is set           |
+| `quattro`  | Quattro Houses card in Who I work with  | Hidden until a photo is set           |
 | `contact`  | Your photo under the Contact buttons, shown in black and white through a screen of dots that grow in as it scrolls into view | Hidden until a photo is set |
 | `og`       | The preview image when the link is shared on WhatsApp, LinkedIn... | (always set) |
 

@@ -1,12 +1,12 @@
 {
   "dorotea": {
     "headline": {
-      "homes": { "value": "9", "publish": true },
-      "locations": { "value": "3", "publish": true }
+      "homes": { "value": "9", "publish": false },
+      "locations": { "value": "4", "publish": false }
     },
     "kpis": {
-      "revenue": { "value": "€278k", "publish": true },
-      "growth": { "value": "+124%", "publish": true },
+      "revenue": { "value": "€278k", "publish": false },
+      "growth": { "value": "+124%", "publish": false },
       "occupancy": { "value": "46%", "publish": false }
     }
   },

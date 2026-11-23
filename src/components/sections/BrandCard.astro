@@ -1,6 +1,6 @@
 ---
 /**
- * One brand in "Where I work": image (or the striped placeholder), name, Visit link,
+ * One brand in "Who I work with": image (only when images.json sets one), name, Visit link,
  * description and, only when something is published, the headline figures and KPI row.
  */
 import { Image } from 'astro:assets';
@@ -53,9 +53,9 @@ const siteNote = t(locale, `siteNote.${brand}`);
 ---
 
 <article data-reveal class:list={['card', `card-${brand}`]} data-brand={brand}>
-  <div class="panel">
-    {
-      image.src && (
+  {
+    image.src && (
+      <div class="panel">
         <Image
           src={image.src}
           alt={image.alt}
@@ -63,9 +63,9 @@ const siteNote = t(locale, `siteNote.${brand}`);
           sizes="(min-width: 1376px) 600px, (min-width: 900px) 44vw, calc(100vw - 72px)"
           class="panel-img"
         />
-      )
-    }
-  </div>
+      </div>
+    )
+  }
   <div class="body">
     <div class="head">
       <h3>{info.name}</h3>
@@ -122,19 +122,31 @@ const siteNote = t(locale, `siteNote.${brand}`);
     display: flex;
     flex-direction: column;
     gap: 22px;
+    /* Halftone dots over the whole card, same idea as the contact portrait. */
+    background-image: radial-gradient(var(--card-dot) 1.5px, transparent 1.5px);
+    background-size: 12px 12px;
   }
 
   .card-dorotea {
-    background: var(--t2);
+    background-color: var(--t2);
     --panel-bg: var(--t2b);
-    --stripe: rgba(20, 20, 20, .08);
+    --card-dot: rgba(20, 20, 20, .12);
+    --visit-bg: var(--purple);
+    --visit-ink: var(--white);
     --figure: var(--ink);
   }
 
+  /* Dark ink dots vanish on the dark yellow; use yellow ones instead. */
+  :global(:root[data-theme='dark']) .card-dorotea {
+    --card-dot: rgba(255, 212, 59, .14);
+  }
+
   .card-quattro {
-    background: var(--t1);
+    background-color: var(--t1);
     --panel-bg: var(--t1b);
-    --stripe: rgba(122, 60, 240, .12);
+    --card-dot: rgba(122, 60, 240, .2);
+    --visit-bg: var(--yellow);
+    --visit-ink: var(--black);
     --figure: var(--accent-ink);
   }
 
@@ -145,7 +157,6 @@ const siteNote = t(locale, `siteNote.${brand}`);
     border-radius: 18px;
     overflow: hidden;
     background-color: var(--panel-bg);
-    background-image: repeating-linear-gradient(135deg, var(--stripe) 0 1px, transparent 1px 12px);
   }
 
   .panel-img {
@@ -157,7 +168,7 @@ const siteNote = t(locale, `siteNote.${brand}`);
   }
 
   .body {
-    padding: 0 12px 14px;
+    padding: 12px 12px 14px;
     display: flex;
     flex-direction: column;
     gap: 14px;
@@ -206,14 +217,14 @@ const siteNote = t(locale, `siteNote.${brand}`);
     text-decoration: none;
     padding: 8px 14px;
     border-radius: 999px;
-    background: var(--ink);
-    color: var(--bg);
+    background: var(--visit-bg);
+    color: var(--visit-ink);
     transition: background .2s, color .2s;
   }
 
   .visit:hover {
-    background: var(--purple);
-    color: var(--white);
+    background: var(--ink);
+    color: var(--bg);
   }
 
   .desc {

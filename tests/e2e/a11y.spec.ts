@@ -28,8 +28,8 @@ async function setTheme(page: Page, theme: (typeof themes)[number]) {
   }, theme);
 }
 
-async function seriousViolations(page: Page, { midScroll = false } = {}) {
-  let builder = new AxeBuilder({ page }).withTags([
+async function seriousViolations(page: Page) {
+  const builder = new AxeBuilder({ page }).withTags([
     'wcag2a',
     'wcag2aa',
     'wcag21a',
@@ -37,13 +37,6 @@ async function seriousViolations(page: Page, { midScroll = false } = {}) {
     'wcag22aa',
     'best-practice',
   ]);
-  /*
-   * "How I work" items fade by distance from the viewport centre (design: opacity floor .18);
-   * each one reaches opacity 1 when scrolled to the centre. That dimming depends only on the
-   * scroll position, so mid-scroll it is excluded from the contrast rule; the reduced-motion
-   * pass checks the same items at their final, full-opacity colours.
-   */
-  if (midScroll) builder = builder.exclude('[data-hl]');
   const { violations } = await builder.analyze();
   return violations
     .filter((v) => v.impact === 'serious' || v.impact === 'critical')
@@ -61,7 +54,7 @@ async function scrollThrough(page: Page) {
     const frame = () => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
     const step = Math.round(window.innerHeight * 0.6);
     for (let y = 0; y <= document.documentElement.scrollHeight; y += step) {
-      window.scrollTo(0, y);
+      window.scrollTo({ top: y, behavior: 'instant' }); // the page scrolls smoothly; tests jump
       await frame();
     }
   });
@@ -106,7 +99,7 @@ test.describe('axe (full motion, after the intro settles)', () => {
             { timeout: 10_000 },
           )
           .toBe(true);
-        expect(await seriousViolations(page, { midScroll: true })).toEqual([]);
+        expect(await seriousViolations(page)).toEqual([]);
       });
     }
   }

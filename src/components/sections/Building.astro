@@ -18,7 +18,7 @@ const items = t(locale, 'build');
     <ul class="grid">
       {
         items.map((b) => (
-          <li data-reveal class="card">
+          <li data-reveal class:list={['card', { wide: b.title === 'Casadata' }]}>
             <div class="tags">
               <span class="tag">{b.tag}</span>
             </div>
@@ -48,6 +48,17 @@ const items = t(locale, 'build');
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
     gap: 16px;
+  }
+
+  /* Casadata gets the wider slot: four tracks, it spans two. */
+  @media (min-width: 1100px) {
+    .grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .wide {
+      grid-column: span 2;
+    }
   }
 
   .card {

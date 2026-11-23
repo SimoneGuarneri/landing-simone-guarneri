@@ -15,7 +15,7 @@ const items = t(locale, 'how');
     <ol class="list">
       {
         items.map((h) => (
-          <li data-hl class="item">
+          <li class="item">
             <h3 data-reveal>{h.title}</h3>
             <p data-reveal>{h.body}</p>
           </li>
@@ -47,7 +47,6 @@ const items = t(locale, 'how');
     flex-direction: column;
   }
 
-  /* Final (focused) state; the motion module fades items by distance from the viewport centre. */
   .item {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
@@ -55,8 +54,6 @@ const items = t(locale, 'how');
     align-items: baseline;
     padding: clamp(24px, 3.5vw, 40px) 0;
     border-top: 1.5px solid var(--ink);
-    opacity: 1;
-    transition: opacity .2s linear;
   }
 
   h3 {

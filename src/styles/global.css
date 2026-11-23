@@ -63,6 +63,8 @@
 }
 
 html {
+  /* Anchor links glide; the reduced-motion rule below resets this to auto. */
+  scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }

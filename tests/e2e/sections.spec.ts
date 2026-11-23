@@ -34,7 +34,6 @@ for (const { lang, url } of pages) {
       await expect(page.locator('header.site-header')).toBeVisible();
       for (const id of sectionIds) await expect(page.locator(`#${id}`)).toHaveCount(1);
       await expect(page.locator('main#main')).toHaveCount(1);
-      await expect(page.locator('[data-marquee]')).toHaveCount(1);
       await expect(page.getByRole('contentinfo')).toBeVisible();
       await expect(page.locator('h1')).toHaveCount(1);
       await expect(page.locator('[data-contact-form]')).toHaveCount(1);
@@ -57,8 +56,10 @@ for (const { lang, url } of pages) {
           expect(shown).toEqual(kpis);
         }
       }
-      await page.locator('#work').scrollIntoViewIfNeeded();
-      await expect(page.locator('[data-brand="dorotea"] [data-figures]')).toBeVisible();
+      if (published('dorotea', 'headline').length > 0) {
+        await page.locator('#work').scrollIntoViewIfNeeded();
+        await expect(page.locator('[data-brand="dorotea"] [data-figures]')).toBeVisible();
+      }
     });
 
     test('renders the age and year from the content files', async ({ page }) => {

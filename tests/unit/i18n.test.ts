@@ -44,8 +44,8 @@ describe('t(locale, key)', () => {
   it('returns arrays and objects as-is', () => {
     expect(t('it', 'form.roles')).toEqual(['Proprietario', 'Partner o investitore', 'Altro']);
     expect(t('en', 'how')[0]).toEqual({
-      title: 'Numbers first.',
-      body: 'Every decision starts from data. Opinions come after.',
+      title: 'Numbers first',
+      body: 'Every decision starts from the data, and opinions come after.',
     });
   });
 
@@ -74,8 +74,8 @@ describe('interpolate', () => {
   });
 
   it('works on the hero meta copy in both locales', () => {
-    expect(interpolate(t('it', 'heroMeta'), { age: 25 })).toMatch(/^25 anni\. Sviluppatore/);
-    expect(interpolate(t('en', 'heroMeta'), { age: 25 })).toMatch(/^25\. Self-taught/);
+    expect(interpolate(t('it', 'heroMeta'), { age: 25 })).toMatch(/^25 anni, sviluppatore/);
+    expect(interpolate(t('en', 'heroMeta'), { age: 25 })).toMatch(/^25 years old, self-taught/);
   });
 
   it('throws when a placeholder has no value', () => {
