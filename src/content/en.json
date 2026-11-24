@@ -57,11 +57,22 @@
     "kManagedRevenue": "managed revenue"
   },
   "casadataFragment": {
-    "place": "Salerno · 2-bedroom flat, 4 guests",
     "yearly": "a year at the median, across Airbnb and Booking.com",
-    "finding": "June to August bring 35% of the year’s revenue.",
     "chartLabel": "Revenue per month at the median",
-    "open": "Open the demo report"
+    "open": "Open the demo report",
+    "switchLabel": "Report city",
+    "cities": {
+      "salerno": {
+        "name": "Salerno",
+        "place": "Salerno · 2-bedroom flat, 4 guests",
+        "finding": "June to August bring 35% of the year’s revenue."
+      },
+      "milano": {
+        "name": "Milan",
+        "place": "Milan · 2-bedroom flat, 4 guests",
+        "finding": "April to June bring 31% of the year’s revenue."
+      }
+    }
   },
   "buildTitle": "What I'm building",
   "buildIntro": "Software I write alongside the rentals; it runs in my own homes every day before it goes anywhere else.",

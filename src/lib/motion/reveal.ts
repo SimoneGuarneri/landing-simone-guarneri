@@ -94,7 +94,8 @@ export const reveal: MotionModule = (ctx) => {
     if (kind === 'bars') {
       bars(el).forEach((bar, i) => {
         bar.style.transition = `transform .8s ${EXPO} ${delay + i * 45}ms`;
-        bar.style.transform = 'none';
+        // Back to the stylesheet's own transform (a bar may be scaled to its value).
+        bar.style.transform = '';
       });
     } else {
       el.style.transitionDelay = `${delay}ms`;

@@ -1,3 +1,4 @@
+import { season } from '../casadata';
 import type { MotionModule } from './types';
 
 const COLOURS = ['#7A3CF0', '#FFD43B', '#B595FF', '#FFE88A'];
@@ -5,15 +6,20 @@ const COLOURS = ['#7A3CF0', '#FFD43B', '#B595FF', '#FFE88A'];
 /** Dot pitch in CSS pixels; the grid the halftone sits on. */
 const PITCH = 14;
 
-/** Height of wave band i at horizontal position k (0..1), in canvas pixels. */
+/**
+ * Height of band i at horizontal position k (0..1, January at the left, December at the
+ * right), in canvas pixels: Salerno's revenue season from Casadata's demo report lifts every
+ * band into a summer hump, each band a little lower, flatter and offset; a slow ripple and
+ * breath keep it alive.
+ */
 const surface = (i: number, k: number, h: number, time: number) =>
-  h * (0.48 + i * 0.12) +
-  Math.sin(k * (2 + i * 0.6) * Math.PI + time * (0.35 + i * 0.12) + i * 1.7) * h * 0.09 +
-  Math.sin(k * 5 * Math.PI - time * 0.5 + i) * h * 0.025;
+  h * (0.52 + i * 0.1) -
+  season(k + i * 0.015) * h * 0.24 * (1 - i * 0.18) * (1 + 0.05 * Math.sin(time * 0.6 + i)) +
+  Math.sin(k * 6 * Math.PI - time * (0.45 + i * 0.1) + i * 1.7) * h * 0.018;
 
 /**
- * The same four waves as before, drawn as a halftone: a grid of crisp dots, each taking the
- * colour of the lowest band it sits in and growing with its depth below that band's surface.
+ * Four bands drawn as a halftone: a grid of crisp dots, each taking the colour of the lowest
+ * band it sits in and growing with its depth below that band's surface.
  */
 function draw(c: CanvasRenderingContext2D, w: number, h: number, time: number, scale: number) {
   c.clearRect(0, 0, w, h);

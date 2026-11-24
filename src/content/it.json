@@ -57,11 +57,22 @@
     "kManagedRevenue": "ricavo gestito"
   },
   "casadataFragment": {
-    "place": "Salerno · bilocale, 4 ospiti",
     "yearly": "all’anno alla mediana, tra Airbnb e Booking.com",
-    "finding": "Da giugno ad agosto arriva il 35% dei ricavi dell’anno.",
     "chartLabel": "Ricavi mensili alla mediana",
-    "open": "Apri il report demo"
+    "open": "Apri il report demo",
+    "switchLabel": "Città del report",
+    "cities": {
+      "salerno": {
+        "name": "Salerno",
+        "place": "Salerno · bilocale, 4 ospiti",
+        "finding": "Da giugno ad agosto arriva il 35% dei ricavi dell’anno."
+      },
+      "milano": {
+        "name": "Milano",
+        "place": "Milano · bilocale, 4 ospiti",
+        "finding": "Da aprile a giugno arriva il 31% dei ricavi dell’anno."
+      }
+    }
   },
   "buildTitle": "Cosa sto costruendo",
   "buildIntro": "Software che scrivo accanto agli affitti; gira ogni giorno nelle mie case prima che altrove.",
