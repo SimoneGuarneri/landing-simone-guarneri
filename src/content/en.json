@@ -18,6 +18,7 @@
     "enLabel": "English"
   },
   "cta": "Get in touch",
+  "ctaDemo": "Try Casadata",
   "heroA": "I manage short-term rentals in Italy",
   "heroB": "and build the software and automations that run them.",
   "heroMeta": "{age} years old, self-taught developer. I've been studying computer science since I was 16 and working in hospitality since 21, the year I opened my first Airbnb listing. I speak Italian and English; based in Salerno, Italy, and open to relocating.",
@@ -55,6 +56,13 @@
     "kOcc": "occupancy 2025",
     "kManagedRevenue": "managed revenue"
   },
+  "casadataFragment": {
+    "place": "Salerno · 2-bedroom flat, 4 guests",
+    "yearly": "a year at the median, across Airbnb and Booking.com",
+    "finding": "June to August bring 35% of the year’s revenue.",
+    "chartLabel": "Revenue per month at the median",
+    "open": "Open the demo report"
+  },
   "buildTitle": "What I'm building",
   "buildIntro": "Software I write alongside the rentals; it runs in my own homes every day before it goes anywhere else.",
   "build": [
@@ -78,7 +86,7 @@
   "skillsIntro": "What I use every day, across homes and code.",
   "skills": {
     "homes": {
-      "title": "Property management",
+      "title": "Homes",
       "items": [
         "Revenue management",
         "Dynamic pricing",
@@ -90,7 +98,7 @@
       ]
     },
     "code": {
-      "title": "Computer science",
+      "title": "Code",
       "groups": [
         {
           "label": "Languages",

@@ -22,11 +22,19 @@ const photo = imageFor('contact', locale);
 <section id="contact" class="contact" aria-labelledby="contact-title">
   <div class="sg-wrap grid">
     <div class="intro">
-      <h2 id="contact-title" data-reveal>{t(locale, 'contactTitle')}</h2>
+      <h2 id="contact-title" data-reveal="mask">{t(locale, 'contactTitle')}</h2>
       <p data-reveal>{t(locale, 'contactBody')}</p>
       <div data-reveal class="buttons">
         <a href={mailto} class="sg-btn btn-email"
-          ><span aria-hidden="true">✉</span> <span class="email">{contacts.email}</span></a
+          ><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"
+            ><path
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linejoin="round"
+              d="M3 5.5h18v13H3zM3.5 6l8.5 7 8.5-7"></path></svg
+          >
+          <span class="email">{contacts.email}</span></a
         >
         <a href={waLink} target="_blank" rel="noopener" class="sg-btn btn-wa"
           ><svg class="icon" viewBox="100 100 312 312" aria-hidden="true"
@@ -84,6 +92,30 @@ const photo = imageFor('contact', locale);
     color: var(--white);
     border-radius: clamp(28px, 4vw, 48px) clamp(28px, 4vw, 48px) 0 0;
     padding: clamp(80px, 11vw, 140px) clamp(20px, 5vw, 48px) 0;
+    /* Above the footer (same purple), which it overlaps while it rises. */
+    position: relative;
+    z-index: 1;
+  }
+
+  /* The purple sheet comes up as it enters the screen, locked to the scroll; static where
+     scroll timelines are missing and under reduced motion. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .contact {
+        animation: sheet-up linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 70%;
+      }
+    }
+  }
+
+  @keyframes sheet-up {
+    from {
+      transform: translateY(96px);
+    }
+    to {
+      transform: none;
+    }
   }
 
   .grid {

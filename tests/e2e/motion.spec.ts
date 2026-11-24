@@ -65,7 +65,7 @@ test.describe('reduced motion', () => {
       .evaluateAll((els) => els.map((el) => [el.textContent?.trim(), (el as HTMLElement).dataset.count]));
     for (const [text, value] of counts) expect(text).toBe(value);
     const transforms = await page
-      .locator('[data-letter], [data-parallax]')
+      .locator('[data-letter]')
       .evaluateAll((els) => els.map((el) => getComputedStyle(el).transform));
     expect(transforms.every((t) => t === 'none')).toBe(true);
   });

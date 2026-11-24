@@ -40,6 +40,8 @@ export const contactsSchema = z.strictObject({
   doroteaUrl: httpUrl,
   /** Optional: the Quattro "Visit" button renders only when set. */
   quattroUrl: httpUrl.nullable(),
+  /** The hero's second button: Casadata's public demo report. */
+  casadataDemoUrl: httpUrl,
   birthDate: z.iso.date(),
 });
 

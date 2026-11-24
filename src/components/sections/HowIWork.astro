@@ -1,4 +1,11 @@
 ---
+/**
+ * How I work: the title holds on the left while the principles scroll past on the right;
+ * the one crossing the middle of the screen is in full ink, the others at 60%
+ * (motion/steps.ts, class is-held, full and lite mode). Each closes with the purple full
+ * stop from the name in the hero. Without the script or in reduced motion every principle
+ * is in full ink.
+ */
 import { t, type Locale } from '../../lib/i18n';
 
 interface Props {
@@ -9,15 +16,17 @@ const { locale } = Astro.props;
 const items = t(locale, 'how');
 ---
 
-<section id="how" class="how" aria-labelledby="how-title">
-  <div class="sg-wrap">
-    <h2 id="how-title" data-reveal class="label">{t(locale, 'howTitle')}</h2>
+<section id="how" class="how" aria-labelledby="how-title" data-steps>
+  <div class="sg-wrap stage">
+    <h2 id="how-title" data-reveal="mask" class="sg-h2 title">{t(locale, 'howTitle')}</h2>
     <ol class="list">
       {
         items.map((h) => (
-          <li class="item">
-            <h3 data-reveal>{h.title}</h3>
-            <p data-reveal>{h.body}</p>
+          <li class="item" data-step>
+            <h3>
+              {h.title}<span class="dot" aria-hidden="true">.</span>
+            </h3>
+            <p>{h.body}</p>
           </li>
         ))
       }
@@ -27,16 +36,26 @@ const items = t(locale, 'how');
 
 <style>
   .how {
-    padding: clamp(72px, 9vw, 120px) clamp(20px, 5vw, 48px) clamp(48px, 6vw, 80px);
+    padding: clamp(96px, 12vw, 160px) clamp(20px, 5vw, 48px) clamp(48px, 6vw, 80px);
   }
 
-  /* The design renders this title as a small mono label. */
-  .label {
-    margin: 0 0 40px;
-    font-family: var(--font-mono);
-    font-weight: 400;
-    font-size: 13px;
-    color: var(--accent-ink);
+  .stage {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(40px, 5vw, 64px);
+  }
+
+  /* From 900px the title sits beside the list and holds, vertically centred, while it passes. */
+  @media (min-width: 900px) {
+    .stage {
+      grid-template-columns: 5fr 7fr;
+      align-items: start;
+    }
+
+    .title {
+      position: sticky;
+      top: calc(50svh - .5em);
+    }
   }
 
   .list {
@@ -45,31 +64,44 @@ const items = t(locale, 'how');
     padding: 0;
     display: flex;
     flex-direction: column;
+    gap: clamp(56px, 8vw, 120px);
   }
 
   .item {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
-    gap: 12px 48px;
-    align-items: baseline;
-    padding: clamp(24px, 3.5vw, 40px) 0;
-    border-top: 1.5px solid var(--ink);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
 
   h3 {
     margin: 0;
     font-family: var(--font-display);
     font-weight: 800;
-    font-size: clamp(36px, 6vw, 80px);
+    font-size: clamp(40px, 5.6vw, 80px);
     line-height: .95;
-    letter-spacing: -.04em;
+    letter-spacing: -.045em;
+    text-wrap: balance;
+  }
+
+  .dot {
+    color: var(--accent-ink);
   }
 
   p {
     margin: 0;
-    font-size: clamp(16px, 1.6vw, 19px);
-    line-height: 1.55;
-    color: var(--body);
-    max-width: 36ch;
+    font-size: clamp(18px, 1.7vw, 22px);
+    line-height: 1.5;
+    max-width: 34ch;
+  }
+
+  /* Lit as it crosses the middle of the screen; the rest wait at 60% ink, the lowest that
+     keeps body text at 4.5:1 on both themes (axe checks it). */
+  .how:global(.is-held) .item {
+    opacity: .6;
+    transition: opacity .35s ease;
+  }
+
+  .how:global(.is-held) .item:global(.is-on) {
+    opacity: 1;
   }
 </style>

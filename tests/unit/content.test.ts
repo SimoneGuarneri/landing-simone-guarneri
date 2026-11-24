@@ -31,6 +31,7 @@ describe('content validation errors', () => {
     piva: '00000000000',
     doroteaUrl: 'https://doroteahousing.com',
     quattroUrl: null,
+    casadataDemoUrl: 'https://example.com/demo',
     birthDate: '2002-01-21',
   };
 

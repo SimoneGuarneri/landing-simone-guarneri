@@ -1,0 +1,169 @@
+---
+/**
+ * A cropped fragment of Casadata's demo report for Salerno, built in HTML: the yearly
+ * figure and the seasonality bars. Numbers are the public demo report of 14 Nov 2026
+ * (casadata-two.vercel.app/demo/salerno); the twelve months add up to the €25,500 shown.
+ * shortcut: a static snapshot of one report; refresh MONTHS if the demo report changes.
+ * Bars rise one after another when it scrolls into view (motion/reveal.ts, data-reveal="bars").
+ */
+import { contacts } from '../lib/content/astro';
+import { t, type Locale } from '../lib/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = t(locale, 'casadataFragment');
+/** Revenue at the median per month, in euros. */
+const MONTHS = [1200, 1100, 1500, 2100, 2600, 3000, 3000, 2900, 2900, 2500, 1400, 1300];
+const PEAK = new Set([5, 6, 7]); // June to August
+const max = Math.max(...MONTHS);
+const total = MONTHS.reduce((a, b) => a + b, 0);
+const fmt = (n: number) => `€${(n / 1000).toLocaleString(locale, { maximumFractionDigits: 1 })}k`;
+const monthName = (i: number) => new Intl.DateTimeFormat(locale, { month: 'long', timeZone: 'UTC' }).format(Date.UTC(2026, i, 1));
+---
+
+<figure class="fragment" data-ui>
+  <div class="top">
+    <div>
+      <p class="place">{copy.place}</p>
+      <p class="figure">€{total.toLocaleString(locale)}</p>
+      <p class="figure-note">{copy.yearly}</p>
+    </div>
+    <p class="finding">{copy.finding}</p>
+  </div>
+  <ol data-reveal="bars" class="bars" aria-label={copy.chartLabel}>
+    {
+      MONTHS.map((v, i) => (
+        <li class:list={['month', { peak: PEAK.has(i) }]}>
+          <span class="visually-hidden">
+            {monthName(i)}: {fmt(v)}
+          </span>
+          <span class="bar" data-bar style={`height: ${((v / max) * 100).toFixed(1)}%`} aria-hidden="true">
+            <span class="value">{fmt(v)}</span>
+          </span>
+          <span class="label" aria-hidden="true">
+            {monthName(i).charAt(0).toUpperCase()}
+          </span>
+        </li>
+      ))
+    }
+  </ol>
+  <figcaption>
+    <a href={contacts.casadataDemoUrl} target="_blank" rel="noopener" class="open"
+      >{copy.open} <span aria-hidden="true">↗</span></a
+    >
+  </figcaption>
+</figure>
+
+<style>
+  /* The product's own look: Casadata's light panel, grey bars, purple for the months that matter. */
+  [data-ui].fragment {
+    margin: 0;
+    background: #f4f4f2;
+    color: #141414;
+    border-radius: 20px;
+    padding: clamp(20px, 2.6vw, 32px);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(20px, 2.4vw, 28px);
+  }
+
+  [data-ui] .top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 12px 32px;
+  }
+
+  [data-ui] p {
+    margin: 0;
+  }
+
+  [data-ui] .place {
+    font-size: 14px;
+    color: #5b5b5b;
+  }
+
+  [data-ui] .figure {
+    margin-top: 6px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(36px, 3.6vw, 52px);
+    line-height: 1;
+    letter-spacing: -.04em;
+  }
+
+  [data-ui] .figure-note {
+    margin-top: 6px;
+    font-size: 14px;
+    color: #5b5b5b;
+  }
+
+  [data-ui] .finding {
+    max-width: 24ch;
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  [data-ui] .bars {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 4px;
+    height: clamp(150px, 16vw, 220px);
+  }
+
+  [data-ui] .month {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  [data-ui] .bar {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 6px;
+    background: #c9c8c0;
+    border-radius: 4px 4px 0 0;
+    transform-origin: 50% 100%;
+  }
+
+  [data-ui] .peak .bar {
+    background: var(--purple);
+    color: #fff;
+  }
+
+  [data-ui] .value {
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  [data-ui] .label {
+    font-size: 12px;
+    text-align: center;
+    color: #5b5b5b;
+  }
+
+  /* Values only where the bars are wide enough to hold them. */
+  @media (max-width: 1099.98px) {
+    [data-ui] .value {
+      display: none;
+    }
+  }
+
+  [data-ui] .open {
+    font-size: 15px;
+    font-weight: 500;
+    color: inherit;
+    text-underline-offset: .2em;
+  }
+</style>

@@ -18,6 +18,7 @@
     "enLabel": "English"
   },
   "cta": "Contattami",
+  "ctaDemo": "Prova Casadata",
   "heroA": "Gestisco affitti brevi in Italia",
   "heroB": "e costruisco i software e le automazioni che li fanno funzionare.",
   "heroMeta": "{age} anni, sviluppatore autodidatta. Studio informatica da quando avevo 16 anni e lavoro nell’ospitalità dai 21, l’anno del mio primo annuncio su Airbnb. Parlo italiano e inglese; vivo a Salerno e sono disposto a trasferirmi.",
@@ -55,6 +56,13 @@
     "kOcc": "occupazione 2025",
     "kManagedRevenue": "ricavo gestito"
   },
+  "casadataFragment": {
+    "place": "Salerno · bilocale, 4 ospiti",
+    "yearly": "all’anno alla mediana, tra Airbnb e Booking.com",
+    "finding": "Da giugno ad agosto arriva il 35% dei ricavi dell’anno.",
+    "chartLabel": "Ricavi mensili alla mediana",
+    "open": "Apri il report demo"
+  },
   "buildTitle": "Cosa sto costruendo",
   "buildIntro": "Software che scrivo accanto agli affitti; gira ogni giorno nelle mie case prima che altrove.",
   "build": [
@@ -78,7 +86,7 @@
   "skillsIntro": "Quello che uso ogni giorno, tra case e codice.",
   "skills": {
     "homes": {
-      "title": "Gestione immobili",
+      "title": "Case",
       "items": [
         "Revenue management",
         "Prezzi dinamici",
@@ -90,7 +98,7 @@
       ]
     },
     "code": {
-      "title": "Informatica",
+      "title": "Codice",
       "groups": [
         {
           "label": "Linguaggi",

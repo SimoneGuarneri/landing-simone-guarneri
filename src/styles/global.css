@@ -19,7 +19,7 @@
   --t2: #FFF3C4;
   --t2b: #FFE88A;
   --blend: multiply;
-  --waves-op: .42;
+  --waves-op: .3;
 
   /* Fixed brand colours (same in both themes, used literally in the design) */
   --purple: #7A3CF0;
@@ -51,7 +51,7 @@
   --t2: #252113;
   --t2b: #3A3218;
   --blend: screen;
-  --waves-op: .38;
+  --waves-op: .27;
 
   color-scheme: dark;
 }

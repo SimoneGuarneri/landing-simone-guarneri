@@ -38,6 +38,7 @@ number of items in both languages (the build checks it).
 | `piva`       | Partita IVA, 11 digits. Shown in the footer and on the privacy page.       | `"01234567890"`                |
 | `doroteaUrl` | Dorotea Housing website (must start with `https://`).                      | `"https://villadorotea.com"` |
 | `quattroUrl` | Quattro Houses website. Leave `null` to hide its "Visit" button.           | `null` or `"https://..."`      |
+| `casadataDemoUrl` | Casadata's public demo report, linked from the hero's second button.  | `"https://..."`                |
 | `birthDate`  | Used to compute your age in the hero. Format `YYYY-MM-DD`.                 | `"2002-01-21"`                 |
 
 These are the live values: whatever you put here appears on the page and in the privacy policy.

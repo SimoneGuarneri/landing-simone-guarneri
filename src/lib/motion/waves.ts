@@ -2,25 +2,45 @@ import type { MotionModule } from './types';
 
 const COLOURS = ['#7A3CF0', '#FFD43B', '#B595FF', '#FFE88A'];
 
-function draw(c: CanvasRenderingContext2D, w: number, h: number, time: number) {
+/** Dot pitch in CSS pixels; the grid the halftone sits on. */
+const PITCH = 14;
+
+/** Height of wave band i at horizontal position k (0..1), in canvas pixels. */
+const surface = (i: number, k: number, h: number, time: number) =>
+  h * (0.48 + i * 0.12) +
+  Math.sin(k * (2 + i * 0.6) * Math.PI + time * (0.35 + i * 0.12) + i * 1.7) * h * 0.09 +
+  Math.sin(k * 5 * Math.PI - time * 0.5 + i) * h * 0.025;
+
+/**
+ * The same four waves as before, drawn as a halftone: a grid of crisp dots, each taking the
+ * colour of the lowest band it sits in and growing with its depth below that band's surface.
+ */
+function draw(c: CanvasRenderingContext2D, w: number, h: number, time: number, scale: number) {
   c.clearRect(0, 0, w, h);
-  for (let i = 0; i < 4; i++) {
-    c.beginPath();
-    c.moveTo(0, h);
-    for (let x = 0; x <= w + 6; x += 6) {
-      const k = x / w;
-      c.lineTo(
-        x,
-        h * (0.48 + i * 0.12) +
-          Math.sin(k * (2 + i * 0.6) * Math.PI + time * (0.35 + i * 0.12) + i * 1.7) * h * 0.09 +
-          Math.sin(k * 5 * Math.PI - time * 0.5 + i) * h * 0.025,
-      );
+  const step = PITCH * scale;
+  const maxR = step * 0.3;
+  const fade = h * 0.12;
+  const surf = [0, 0, 0, 0];
+  for (let x = step / 2; x < w; x += step) {
+    const k = x / w;
+    for (let i = 0; i < 4; i++) surf[i] = surface(i, k, h, time);
+    for (let y = step / 2; y < h; y += step) {
+      let band = -1;
+      for (let i = 3; i >= 0; i--) {
+        if (y > surf[i]) {
+          band = i;
+          break;
+        }
+      }
+      if (band < 0) continue;
+      const r = maxR * Math.min(1, 0.2 + (y - surf[band]) / fade);
+      // The field fades to nothing over the hero's bottom third, so it ends without an edge.
+      c.globalAlpha = Math.min(1, (h - y) / (h * 0.33));
+      c.fillStyle = COLOURS[band];
+      c.beginPath();
+      c.arc(x, y, r, 0, Math.PI * 2);
+      c.fill();
     }
-    c.lineTo(w, h);
-    c.closePath();
-    c.globalAlpha = 0.6 - i * 0.08;
-    c.fillStyle = COLOURS[i];
-    c.fill();
   }
   c.globalAlpha = 1;
 }
@@ -37,17 +57,19 @@ export const waves: MotionModule = (ctx) => {
 
   let time = 0;
   let inView = true;
-  // Half resolution, as in the design (the canvas is blurred 30px anyway).
+  // Full device resolution: the dots are drawn crisp, not blurred.
   let w = 0;
   let h = 0;
+  let scale = 1;
   const read = () => {
     w = canvas.clientWidth;
     h = canvas.clientHeight;
+    scale = Math.min(window.devicePixelRatio || 1, 2);
   };
   const apply = () => {
-    canvas.width = Math.round(w * 0.5);
-    canvas.height = Math.round(h * 0.5);
-    draw(c, canvas.width, canvas.height, time);
+    canvas.width = Math.round(w * scale);
+    canvas.height = Math.round(h * scale);
+    draw(c, canvas.width, canvas.height, time, scale);
   };
   const size = () => {
     read();
@@ -76,7 +98,7 @@ export const waves: MotionModule = (ctx) => {
     off = ctx.onFrame((f) => {
       if (!inView) return;
       time = f.now / 1000;
-      draw(c, canvas.width, canvas.height, time);
+      draw(c, canvas.width, canvas.height, time, scale);
     });
   }
 

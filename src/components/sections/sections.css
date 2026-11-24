@@ -49,8 +49,7 @@
 
 .sg-head p {
   margin: 0;
-  font-size: 16px;
-  line-height: 1.6;
-  color: var(--muted);
+  font-size: 18px;
+  line-height: 1.55;
   max-width: 40ch;
 }
