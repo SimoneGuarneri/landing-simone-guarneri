@@ -26,6 +26,8 @@ describe('content validation errors', () => {
   const validContacts = {
     email: 'contact@simoneguarneri.com',
     whatsapp: '+39 000 000 0000',
+    linkedinUrl: 'https://linkedin.com/in/example',
+    githubUrl: 'https://github.com/example',
     piva: '00000000000',
     doroteaUrl: 'https://doroteahousing.com',
     quattroUrl: null,

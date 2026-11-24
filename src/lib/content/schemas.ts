@@ -33,6 +33,8 @@ export const contactsSchema = z.strictObject({
   email: z.email(),
   /** Human-readable number, e.g. "+39 333 123 4567". */
   whatsapp: z.string().regex(/^\+?[\d\s().-]{6,}$/, 'Expected a phone number like "+39 333 123 4567"'),
+  linkedinUrl: httpUrl,
+  githubUrl: httpUrl,
   /** Italian VAT number: 11 digits. */
   piva: z.string().regex(/^\d{11}$/, 'Expected 11 digits'),
   doroteaUrl: httpUrl,
